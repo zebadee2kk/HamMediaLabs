@@ -57,6 +57,12 @@ conflict with the master plan, the master plan wins.
 - [`/playbooks/voice-fidelity-checklist.md`](../playbooks/voice-fidelity-checklist.md) — binding gate with read-aloud step
 - [`/prompt-library/persona-first-generation.md`](../prompt-library/persona-first-generation.md) — persona-first prompt pattern
 
+## Business
+- [business-plan.md](./business-plan.md) — portfolio / venture-studio operating model, phase model, capital strategy, strategic non-goals
+- [unit-economics.md](./unit-economics.md) — per-unit cost / revenue numbers (actual / estimate / target tags)
+- [profit-model.md](./profit-model.md) — scenario P&L (£0 / £50 / £250 / £1k) with break-even logic and kill/hold/scale financial thresholds
+- [monetization-architecture.md](./monetization-architecture.md) — affiliate / sponsorship / newsletter / lead-magnet / owned-audience strategy; trust-vs-monetisation tension map; commercial kill switches; banned funnels and dark patterns
+
 ## Related
 - [`/playbooks`](../playbooks) — operational checklists (weekly review, kill/scale, content QA, incidents, provider re-validation, voice fidelity)
 - [`/brands`](../brands) — brand profiles, voice docs, house examples, cornerstone briefs (A, B, C)
