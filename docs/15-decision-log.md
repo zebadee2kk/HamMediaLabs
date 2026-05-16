@@ -480,3 +480,21 @@ Operator interprets the closeout as a launch authorisation (mitigated — §10 n
 
 ### Revisit date:
 2026-08-16 (next quarterly platform refresh).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Formally risk-accept the deferral of Dependabot PRs #84 (`actions/checkout` 4 → 6), #85 (`@types/node` 20 → 25), #86 (`typescript` 5 → 6), and the per-directory Astro 4 → 6 PRs #87 / #88 / #89 to the Q3 2026 quarterly platform refresh. Each defer is now backed by per-PR evidence in `docs/dependabot-security-audit.md` §6b (advisory lookup, static-build verification, SSR / client-island / user-slot evidence, dashboard exposure surface). Brand A launch is unblocked under that evidence basis. Closes #95.
+
+### Reasoning:
+The #81 closeout closed the same six PRs with a generic "deferred to Q3 platform refresh" comment. #95 correctly challenged that as a silent deferral: security must beat launch speed; deferrals require evidence, not a one-liner. The per-PR audit confirms the Astro slot-name CVE is not exploitable in this lab (no SSR, no client islands, no user-controlled slot rendering — verified by grep + clean build emitting zero JS bundles), and the non-Astro PRs carry no advisory at all. The risk acceptance is bounded — it voids the moment any of the three trigger conditions in §6b.4 occurs.
+
+### Alternatives considered:
+Reopen and merge #87–#89 to land Astro 6 before launch (rejected — major bump under the hard "no blind major bumps" rule; staged 4 → 5 → 6 path in `docs/astro-security-upgrade-plan.md` is the canonical migration). Reopen and merge #84–#86 (rejected — no security driver; major dev-tool bumps belong in the toolchain refresh batch). Leave the six PRs open (rejected — Dependabot recreates them when new versions land; closure-with-evidence is the cleaner state).
+
+### Risks:
+A future Astro 4.x CVE that DOES apply (e.g. a static-rendering or build-time path-traversal) lands before Q3 (mitigated — `playbooks/package-hygiene.md` runs same-day audit on any new GHSA; Dependabot recreates the PR; §6b.4 trigger conditions void the acceptance). A new client-island or SSR-adapter PR lands without a security re-grade (mitigated — `.github/workflows/notebooklm-pack-freshness.yml` and CI's existing typecheck-and-test gate force PRs to be visible; the §6b.4 evidence requires re-verification when consumer surfaces change).
+
+### Revisit date:
+2026-08-16 (Q3 quarterly platform refresh) or same-day if a §6b.4 trigger condition fires.

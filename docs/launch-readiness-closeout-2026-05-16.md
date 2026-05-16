@@ -321,6 +321,17 @@ branch) should remain.
 
 ## 6. Dependabot / security status
 
+> **Update 2026-05-16 (post-#95).** Issue #95 challenged the
+> initial generic "deferred to Q3" closures as silent deferrals.
+> A formal per-PR security assessment with evidence now lives
+> in `docs/dependabot-security-audit.md` §6b (CVE / advisory
+> lookup, static-build verification, SSR / client-island /
+> user-slot evidence, dashboard exposure surface, formal risk
+> acceptance). The disposition of #84–#89 stands — all closed —
+> but is now backed by exploitability evidence per PR rather
+> than a one-liner defer. Brand A launch is unblocked under
+> that evidence basis.
+
 ### 6.1 Framework status
 
 - **Phase S0** — framework, lanes, config: **complete**

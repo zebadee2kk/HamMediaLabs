@@ -114,16 +114,24 @@ subagent roles + the 10-section pre-flight checklist.
 
 ### Open PRs
 
-| PR | Title | Action |
-|---|---|---|
-| #12 | Dependabot Astro 4 → 6 (2 dirs, original) | **Closed** — superseded |
-| #70 | Dependabot Astro 4 → 6 (3 dirs incl. Brand A site) | **Closed in this run** — superseded by per-directory PRs #87 / #88 / #89 |
-| #84 | actions/checkout 4 → 6 (major) | Deferred to Q3 2026 quarterly platform refresh |
-| #85 | `@types/node` 20 → 25 (major) | Deferred to Q3 2026 quarterly platform refresh |
-| #86 | TypeScript 5 → 6 (major) | Deferred to Q3 2026 quarterly platform refresh |
-| #87 | Astro 4 → 6 (`brand-a-aiescape/site`) | Deferred per staged 4 → 5 → 6 plan |
-| #88 | Astro 4 → 6 (`templates/site`) | Deferred per staged 4 → 5 → 6 plan |
-| #89 | Astro 4 → 6 (`dashboards/app`) | Deferred per staged 4 → 5 → 6 plan |
+**None.**
+
+All Dependabot PRs have been triaged and closed. The full per-PR
+audit lives in `docs/dependabot-security-audit.md` §6b (closes
+issue #95):
+
+| PR | Disposition |
+|---|---|
+| #12 | Closed — superseded |
+| #70 | Closed — superseded by per-directory #87 / #88 / #89 |
+| #84 | Closed — risk-accepted per §6b (no advisory; major dev-tool bump deferred to Q3) |
+| #85 | Closed — risk-accepted per §6b (types-only; no runtime artefact; deferred to Node 20 → 22 runtime bump window) |
+| #86 | Closed — risk-accepted per §6b (no advisory; language major deferred to toolchain refresh) |
+| #87 | Closed — risk-accepted per §6b (Astro slot-name CVE not exploitable: no SSR, no client islands, no user-controlled slot rendering; static-build verified emits zero JS bundles) |
+| #88 | Closed — risk-accepted per §6b (same as #87; template not deployed) |
+| #89 | Closed — risk-accepted per §6b (same as #87; dashboard additionally behind Cloudflare Access) |
+
+The risk-acceptance is bounded — see `docs/dependabot-security-audit.md` §6b.4 for the three trigger conditions that void the acceptance.
 
 ### Open operator-side prerequisites (for Brand A launch)
 
