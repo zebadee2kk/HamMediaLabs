@@ -166,6 +166,7 @@ with a reason and a re-review date.
 | Package           | Severity | Reason for suppression                                          | Re-review |
 |-------------------|----------|-----------------------------------------------------------------|-----------|
 | astro 4.16.x → 6.3.3 (Dependabot PR #12) | High | XSS does not apply to our static output; staged migration plan in docs/astro-security-upgrade-plan.md governs. | 2026-08-16 (quarterly) or sooner if a new CVE lands on Astro 4.x |
+| astro 4.16.x → 6.x bundle (Dependabot PR #70, 3 directories) | High | Same posture as PR #12; supersedes #12 in scope (3 dirs vs 2). XSS does not apply to our static output. Closure recommended; staged plan governs. | 2026-08-16 |
 | <fill from §1>    | <sev>    | <reason>                                                        | <date>    |
 ```
 
@@ -186,6 +187,57 @@ Lives in `playbooks/package-hygiene.md`. Summary:
 - Acceptable-vulnerability threshold: zero P0 / P1 open at the end
   of any week; any P2 open >30 days requires a decision-log
   entry explaining the deferral.
+
+## 6a. Phase S1 execution status (2026-05-16)
+
+### What was executed (this PR, closing #72)
+
+- `.github/dependabot.yml` added per `playbooks/package-hygiene.md` §1. Four `npm` ecosystems (root + dashboard + brand template + Brand A site), one `github-actions` ecosystem; patch/minor grouped; major bumps unbundled (so they route through the staged plan); auto-merge OFF.
+- PR #70 evaluated against the §1.4 prioritisation lanes:
+  - **Surface:** dashboard + brand template + Brand A site (3 dirs).
+  - **Severity:** High (Astro 6.3.3 fixes a reflected XSS in slot names on hydrated SSR components).
+  - **Direct / Transitive:** Direct (`astro` package).
+  - **Runtime / Dev:** Build-time + SSG runtime (static output served from `dist/`).
+  - **Public-facing build chain:** Yes.
+  - **Exploitable in our deployment model:** **No.** Verified by `grep -rE "client:|ViewTransitions|ClientRouter|Astro\.glob|getCollection|src/content" dashboards/app/src brands/templates/site/src brands/brand-a-aiescape/site/src` returning zero matches. No `client:*` directives, no SSR adapter, no hydrated components.
+  - **Lane: P3** — suppress with re-review date. Logged in §5.
+- Closure-recommendation comments posted on PR #12 and PR #70.
+- Suppression-register entries filed for both.
+
+### What requires operator action (cannot be reached via MCP connector)
+
+The GitHub Dependabot **alerts page** (Settings → Security → Dependabot) is not reachable via the MCP github tools available in this run. The full §1 audit table needs the operator to:
+
+1. Open the Dependabot alerts page.
+2. Copy each alert into the §1.2 audit table format (`#`, package, surface, severity, direct/transitive, runtime/dev, public-facing build chain, notes / CVE link).
+3. Sort each row into a §1.4 lane (P0 / P1 / P2 / P3).
+4. Land the filled table as its own scoped PR titled `Phase S1 audit table — <YYYY-MM-DD>`.
+5. Phase S2 (safe-patching PRs per the §3 rules) follows lane by lane.
+
+The lab-side enabler for this is **already shipped**: this PR added `.github/dependabot.yml` so Dependabot now operates under our hygiene policy. The framework + the suppression register + the prioritisation lanes are in place.
+
+### Decision on PR #12 and PR #70
+
+| PR | Disposition | Rationale |
+|---|---|---|
+| #12 | **Recommend closure** | XSS does not apply; staged migration plan governs. Comment posted on the PR. |
+| #70 | **Recommend closure** | Same posture as #12; supersedes #12 in scope. Comment posted on the PR. |
+
+Closure is a reviewer action, not Claude's — both PRs remain open pending operator / Codex sign-off.
+
+### Astro 4.x pin — re-validation
+
+The Astro 4.x pin holds. Re-validation summary:
+
+| Check | Result |
+|---|---|
+| No `client:*` directives in any consumer | ✓ |
+| No SSR adapter configured | ✓ |
+| The 4.16.x line still receives patches | Verified via npm registry; latest 4.x patch is consumed transitively when `npm install` resolves the `^4.16.0` semver |
+| No known applicable CVE on Astro 4.x at the time of this audit | The Dec 2025 client-router XSS was patched in 4.16.1; we're on 4.16.x |
+| Migration plan stays staged 4 → 5 → 6 | ✓ — `docs/astro-security-upgrade-plan.md` §6 unchanged |
+
+If a future Dependabot alert lands a CVE that DOES apply (e.g. a CVE in a non-Astro transitive that's runtime-relevant), the operator's filled S1 table will catch it, lane-classify it, and an S2 safe-patch PR will ship.
 
 ## 7. What is NOT in this PR
 
