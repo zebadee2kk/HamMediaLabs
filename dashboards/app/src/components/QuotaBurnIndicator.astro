@@ -1,0 +1,59 @@
+---
+import { QUOTA_CEILINGS, combine, type QuotaUsage } from '../lib/quota.ts';
+
+interface Props {
+  usage?: QuotaUsage[]; // optional; defaults to placeholder zeros
+}
+const { usage = [] } = Astro.props;
+const rows = combine(QUOTA_CEILINGS, usage);
+---
+<h3>Free-tier quota headroom</h3>
+<table aria-label="Free-tier quota headroom">
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th class="num">Used</th>
+      <th class="num">Ceiling</th>
+      <th class="num">% used</th>
+      <th>Source</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map(r => (
+      <tr class={r.flag ? 'flag' : r.warn ? 'warn' : ''}>
+        <td><code>{r.label}</code></td>
+        <td class="num">{r.used.toLocaleString('en-GB')}</td>
+        <td class="num">{r.ceiling.toLocaleString('en-GB')}</td>
+        <td class="num">{(r.pct * 100).toFixed(0)}%</td>
+        <td><span class={`source ${r.source}`}>{r.source}</span></td>
+        <td class="note">{r.note ?? ''}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+<p class="hint">
+  Ceilings mirror <code>core/providers/quota-registry.ts</code>; refresh
+  quarterly via <code>playbooks/quarterly-platform-refresh.md</code>.
+</p>
+
+<style>
+  h3 { margin: 1.25rem 0 0.5rem; font-size: 1.0rem; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
+  th { background: #f6f6f6; font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.note { color: #666; font-size: 0.88rem; }
+  tr.warn { background: #fff7d6; }
+  tr.flag { background: #fdeded; }
+  .source {
+    display: inline-block;
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+  }
+  .source.actual      { background: #d2f5d6; color: #1d5f24; }
+  .source.estimate    { background: #fff1c2; color: #5f4a1d; }
+  .source.placeholder { background: #e6e6e6; color: #555; }
+  .hint { color: #6a6a6a; font-size: 0.8rem; margin: 0; }
+</style>

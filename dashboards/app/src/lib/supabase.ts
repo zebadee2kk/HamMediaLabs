@@ -98,3 +98,43 @@ export function providerDaily(days = 14): Promise<SbResult<ProviderDailyRow[]>> 
     order: 'day.desc,provider.asc',
   });
 }
+
+export interface DecisionRow {
+  id: number;
+  ts: string;
+  scope: 'portfolio' | 'brand' | 'provider' | 'compliance' | 'security';
+  target_id: number | null;
+  kind: 'kill' | 'hold' | 'scale' | 'adopt' | 'retire' | 'rotate' | 'other';
+  reason: string;
+  operator: string;
+  revisit_date: string | null;
+}
+
+export function listDecisions(days = 30): Promise<SbResult<DecisionRow[]>> {
+  const since = new Date(Date.now() - days * 86_400_000).toISOString();
+  return sbGet<DecisionRow[]>('decision', {
+    select: '*',
+    ts: `gte.${since}`,
+    order: 'ts.desc',
+  });
+}
+
+export interface BrandWeeklyStatsRow {
+  brand_id: number;
+  slug: string;
+  week: string;
+  impressions: number;
+  clicks: number;
+  engagements: number;
+  conversions: number;
+  revenue: number;
+}
+
+export function brandWeeklyStats(weeks = 8): Promise<SbResult<BrandWeeklyStatsRow[]>> {
+  const since = new Date(Date.now() - weeks * 7 * 86_400_000).toISOString();
+  return sbGet<BrandWeeklyStatsRow[]>('v_brand_weekly_stats', {
+    select: '*',
+    week: `gte.${since}`,
+    order: 'week.desc,slug.asc',
+  });
+}

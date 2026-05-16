@@ -1,0 +1,120 @@
+---
+import { gbp } from '../lib/format.ts';
+
+interface CostLine {
+  category: string;
+  attribution: 'lab-wide' | 'aiescape' | 'corpsatire' | 'ukescape';
+  amount: number;
+  ceiling: number;
+  source: 'actual' | 'estimate' | 'placeholder';
+  note?: string;
+}
+
+interface Props {
+  // Operator-fed at MVP; placeholder rows render when empty.
+  lines?: CostLine[];
+}
+const placeholder: CostLine[] = [
+  { category: '1Password',           attribution: 'lab-wide',  amount: 0, ceiling: 3,  source: 'placeholder', note: 'Tier-1 vault (one allowed standing paid line)' },
+  { category: 'Brand domain',        attribution: 'aiescape',  amount: 0, ceiling: 1,  source: 'placeholder' },
+  { category: 'Brand domain',        attribution: 'corpsatire',amount: 0, ceiling: 1,  source: 'placeholder' },
+  { category: 'Brand domain',        attribution: 'ukescape',  amount: 0, ceiling: 1,  source: 'placeholder' },
+  { category: 'n8n VPS',             attribution: 'lab-wide',  amount: 0, ceiling: 5,  source: 'placeholder' },
+  { category: 'LLM overage',         attribution: 'lab-wide',  amount: 0, ceiling: 15, source: 'placeholder', note: 'Phase B trigger' },
+  { category: 'Newsletter paid',     attribution: 'aiescape',  amount: 0, ceiling: 15, source: 'placeholder', note: 'After 100 subs' },
+  { category: 'Image / video tooling', attribution: 'corpsatire', amount: 0, ceiling: 10, source: 'placeholder' },
+];
+const { lines = placeholder } = Astro.props;
+
+const labWide = lines.filter(l => l.attribution === 'lab-wide');
+const perBrand = ['aiescape', 'corpsatire', 'ukescape']
+  .map(slug => ({ slug, lines: lines.filter(l => l.attribution === slug) }));
+
+const totalCost = lines.reduce((s, l) => s + Number(l.amount || 0), 0);
+const totalCeiling = lines.reduce((s, l) => s + Number(l.ceiling || 0), 0);
+---
+<h3>Cost attribution</h3>
+
+<table aria-label="Lab-wide cost lines">
+  <caption>Lab-wide</caption>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th class="num">£/mo (current)</th>
+      <th class="num">Ceiling</th>
+      <th>Source</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {labWide.map(l => (
+      <tr class={l.amount > l.ceiling ? 'flag' : ''}>
+        <td>{l.category}</td>
+        <td class="num">{gbp(l.amount)}</td>
+        <td class="num">{gbp(l.ceiling)}</td>
+        <td><span class={`source ${l.source}`}>{l.source}</span></td>
+        <td class="note">{l.note ?? ''}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+{perBrand.map(({ slug, lines: brandLines }) => (
+  brandLines.length > 0 && (
+    <table aria-label={`Cost lines for ${slug}`}>
+      <caption>Brand: <code>{slug}</code></caption>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th class="num">£/mo</th>
+          <th class="num">Ceiling</th>
+          <th>Source</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {brandLines.map(l => (
+          <tr class={l.amount > l.ceiling ? 'flag' : ''}>
+            <td>{l.category}</td>
+            <td class="num">{gbp(l.amount)}</td>
+            <td class="num">{gbp(l.ceiling)}</td>
+            <td><span class={`source ${l.source}`}>{l.source}</span></td>
+            <td class="note">{l.note ?? ''}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+))}
+
+<p class="totals">
+  Total committed: <strong>{gbp(totalCost)}</strong> /
+  Aggregate ceilings: <strong>{gbp(totalCeiling)}</strong>
+  {totalCost > 50 && <span class="warn"> · exceeds £50/mo MVP ceiling</span>}
+</p>
+
+<p class="hint">
+  Schema and triggers in <code>docs/cost-control-and-free-tier-plan.md</code>.
+  Operator-fed values until a `monetisation_event` /
+  `cost_line` table lands (see master plan §13.4 follow-ups).
+</p>
+
+<style>
+  h3 { margin: 1.25rem 0 0.5rem; font-size: 1.0rem; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  caption { text-align: left; padding: 0.4rem 0.6rem 0.25rem; font-weight: 600; color: #444; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
+  th { background: #f6f6f6; font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.note { color: #666; font-size: 0.88rem; }
+  tr.flag { background: #fdeded; }
+  .source {
+    display: inline-block; padding: 0.05rem 0.4rem; border-radius: 999px; font-size: 0.75rem;
+  }
+  .source.actual      { background: #d2f5d6; color: #1d5f24; }
+  .source.estimate    { background: #fff1c2; color: #5f4a1d; }
+  .source.placeholder { background: #e6e6e6; color: #555; }
+  .totals { font-size: 0.95rem; }
+  .totals .warn { color: #5f1d1d; }
+  .hint { color: #6a6a6a; font-size: 0.8rem; margin: 0; }
+</style>
