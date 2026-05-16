@@ -33,6 +33,11 @@ Per brand:
 - Cadence ceiling compliance per brand (§7)
 - Disclosure compliance spot-check on the last 5 commercial posts (§5)
 
+## Cost gates (per `docs/cost-control-and-free-tier-plan.md`)
+- Any paid line approaching its ceiling?
+- Any free-tier headroom <30%? (Gemini RPD / Groq TPM / OpenRouter RPD / Supabase DB / CF Pages builds / newsletter subs)
+- Any new paid line proposed this week → walk the §5 approval gate first
+
 ## Decisions
 - Kill
 - Hold
