@@ -66,6 +66,7 @@ conflict with the master plan, the master plan wins.
 - [unit-economics.md](./unit-economics.md) — per-unit cost / revenue numbers (actual / estimate / target tags)
 - [profit-model.md](./profit-model.md) — scenario P&L (£0 / £50 / £250 / £1k) with break-even logic and kill/hold/scale financial thresholds
 - [monetization-architecture.md](./monetization-architecture.md) — affiliate / sponsorship / newsletter / lead-magnet / owned-audience strategy; trust-vs-monetisation tension map; commercial kill switches; banned funnels and dark patterns
+- [portfolio-expansion-gate.md](./portfolio-expansion-gate.md) — Brand B / Brand C launch criteria; required Brand A state; resource allocation rules; "stop launching" triggers
 
 ## Related
 - [`/playbooks`](../playbooks) — operational checklists (weekly review, kill/scale, content QA, incidents, provider re-validation, voice fidelity)
