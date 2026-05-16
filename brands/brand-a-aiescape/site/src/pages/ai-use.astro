@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="AI use policy" description="How we use AI on this site.">
+  <h1>AI use</h1>
+
+  <p>
+    We use AI to help research, outline, draft, and produce content. A human editor —
+    named below — is responsible for what is published. We do not publish AI-generated
+    text claiming to be human-authored, and we do not synthesise the voice, likeness,
+    or identity of any real person without explicit permission.
+  </p>
+
+  <h2>What AI does here</h2>
+  <ul>
+    <li>Drafting and rewriting prose</li>
+    <li>Generating outlines and research summaries</li>
+    <li>Producing original illustrations and stock-style images</li>
+    <li>Producing short-form video voiceovers (clearly labelled)</li>
+  </ul>
+
+  <h2>What AI does NOT do here</h2>
+  <ul>
+    <li>Issue financial, medical, or legal advice</li>
+    <li>Make decisions about what we publish</li>
+    <li>Speak as a real person without that person's consent</li>
+  </ul>
+
+  <p>
+    If you spot an error — factual, ethical, or otherwise — email
+    <a href={`mailto:${siteConfig.operatorEmail}`}>{siteConfig.operatorEmail}</a>.
+    We correct, date the correction, and keep the original visible.
+  </p>
+
+  <p>
+    Editor of record: {siteConfig.operatorName}.
+    This policy was last updated <time datetime={siteConfig.lastReviewedISO}>{siteConfig.lastReviewedISO}</time>.
+  </p>
+</Base>

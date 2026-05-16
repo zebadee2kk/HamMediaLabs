@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="Affiliate disclosure" description="How affiliate links work on this site.">
+  <h1>Affiliate disclosure</h1>
+
+  <p>
+    We may earn commissions when you click on or buy through some of the links
+    on this site. We disclose this in the footer of every page, in plain language
+    above the first affiliate link in every article, and with <code>#ad</code>
+    on every commercial social post.
+  </p>
+
+  <p>
+    We do not let affiliate relationships choose what we cover. We do let them
+    influence which products we <em>consider</em> — but a product only makes it
+    into a recommendation if it passes our internal editorial standard.
+  </p>
+
+  <h2>Current programmes</h2>
+  <p><em>Updated whenever we add or remove a programme.</em></p>
+  <ul>
+    <li>— No programmes active yet —</li>
+  </ul>
+
+  <p>
+    Questions: <a href={`mailto:${siteConfig.operatorEmail}`}>{siteConfig.operatorEmail}</a>.
+  </p>
+</Base>

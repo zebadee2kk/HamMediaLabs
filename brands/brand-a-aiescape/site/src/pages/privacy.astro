@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="Privacy" description="What we collect and how we use it.">
+  <h1>Privacy</h1>
+
+  <p>
+    This site is operated by {siteConfig.operatorName},
+    {siteConfig.operatorAddress},
+    contactable at <a href={`mailto:${siteConfig.operatorEmail}`}>{siteConfig.operatorEmail}</a>.
+  </p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li>Analytics events (page views, referrer, country, device class) via a
+        privacy-friendly provider. These do not use cookies and do not identify
+        individual visitors.</li>
+    <li>Newsletter subscriptions: your email address only. We store it with our
+        newsletter provider and never sell or share it.</li>
+    <li>Contact emails: kept until the conversation is resolved, then deleted
+        within 90 days unless we have a legal reason to keep them.</li>
+  </ul>
+
+  <h2>Lawful bases (UK GDPR / EU GDPR)</h2>
+  <ul>
+    <li>Analytics: legitimate interest (running the site).</li>
+    <li>Newsletter: consent (signup is opt-in).</li>
+    <li>Contact: legitimate interest (responding to you).</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>
+    Access, rectification, erasure, restriction, portability, objection.
+    Email us and we'll respond within 30 days.
+  </p>
+
+  <p>We do not knowingly collect data from anyone under 16.</p>
+
+  <h2>Cookies</h2>
+  <p>
+    We use essential cookies only. If we ever set non-essential cookies, we will
+    show a banner first.
+  </p>
+
+  <p>Last updated <time datetime={siteConfig.lastReviewedISO}>{siteConfig.lastReviewedISO}</time>.</p>
+</Base>
