@@ -25,6 +25,8 @@ conflict with the master plan, the master plan wins.
 - [astro-security-upgrade-plan.md](./astro-security-upgrade-plan.md) — Astro 4 → 5 → 6 migration analysis + recommendation (response to Dependabot PR #12)
 
 ## Performance & operations
+- [measurement-framework.md](./measurement-framework.md) — north-stars, leading/lagging, attribution, channel maps, scorecard, kill criteria
+- [`/playbooks/weekly-experiment.md`](../playbooks/weekly-experiment.md) — bounded experiment template
 - [08-dashboard-kpis.md](./08-dashboard-kpis.md) — dashboard + KPI spec
 - [14-provider-research-backlog.md](./14-provider-research-backlog.md) — provider backlog
 - [account-naming-convention.md](./account-naming-convention.md) — naming rules

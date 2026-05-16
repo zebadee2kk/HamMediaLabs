@@ -21,6 +21,12 @@ Per brand:
 - Failure rate
 - Human intervention frequency
 
+## Experiment status (per `docs/measurement-framework.md` §5)
+- One open experiment per brand at most
+- Pre-registered success / failure thresholds still valid?
+- Rollback trigger reviewed
+- See `playbooks/weekly-experiment.md` for the template
+
 ## X platform health (per `docs/x-platform-risk.md`)
 - Manual shadowban check on every active X account
 - Mean impressions WoW delta (>40% drop is an escalation trigger — see §10)
