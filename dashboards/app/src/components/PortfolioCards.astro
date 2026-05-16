@@ -1,0 +1,41 @@
+---
+import { gbp } from '../lib/format.ts';
+import type { BrandRow } from '../lib/supabase.ts';
+
+interface Props {
+  brands: BrandRow[];
+}
+const { brands } = Astro.props;
+
+const totals = {
+  active: brands.filter(b => b.status === 'active').length,
+  hold:   brands.filter(b => b.status === 'hold').length,
+  scale:  brands.filter(b => b.status === 'scale').length,
+  kill:   brands.filter(b => b.status === 'kill').length,
+  planning: brands.filter(b => b.status === 'planning').length,
+  cost:    brands.reduce((s, b) => s + Number(b.monthly_cost_est || 0), 0),
+  revenue: brands.reduce((s, b) => s + Number(b.monthly_revenue_est || 0), 0),
+};
+const net = totals.revenue - totals.cost;
+---
+<section class="grid" aria-label="Portfolio totals">
+  <div class="card"><div class="v">{totals.active}</div><div class="k">Active</div></div>
+  <div class="card"><div class="v">{totals.hold}</div><div class="k">Hold</div></div>
+  <div class="card"><div class="v">{totals.scale}</div><div class="k">Scale</div></div>
+  <div class="card"><div class="v">{totals.kill}</div><div class="k">Killed</div></div>
+  <div class="card"><div class="v">{totals.planning}</div><div class="k">Planning</div></div>
+  <div class="card"><div class="v">{gbp(totals.cost)}</div><div class="k">Cost / mo</div></div>
+  <div class="card"><div class="v">{gbp(totals.revenue)}</div><div class="k">Revenue / mo</div></div>
+  <div class={`card ${net >= 0 ? 'positive' : 'negative'}`}>
+    <div class="v">{gbp(net)}</div><div class="k">Net / mo</div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin: 0.5rem 0 1.5rem; }
+  .card { border: 1px solid #ddd; border-radius: 6px; padding: 0.75rem 1rem; background: #fafafa; }
+  .card .v { font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .card .k { color: #6a6a6a; font-size: 0.85rem; }
+  .card.positive { background: #f1faf2; border-color: #c7e7c6; }
+  .card.negative { background: #fdeded; border-color: #f4b6b6; }
+</style>

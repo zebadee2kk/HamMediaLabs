@@ -1,117 +1,100 @@
 ---
-import { listBrands, providerDaily, type BrandRow, type ProviderDailyRow } from '../lib/supabase.ts';
+import {
+  envStatus,
+  listBrands,
+  providerDaily,
+  type BrandRow,
+  type ProviderDailyRow,
+} from '../lib/supabase.ts';
+import ConfigBanner from '../components/ConfigBanner.astro';
+import ErrorPanel from '../components/ErrorPanel.astro';
+import EmptyState from '../components/EmptyState.astro';
+import PortfolioCards from '../components/PortfolioCards.astro';
+import BrandTable from '../components/BrandTable.astro';
+import ProviderHealthTable from '../components/ProviderHealthTable.astro';
+
+const env = envStatus();
 
 let brands: BrandRow[] = [];
 let providers: ProviderDailyRow[] = [];
-let connectError: string | null = null;
-try {
-  [brands, providers] = await Promise.all([listBrands(), providerDaily(14)]);
-} catch (e) {
-  connectError = (e as Error).message;
+let brandError: { status?: number; detail: string } | null = null;
+let providerError: { status?: number; detail: string } | null = null;
+
+if (env.ok) {
+  const [b, p] = await Promise.all([listBrands(), providerDaily(14)]);
+  if (b.ok) { brands = b.data; }
+  else if (b.kind === 'fetch_error') { brandError = { status: b.status, detail: b.detail }; }
+
+  if (p.ok) { providers = p.data; }
+  else if (p.kind === 'fetch_error') { providerError = { status: p.status, detail: p.detail }; }
 }
 
-const totals = {
-  brands_active: brands.filter(b => b.status === 'active').length,
-  brands_hold:   brands.filter(b => b.status === 'hold').length,
-  brands_kill:   brands.filter(b => b.status === 'kill').length,
-  brands_scale:  brands.filter(b => b.status === 'scale').length,
-  cost:    brands.reduce((s, b) => s + Number(b.monthly_cost_est || 0), 0),
-  revenue: brands.reduce((s, b) => s + Number(b.monthly_revenue_est || 0), 0),
-};
+const rendered = new Date().toISOString();
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
     <title>HamMediaLabs — HQ dashboard</title>
     <style>
       :root { font: 15px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; }
-      body { margin: 0; color: #1c1c1c; }
-      main { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
-      h1 { margin: 0 0 1rem; }
-      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; }
-      .card { border: 1px solid #ddd; border-radius: 6px; padding: 0.75rem 1rem; background: #fafafa; }
-      .card .v { font-size: 1.5rem; font-weight: 600; }
-      .card .k { color: #6a6a6a; font-size: 0.85rem; }
-      table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-      th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
-      th { background: #f6f6f6; }
-      .err { background: #fdeded; color: #5f1d1d; border: 1px solid #f4b6b6; padding: 0.6rem 0.9rem; border-radius: 6px; }
-      .pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.8rem; }
-      .pill.active { background: #d2f5d6; }
-      .pill.hold   { background: #fff1c2; }
-      .pill.kill   { background: #f7c5c0; }
-      .pill.scale  { background: #c5d9f7; }
-      .pill.planning { background: #e6e6e6; }
+      body { margin: 0; color: #1c1c1c; background: #fff; }
+      main { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+      header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+      h1 { margin: 0; font-size: 1.4rem; }
+      h2 { margin: 1.5rem 0 0.5rem; font-size: 1.1rem; }
+      .stamp { color: #6a6a6a; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+      .ops-note {
+        margin: 1.5rem 0 0; padding-top: 0.75rem; border-top: 1px solid #eee;
+        color: #6a6a6a; font-size: 0.85rem;
+      }
     </style>
   </head>
   <body>
     <main>
-      <h1>HamMediaLabs — HQ dashboard</h1>
+      <header>
+        <h1>HamMediaLabs — HQ dashboard</h1>
+        <span class="stamp">rendered {rendered}</span>
+      </header>
 
-      {connectError && (
-        <p class="err">
-          Couldn't connect to Supabase: {connectError}.<br />
-          Set <code>SUPABASE_URL</code> and <code>SUPABASE_SERVICE_ROLE_KEY</code> in the dev environment.
-        </p>
+      {!env.ok && <ConfigBanner missing={env.missing} />}
+
+      <h2>Portfolio</h2>
+      {env.ok && !brandError && brands.length === 0 && (
+        <EmptyState
+          message="No brands in the brand table yet."
+          hint="seed via the playbooks/first-week.md Day 4 SQL block"
+        />
       )}
-
-      <section class="grid" aria-label="Portfolio totals">
-        <div class="card"><div class="v">{totals.brands_active}</div><div class="k">Active</div></div>
-        <div class="card"><div class="v">{totals.brands_hold}</div><div class="k">Hold</div></div>
-        <div class="card"><div class="v">{totals.brands_scale}</div><div class="k">Scale</div></div>
-        <div class="card"><div class="v">{totals.brands_kill}</div><div class="k">Killed</div></div>
-        <div class="card"><div class="v">£{totals.cost.toFixed(0)}</div><div class="k">Monthly cost</div></div>
-        <div class="card"><div class="v">£{totals.revenue.toFixed(0)}</div><div class="k">Monthly revenue</div></div>
-      </section>
+      {brandError && (
+        <ErrorPanel title="Couldn't load brands" status={brandError.status} detail={brandError.detail} />
+      )}
+      {brands.length > 0 && <PortfolioCards brands={brands} />}
 
       <h2>Brands</h2>
-      {brands.length === 0 ? (
-        <p>No brands yet. Seed via <code>insert into brand …</code> or the upcoming admin UI.</p>
-      ) : (
-        <table>
-          <thead><tr>
-            <th>Slug</th><th>Name</th><th>Status</th><th>Tier</th><th>Cost/mo</th><th>Revenue/mo</th>
-          </tr></thead>
-          <tbody>
-            {brands.map(b => (
-              <tr>
-                <td><code>{b.slug}</code></td>
-                <td>{b.name}</td>
-                <td><span class={`pill ${b.status}`}>{b.status}</span></td>
-                <td>T{b.tier}</td>
-                <td>£{Number(b.monthly_cost_est).toFixed(0)}</td>
-                <td>£{Number(b.monthly_revenue_est).toFixed(0)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      {brands.length > 0
+        ? <BrandTable brands={brands} />
+        : env.ok && !brandError && <EmptyState message="Empty brand table." />}
 
       <h2>Provider health (last 14 days)</h2>
-      {providers.length === 0 ? (
-        <p>No provider events yet. The LLM router writes here automatically once wired.</p>
-      ) : (
-        <table>
-          <thead><tr>
-            <th>Day</th><th>Provider</th><th>Calls</th><th>429s</th><th>Errors</th><th>Tokens in/out</th><th>Cost est ($)</th>
-          </tr></thead>
-          <tbody>
-            {providers.map(p => (
-              <tr>
-                <td>{p.day.slice(0, 10)}</td>
-                <td>{p.provider}</td>
-                <td>{p.calls}</td>
-                <td>{p.rate_limits}</td>
-                <td>{p.errors}</td>
-                <td>{p.tokens_in} / {p.tokens_out}</td>
-                <td>{Number(p.cost_est).toFixed(4)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {providerError && (
+        <ErrorPanel title="Couldn't load provider events" status={providerError.status} detail={providerError.detail} />
       )}
+      {!providerError && providers.length === 0 && env.ok && (
+        <EmptyState
+          message="No provider events in the last 14 days."
+          hint="the LLM router writes these automatically once wired"
+        />
+      )}
+      {providers.length > 0 && <ProviderHealthTable rows={providers} />}
+
+      <p class="ops-note">
+        Read-only view. Service-role key is server-side only and never reaches
+        the browser. This dashboard is statically rendered — to refresh data,
+        trigger a rebuild. See <code>dashboards/app/README.md</code>.
+      </p>
     </main>
   </body>
 </html>

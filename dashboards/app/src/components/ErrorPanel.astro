@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  status?: number;
+  detail: string;
+}
+const { title, status, detail } = Astro.props;
+---
+<aside class="error-panel" role="alert">
+  <h2>{title}</h2>
+  <p>
+    {status ? <><strong>HTTP {status}</strong> · </> : null}
+    <span class="detail">{detail || 'no further detail available.'}</span>
+  </p>
+  <p class="hint">
+    The dashboard intentionally fails open — other widgets keep rendering even
+    when one query fails. Check the HQ Supabase project status and the
+    service-role-key validity, then rebuild this page.
+  </p>
+</aside>
+
+<style>
+  .error-panel {
+    border: 1px solid #e57373;
+    background: #fdeded;
+    padding: 0.9rem 1.1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  .error-panel h2 { margin: 0 0 0.4rem; font-size: 1.0rem; color: #5f1d1d; }
+  .error-panel .detail { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9rem; }
+  .error-panel .hint { color: #6a3030; font-size: 0.88rem; margin: 0.5rem 0 0; }
+</style>

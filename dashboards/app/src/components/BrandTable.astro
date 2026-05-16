@@ -1,0 +1,42 @@
+---
+import { gbp } from '../lib/format.ts';
+import type { BrandRow } from '../lib/supabase.ts';
+
+interface Props {
+  brands: BrandRow[];
+}
+const { brands } = Astro.props;
+---
+<table aria-label="Brand portfolio">
+  <thead>
+    <tr>
+      <th>Slug</th><th>Name</th><th>Status</th><th>Tier</th>
+      <th class="num">Cost / mo</th><th class="num">Revenue / mo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {brands.map(b => (
+      <tr>
+        <td><code>{b.slug}</code></td>
+        <td>{b.name}</td>
+        <td><span class={`pill ${b.status}`}>{b.status}</span></td>
+        <td>T{b.tier}</td>
+        <td class="num">{gbp(b.monthly_cost_est)}</td>
+        <td class="num">{gbp(b.monthly_revenue_est)}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  table { width: 100%; border-collapse: collapse; margin: 0 0 1.25rem; }
+  th, td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid #eee; }
+  th { background: #f6f6f6; font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; padding: 0.08rem 0.5rem; border-radius: 999px; font-size: 0.78rem; }
+  .pill.active   { background: #d2f5d6; }
+  .pill.hold     { background: #fff1c2; }
+  .pill.kill     { background: #f7c5c0; }
+  .pill.scale    { background: #c5d9f7; }
+  .pill.planning { background: #e6e6e6; }
+</style>

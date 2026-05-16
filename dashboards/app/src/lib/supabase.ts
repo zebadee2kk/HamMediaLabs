@@ -1,32 +1,8 @@
-// Minimal Supabase REST client for the HQ dashboard.
-// No SDK — just typed fetch wrappers against PostgREST.
-
-export interface SupabaseEnv {
-  url: string;
-  serviceRoleKey: string;
-}
-
-export function env(): SupabaseEnv {
-  const url = (import.meta as any).env?.SUPABASE_URL ?? process.env.SUPABASE_URL;
-  const key = (import.meta as any).env?.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required');
-  return { url: String(url).replace(/\/$/, ''), serviceRoleKey: String(key) };
-}
-
-export async function sbGet<T>(path: string, query: Record<string, string> = {}): Promise<T> {
-  const e = env();
-  const qs = new URLSearchParams(query).toString();
-  const url = `${e.url}/rest/v1/${path}${qs ? '?' + qs : ''}`;
-  const res = await fetch(url, {
-    headers: {
-      apikey: e.serviceRoleKey,
-      authorization: `Bearer ${e.serviceRoleKey}`,
-      accept: 'application/json',
-    },
-  });
-  if (!res.ok) throw new Error(`supabase ${res.status}: ${await res.text()}`);
-  return res.json() as Promise<T>;
-}
+// HQ dashboard Supabase REST client.
+//
+// SERVER-SIDE ONLY. The service-role key (Tier 1 secret — see
+// docs/09-security-and-secrets.md) is read here from non-public env. This
+// module must never be imported into an Astro client island.
 
 export interface BrandRow {
   id: number;
@@ -37,10 +13,6 @@ export interface BrandRow {
   tier: number;
   monthly_cost_est: number;
   monthly_revenue_est: number;
-}
-
-export async function listBrands(): Promise<BrandRow[]> {
-  return sbGet<BrandRow[]>('brand', { select: '*', order: 'id.asc' });
 }
 
 export interface ProviderDailyRow {
@@ -54,7 +26,71 @@ export interface ProviderDailyRow {
   cost_est: number;
 }
 
-export async function providerDaily(days = 14): Promise<ProviderDailyRow[]> {
+export type SbResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; kind: 'missing_config'; missing: string[] }
+  | { ok: false; kind: 'fetch_error'; status?: number; detail: string };
+
+interface ResolvedEnv {
+  url: string;
+  serviceRoleKey: string;
+}
+
+function readEnv(): ResolvedEnv | { missing: string[] } {
+  // Astro exposes server env via import.meta.env (and only PUBLIC_-prefixed
+  // values reach the client). We deliberately reference the non-public names.
+  const astroEnv = (import.meta as unknown as { env?: Record<string, string | undefined> }).env ?? {};
+  const procEnv =
+    typeof process !== 'undefined' && process?.env
+      ? process.env
+      : ({} as Record<string, string | undefined>);
+
+  const url = astroEnv.SUPABASE_URL ?? procEnv.SUPABASE_URL;
+  const key = astroEnv.SUPABASE_SERVICE_ROLE_KEY ?? procEnv.SUPABASE_SERVICE_ROLE_KEY;
+
+  const missing: string[] = [];
+  if (!url) missing.push('SUPABASE_URL');
+  if (!key) missing.push('SUPABASE_SERVICE_ROLE_KEY');
+  if (missing.length) return { missing };
+
+  return { url: String(url).replace(/\/$/, ''), serviceRoleKey: String(key) };
+}
+
+/** Returns the env status (used to render a ConfigBanner when incomplete). */
+export function envStatus(): { ok: true } | { ok: false; missing: string[] } {
+  const r = readEnv();
+  return 'missing' in r ? { ok: false, missing: r.missing } : { ok: true };
+}
+
+async function sbGet<T>(path: string, query: Record<string, string> = {}): Promise<SbResult<T>> {
+  const env = readEnv();
+  if ('missing' in env) return { ok: false, kind: 'missing_config', missing: env.missing };
+
+  try {
+    const qs = new URLSearchParams(query).toString();
+    const url = `${env.url}/rest/v1/${path}${qs ? '?' + qs : ''}`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: env.serviceRoleKey,
+        authorization: `Bearer ${env.serviceRoleKey}`,
+        accept: 'application/json',
+      },
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      return { ok: false, kind: 'fetch_error', status: res.status, detail: detail.slice(0, 300) };
+    }
+    return { ok: true, data: (await res.json()) as T };
+  } catch (e) {
+    return { ok: false, kind: 'fetch_error', detail: (e as Error)?.message ?? 'unknown' };
+  }
+}
+
+export function listBrands(): Promise<SbResult<BrandRow[]>> {
+  return sbGet<BrandRow[]>('brand', { select: '*', order: 'id.asc' });
+}
+
+export function providerDaily(days = 14): Promise<SbResult<ProviderDailyRow[]>> {
   const since = new Date(Date.now() - days * 86_400_000).toISOString().slice(0, 10);
   return sbGet<ProviderDailyRow[]>('v_provider_daily', {
     select: '*',
