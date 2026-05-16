@@ -1,5 +1,12 @@
 # Gemini Brief — Brand B Visual System (Corporate Satire)
 
+> **Claude pre-review required.** Before sending this brief to Gemini,
+> walk `claude-design-subagents.md` (six subagents) and complete
+> `claude-before-gemini-checklist.md`. The Brand-Consistency,
+> Compliance/Disclosure, and Conversion-Ethics subagents must
+> sign off — Brand B carries the tightest defamation gate in the
+> portfolio.
+>
 > Copy this entire brief into Gemini Free. Operator runs the
 > output through `gemini-output-review-checklist.md`. Brand B is
 > the riskiest brand in the portfolio (highest ban risk; tightest

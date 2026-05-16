@@ -24,22 +24,45 @@
 | `gemini-brand-c-trust-ui.md` | Brand C's trust-first UK financial UI (charity-link block, FCA disclaimer, no urgency) | Before #51 if Brand C launches in parallel; otherwise after Brand A's day-30 review |
 | `gemini-social-asset-templates.md` | Social card templates per brand (X / Instagram / LinkedIn / YouTube Shorts) | Once a brand has shipped at least one piece live |
 | `gemini-output-review-checklist.md` | Claude/Codex/operator review checklist for any Gemini output | Every time |
+| `claude-design-subagents.md` | Six pre-Gemini Claude subagent roles + workflow | Before sending any brief to Gemini |
+| `claude-before-gemini-checklist.md` | Pre-flight checklist Claude must complete before any Gemini brief leaves the lab | Before sending any brief to Gemini |
+
+## Pre-Gemini pipeline (binding)
+
+```
+Claude PM / Architect
+  → Claude Design Subagents (UX / Visual / Brand / A11y / Compliance / Conv-Ethics)
+    → claude-before-gemini-checklist.md (must be fully green)
+      → Gemini Design Builder
+        → gemini-output-review-checklist.md (14 sections)
+          → Human approval
+```
+
+The six Claude subagents in `claude-design-subagents.md` tighten the brief
+before it reaches Gemini, reducing Gemini drift and protecting brand /
+compliance / accessibility constraints. The pre-flight checklist
+(`claude-before-gemini-checklist.md`) is mandatory; a brief with any
+unchecked box is a no-send.
 
 ## How to run a Gemini brief
 
 1. **Open** the relevant `gemini-*.md` brief.
-2. **Copy** the entire brief into Gemini Free (any model — Pro for
+2. **Run the Claude pre-review** per `claude-design-subagents.md`:
+   the six subagents critique and tighten the brief; the
+   `claude-before-gemini-checklist.md` walks 10 pre-flight
+   sections.
+3. **Copy** the tightened brief into Gemini Free (any model — Pro for
    visual mockups, Flash for component-level work).
-3. **Provide** the linked governance docs as supporting context
+4. **Provide** the linked governance docs as supporting context
    when Gemini asks (`docs/voice-authenticity-system.md`,
    `docs/seo-moat-plan.md` §8 EEAT, brand-specific `voice.md`).
-4. **Receive** Gemini's output: spec doc / Astro+Tailwind code /
+5. **Receive** Gemini's output: spec doc / Astro+Tailwind code /
    mockup descriptions.
-5. **Review** against `gemini-output-review-checklist.md`. Do not
+6. **Review** against `gemini-output-review-checklist.md`. Do not
    commit anything unreviewed.
-6. **Stage** approved output under `design-handoffs/output/<brief>/<date>/`
+7. **Stage** approved output under `design-handoffs/output/<brief>/<date>/`
    (gitignored by default; only commit after a second pass).
-7. **Merge** as a normal PR. CI green; gitleaks green; never
+8. **Merge** as a normal PR. CI green; gitleaks green; never
    touches the launch-pack rules.
 
 ## What Gemini is NOT allowed to do here

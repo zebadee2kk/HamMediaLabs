@@ -1,5 +1,12 @@
 # Gemini Brief — Brand C Trust-First UK Financial UI
 
+> **Claude pre-review required.** Before sending this brief to Gemini,
+> walk `claude-design-subagents.md` (six subagents) and complete
+> `claude-before-gemini-checklist.md`. The Compliance/Disclosure
+> subagent must verify FCA disclaimer placement + the charity-link-
+> at-the-top rule; the Conversion-Ethics subagent must verify no
+> urgency/scarcity copy.
+>
 > Copy this entire brief into Gemini Free. Brand C is the
 > highest-compliance brand; visual design must reinforce trust,
 > never simulate urgency. Run output through

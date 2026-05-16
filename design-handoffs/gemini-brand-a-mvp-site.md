@@ -1,5 +1,10 @@
 # Gemini Brief — Brand A MVP Website (AI Escape)
 
+> **Claude pre-review required.** Before sending this brief to Gemini,
+> walk `claude-design-subagents.md` (six subagents) and complete
+> `claude-before-gemini-checklist.md` (10 pre-flight sections). A
+> brief with any unchecked box is a no-send.
+>
 > Copy this entire brief into Gemini Free. Provide the linked
 > governance docs when Gemini asks for context. Run through
 > `gemini-output-review-checklist.md` before committing any output.
