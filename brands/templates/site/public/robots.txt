@@ -1,0 +1,12 @@
+# Brand site template — robots
+# Per-brand sites override sitemap URL after copy. Posture
+# (per docs/seo-moat-plan.md §10): permissive for normal crawlers;
+# AI-crawler policy is permissive case-by-case (revisit at each
+# quarterly platform refresh).
+
+User-agent: *
+Allow: /
+Disallow: /drafts/
+Disallow: /404
+
+Sitemap: https://example.com/sitemap.xml

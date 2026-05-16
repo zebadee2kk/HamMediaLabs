@@ -1,0 +1,11 @@
+# Brand A — AI Escape · robots
+# Posture (per docs/seo-moat-plan.md §10): permissive for normal
+# crawlers; AI-crawler policy is permissive case-by-case (revisit
+# at each quarterly platform refresh).
+
+User-agent: *
+Allow: /
+Disallow: /drafts/
+Disallow: /404
+
+Sitemap: https://aiescape.example/sitemap.xml

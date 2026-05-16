@@ -20,6 +20,42 @@ jobs:
       - name: Tests
         run: npm test
 
+  astro-builds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Dashboard — install
+        working-directory: dashboards/app
+        run: npm install --no-audit --no-fund
+      - name: Dashboard — build
+        working-directory: dashboards/app
+        run: npm run build
+      - name: Brand template — install
+        working-directory: brands/templates/site
+        run: npm install --no-audit --no-fund
+      - name: Brand template — build
+        working-directory: brands/templates/site
+        run: npm run build
+      - name: Brand A — install
+        working-directory: brands/brand-a-aiescape/site
+        run: npm install --no-audit --no-fund
+      - name: Brand A — build
+        working-directory: brands/brand-a-aiescape/site
+        run: npm run build
+      - name: Brand A — disclosure renders
+        working-directory: brands/brand-a-aiescape/site
+        run: |
+          grep -q "AI-augmented production" dist/index.html
+          grep -q "AI-augmented production" dist/ai-use/index.html
+          grep -q "AI Escape" dist/index.html
+      - name: Brand A — no secret-shaped strings in output
+        working-directory: brands/brand-a-aiescape/site
+        run: |
+          ! grep -rE "(sk-or-[A-Za-z0-9_-]{20}|gsk_[A-Za-z0-9]{20}|AIza[0-9A-Za-z_-]{30}|PUBLIC_SUPABASE)" dist/
+
   gitleaks:
     runs-on: ubuntu-latest
     steps:
