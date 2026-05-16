@@ -35,6 +35,11 @@ conflict with the master plan, the master plan wins.
 - [19-financial-model.md](./19-financial-model.md) — year-1 budget & revenue model
 - [20-competitive-research.md](./20-competitive-research.md) — per-brand competitive intel
 
+## Source intelligence
+- [source-intelligence-plan.md](./source-intelligence-plan.md) — strategy (what to collect and why)
+- [source-intelligence-governance.md](./source-intelligence-governance.md) — operational governance (how, controls, MVP backlog)
+- [`/playbooks/source-intelligence-weekly.md`](../playbooks/source-intelligence-weekly.md) — weekly operator SOP
+
 ## Voice & content authenticity
 - [voice-authenticity-system.md](./voice-authenticity-system.md) — operational spec for the voice moat
 - [`/brands/templates/voice-template.md`](../brands/templates/voice-template.md) — canonical `voice.md` shape

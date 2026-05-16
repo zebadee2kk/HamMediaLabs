@@ -159,6 +159,39 @@ create or replace view v_provider_daily as
   group by provider, day;
 
 -- =========================================================
+--  Source intelligence — public-signal observations (read-only by HQ)
+--  Governance: docs/source-intelligence-governance.md
+-- =========================================================
+create table if not exists source_signal (
+  id              bigserial primary key,
+  source          text not null check (source in (
+                    'youtube','x','reddit','google_trends','instagram',
+                    'tiktok','manual','news_web','rss')),
+  brand           text check (brand in (
+                    'aiescape','corpsatire','ukescape','lab-wide')),
+  captured_at     timestamptz not null default now(),
+  topic           text,
+  source_url      text,
+  author_or_channel text,
+  raw_title       text,
+  raw_text_excerpt text,
+  metric_snapshot jsonb,
+  region          text,
+  language        text,
+  signal_type     text check (signal_type in (
+                    'trend','question','complaint','hook','competitor',
+                    'keyword','format','citation')),
+  confidence      text check (confidence in ('low','medium','high')),
+  risk_class      text not null check (risk_class in ('low','medium','high')),
+  notes           text,
+  ingested_by     text not null check (ingested_by in ('operator','n8n','manual'))
+                  default 'manual'
+);
+create index if not exists ix_source_signal_brand_ts on source_signal(brand, captured_at);
+create index if not exists ix_source_signal_source_ts on source_signal(source, captured_at);
+create index if not exists ix_source_signal_signal_type on source_signal(signal_type);
+
+-- =========================================================
 --  Row-level security (Supabase): default-deny, service role only
 -- =========================================================
 alter table brand          enable row level security;
@@ -169,6 +202,7 @@ alter table provider_event enable row level security;
 alter table agent_task     enable row level security;
 alter table decision       enable row level security;
 alter table heartbeat      enable row level security;
+alter table source_signal  enable row level security;
 
 -- (No anon policies created intentionally — HQ writes use the service-role key.
 --  When the dashboard becomes user-facing, add scoped read policies here.)
