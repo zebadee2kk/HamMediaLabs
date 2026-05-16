@@ -146,3 +146,84 @@ Reduced monetisation surface for Brand C. Accepted as a compliance non-negotiabl
 
 ### Revisit date:
 2026-08-16.
+
+---
+
+## Open questions (must-decide gates)
+
+### Date: 2026-05-16
+### Decision:
+**Open — must-decide by 2026-05-30.** Operator legal entity for year 1: sole trader vs. limited company.
+
+### Reasoning:
+UK sole trader has the lowest setup and admin overhead and fits zero-revenue / low-revenue year 1. Limited company gives liability separation and a clean route for future hires / partners, at the cost of Companies House admin + corporation tax filing.
+
+### Alternatives considered:
+- Sole trader for year 1, incorporate when net profit projects >£12k/year for >2 quarters (default recommendation).
+- Incorporate immediately for liability separation (recommended only if Brand C scope expands into regulated content; current scope says no).
+
+### Risks:
+Sole-trader: unlimited personal liability. Mitigation: Brand C FCA-tightened scope, lab insurance once revenue starts.
+Limited co: Companies House admin burden during a still-experimental phase.
+
+### Revisit date:
+2026-05-30 (gate); 2026-12-01 (annual review).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+**Open — must-decide by 2026-05-30.** Apex-domain strategy: one apex per brand vs. subdomains under one corporate apex.
+
+### Reasoning:
+Per-brand apexes give SEO independence and a clean fail-over if one brand turns toxic; subdomains share authority but couple risk. Per-brand apex is the default recommendation for the three pilots.
+
+### Alternatives considered:
+- Per-brand apex (default, recommended) — cleanest separation, ~£12/yr × 3 brands.
+- Subdomain under HamMediaLabs apex — cheapest, but couples reputational/SEO/compliance signal.
+
+### Risks:
+Per-brand: 3× domain admin and renewal calendar. Mitigation: Cloudflare Registrar single dashboard; renewal reminders in n8n.
+
+### Revisit date:
+2026-05-30 (gate).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+**Open — must-decide by 2026-05-30.** n8n hosting: self-host on £5 VPS vs. n8n.cloud free tier vs. GitHub Actions cron only.
+
+### Reasoning:
+Self-hosted VPS gives full control + workflow JSON portability; n8n.cloud free tier is fastest to start but has execution limits; GitHub Actions cron is free and adequate for the two scheduled flows we have today (heartbeat, weekly review) but doesn't give an event-driven surface.
+
+### Alternatives considered:
+- Self-host on a £5/mo VPS (recommended once we exceed two scheduled workflows).
+- n8n.cloud free tier (recommended for Phase 2 start; switch when execution-limit warnings appear).
+- GitHub Actions cron only (fallback; ship if VPS / n8n.cloud both unavailable).
+
+### Risks:
+Self-host: small ops burden; mitigated by Docker compose + image pinning.
+Cloud free: vendor change can break workflows; mitigation: keep workflow JSON in this repo so re-import is one click.
+
+### Revisit date:
+2026-05-30 (gate); 2026-09-01 (re-evaluate).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+**Open — must-decide by 2026-06-15.** Editorial style guide: extend the lab-wide guide with per-brand voice docs (current state) vs. a centralised tone-of-voice authoring tool.
+
+### Reasoning:
+Per-brand voice docs (`brands/<slug>/voice.md`) are in place. The question is whether a centralised tool (e.g. a YAML voice schema parsed by the LLM router) reduces drift between brands and content output. Premature for MVP; revisit once we have ≥10 cornerstone pieces per brand to evaluate consistency.
+
+### Alternatives considered:
+- Keep current markdown voice docs + style guide (default).
+- Build a small YAML schema + linter that scores draft output against the voice doc (defer until Phase 3 outcomes are in).
+
+### Risks:
+Voice drift across pieces in the same brand. Mitigation: quality checklist; editor pass mandatory at Tier 2/3.
+
+### Revisit date:
+2026-06-15 (gate); 2026-08-16 (quarterly).

@@ -1,0 +1,96 @@
+{
+  "name": "HML — Trend → brief → approval queue",
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [{ "field": "days", "daysInterval": 1, "triggerAtHour": 8 }] } },
+      "id": "cron-1",
+      "name": "Daily 08:00",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://hn.algolia.com/api/v1/search?tags=front_page",
+        "options": {}
+      },
+      "id": "http-1",
+      "name": "Pull HN front page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [440, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Pick the top 5 stories with > 50 points; trim payload.\nconst hits = ($input.first().json.hits||[]).filter(h => (h.points||0) > 50).slice(0,5);\nreturn hits.map(h => ({ json: { title: h.title, url: h.url, points: h.points } }));"
+      },
+      "id": "func-1",
+      "name": "Filter top 5",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [680, 220]
+    },
+    {
+      "parameters": {
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={{$env.GEMINI_API_KEY}}",
+        "headerParameters": { "parameters": [ { "name": "Content-Type", "value": "application/json" } ] },
+        "sendHeaders": true,
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"systemInstruction\": { \"parts\": [{ \"text\": \"You are an editor for Brand A (AI Escape). Voice: confident peer, plain English, specific. Reject any item that is off-brand: crypto/web3, generic AI hype, tool-of-the-week. Output strict JSON only.\" }] },\n  \"contents\": [{ \"role\": \"user\", \"parts\": [{ \"text\": \"For this story, decide: in-scope (Y/N), proposed angle (one sentence), audience match (1-5), kill or keep, and a brief title.\\n\\nStory: {{$json.title}}\\nURL: {{$json.url}}\\n\\nReturn JSON: {\\\"keep\\\":true|false,\\\"title\\\":\\\"...\\\",\\\"angle\\\":\\\"...\\\",\\\"score\\\":1-5,\\\"reason\\\":\\\"...\\\"}.\" }] }],\n  \"generationConfig\": { \"temperature\": 0.2, \"maxOutputTokens\": 256 }\n}",
+        "method": "POST",
+        "options": {}
+      },
+      "id": "http-2",
+      "name": "Gemini: score & angle",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [920, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Extract JSON from the Gemini response and short-circuit if 'keep' is false.\nconst raw = $input.first().json?.candidates?.[0]?.content?.parts?.[0]?.text || '{}';\nlet parsed;\ntry { parsed = JSON.parse(raw.replace(/^```json|```$/g, '').trim()); } catch (e) { parsed = { keep: false, reason: 'parse_error' }; }\nreturn parsed.keep ? [{ json: parsed }] : [];"
+      },
+      "id": "func-2",
+      "name": "Keep in-scope only",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1160, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.SUPABASE_URL}}/rest/v1/content_asset",
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{$env.SUPABASE_SERVICE_ROLE_KEY}}" },
+            { "name": "Authorization", "value": "=Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=minimal" }
+          ]
+        },
+        "sendHeaders": true,
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"brand_id\": 1,\n  \"url\": \"/drafts/{{ Date.now() }}\",\n  \"title\": \"{{$json.title}}\",\n  \"type\": \"blog\",\n  \"topic\": \"{{$json.angle}}\",\n  \"ai_augmentation\": \"assist\",\n  \"status\": \"brief\"\n}",
+        "method": "POST",
+        "options": {}
+      },
+      "id": "http-3",
+      "name": "Insert brief into content_asset",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1400, 220]
+    }
+  ],
+  "connections": {
+    "Daily 08:00": { "main": [[{ "node": "Pull HN front page", "type": "main", "index": 0 }]] },
+    "Pull HN front page": { "main": [[{ "node": "Filter top 5", "type": "main", "index": 0 }]] },
+    "Filter top 5": { "main": [[{ "node": "Gemini: score & angle", "type": "main", "index": 0 }]] },
+    "Gemini: score & angle": { "main": [[{ "node": "Keep in-scope only", "type": "main", "index": 0 }]] },
+    "Keep in-scope only": { "main": [[{ "node": "Insert brief into content_asset", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "versionId": "1",
+  "id": "hml_trend_to_brief"
+}

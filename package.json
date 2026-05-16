@@ -13,7 +13,8 @@
     "test": "node --test --experimental-strip-types core/**/*.test.ts",
     "test:scoring": "node --test --experimental-strip-types core/scoring/scoring.test.ts",
     "test:router": "node --test --experimental-strip-types core/router/router.test.ts",
-    "heartbeat": "node --experimental-strip-types core/jobs/heartbeat.ts"
+    "heartbeat": "node --experimental-strip-types core/jobs/heartbeat.ts",
+    "hml": "node --experimental-strip-types core/cli/hml.ts"
   },
   "devDependencies": {
     "typescript": "^5.5.0",
