@@ -1,0 +1,22 @@
+{
+  "name": "hammedialabs",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ProjectHydra — HamMediaLabs operating system (HQ + brand factory).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test --experimental-strip-types core/**/*.test.ts",
+    "test:scoring": "node --test --experimental-strip-types core/scoring/scoring.test.ts",
+    "test:router": "node --test --experimental-strip-types core/router/router.test.ts",
+    "heartbeat": "node --experimental-strip-types core/jobs/heartbeat.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0"
+  }
+}

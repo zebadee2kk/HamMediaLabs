@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="Home" description={siteConfig.tagline}>
+  <h1>{siteConfig.brandName}</h1>
+  <p>{siteConfig.tagline}</p>
+  <p>
+    Edit this template under <code>brands/templates/site/</code>.
+    Per-brand sites copy this template, override <code>site.config.ts</code>,
+    and build to Cloudflare Pages.
+  </p>
+</Base>

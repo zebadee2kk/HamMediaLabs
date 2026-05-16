@@ -1,0 +1,24 @@
+name: Supabase heartbeat
+
+on:
+  schedule:
+    # Runs daily at 06:17 UTC; off-peak and prime-numbered to avoid the top-of-hour scheduler crush.
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Heartbeat
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          HEARTBEAT_SOURCE: github_actions
+        run: npm run heartbeat

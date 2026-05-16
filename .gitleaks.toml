@@ -1,0 +1,41 @@
+# gitleaks v8 config for HamMediaLabs.
+# We allow only TEMPLATE files to mention secret-shaped strings; everywhere else they're blocked.
+
+title = "HamMediaLabs gitleaks"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "supabase-service-role"
+description = "Supabase service-role JWT"
+regex = '''eyJ[A-Za-z0-9_=-]+\.eyJ[A-Za-z0-9_=-]+\.[A-Za-z0-9_.+/=-]{20,}'''
+tags = ["supabase","jwt"]
+
+[[rules]]
+id = "openrouter-key"
+description = "OpenRouter API key"
+regex = '''sk-or-[A-Za-z0-9_-]{20,}'''
+tags = ["openrouter"]
+
+[[rules]]
+id = "groq-key"
+description = "Groq API key"
+regex = '''gsk_[A-Za-z0-9]{20,}'''
+tags = ["groq"]
+
+[[rules]]
+id = "google-ai-studio-key"
+description = "Google AI Studio (Gemini) API key"
+regex = '''AIza[0-9A-Za-z_-]{30,}'''
+tags = ["gemini","google"]
+
+[allowlist]
+description = "Documentation and template files may contain example tokens."
+paths = [
+  '''(^|/)\.env\.example$''',
+  '''(^|/)vault-template/.*''',
+  '''(^|/)docs/.*\.md$''',
+  '''(^|/)\.gitleaks\.toml$''',
+  '''(^|/)README\.md$'''
+]

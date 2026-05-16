@@ -1,0 +1,78 @@
+---
+import { siteConfig } from '../site.config.ts';
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const pageTitle = `${title} — ${siteConfig.brandName}`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+  </head>
+  <body>
+    <header>
+      <a href="/" class="brand">{siteConfig.brandName}</a>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/ai-use">AI use</a>
+        <a href="/affiliate-disclosure">Affiliate</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p class="footer-disclosure">
+        This site uses AI-augmented production. Editorial decisions, fact-checks,
+        and final approvals are made by a human editor. See our
+        <a href="/ai-use">AI use policy</a>.
+        {siteConfig.affiliateInPlay && (
+          <>
+            {' '}This site uses affiliate links. We may earn a commission from
+            qualifying purchases at no extra cost to you. See our
+            <a href="/affiliate-disclosure"> affiliate disclosure</a>.
+          </>
+        )}
+        Last reviewed: <time datetime={siteConfig.lastReviewedISO}>{siteConfig.lastReviewedISO}</time>.
+      </p>
+      <p class="ops">
+        Operator: {siteConfig.operatorName} · <a href={`mailto:${siteConfig.operatorEmail}`}>{siteConfig.operatorEmail}</a>
+      </p>
+      <p class="links">
+        <a href="/privacy">Privacy</a> ·
+        <a href="/terms">Terms</a> ·
+        <a href="/ai-use">AI use</a> ·
+        <a href="/affiliate-disclosure">Affiliate disclosure</a> ·
+        <a href="/contact">Contact</a>
+      </p>
+    </footer>
+
+    <style is:global>
+      :root { --max: 720px; --ink: #1c1c1c; --muted: #6a6a6a; }
+      body { color: var(--ink); font: 17px/1.55 system-ui, -apple-system, Segoe UI, sans-serif; margin: 0; }
+      header, main, footer { max-width: var(--max); margin: 0 auto; padding: 1rem; }
+      header { display: flex; justify-content: space-between; align-items: center; }
+      nav a { margin-left: 1rem; color: var(--muted); text-decoration: none; }
+      nav a:hover { color: var(--ink); }
+      .brand { font-weight: 600; text-decoration: none; color: var(--ink); }
+      footer { border-top: 1px solid #eee; margin-top: 4rem; padding-top: 1rem; color: var(--muted); font-size: 0.92rem; }
+      footer a { color: var(--muted); }
+      .footer-disclosure { line-height: 1.5; }
+      h1, h2, h3 { line-height: 1.25; }
+      a { color: #114488; }
+    </style>
+  </body>
+</html>

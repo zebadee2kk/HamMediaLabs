@@ -109,3 +109,40 @@ Under-sampling the niche space. Mitigation: cohort 2 in months 4–6 with strict
 
 ### Revisit date:
 2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Add execution-ready scaffolding alongside the master plan: per-brand profiles + voice + cornerstone briefs for the 3 pilots, canonical disclosure templates (`docs/18`), editorial style guide (`docs/17`), financial model (`docs/19`), competitive research (`docs/20`), incident + provider-revalidation playbooks, HQ Supabase schema, LLM router (TS) with unit tests, scoring engine with unit tests, gitleaks config + CI workflows, Supabase heartbeat job + GitHub Actions schedule, Playwright signup module skeletons, n8n heartbeat + weekly-review workflows, and an Astro brand-site template with compliance pages baked in.
+
+### Reasoning:
+Plan-only documents are not execution-ready. Scaffolding turns the plan into something the operator can hit `npm install` on, run on day 1, and extend without re-deriving structure from prose.
+
+### Alternatives considered:
+Defer scaffolding to Phase 2. Rejected: explicit user instruction was for execution-ready output.
+
+### Risks:
+Drift between hand-edited brand sites and the canonical templates. Mitigation: compliance copy lives in `docs/18`; Astro components import it conceptually; per-brand overrides flagged in PR review.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Brand C scope tightened: NO affiliate links to investment, consumer credit, mortgages, BNPL, crypto, insurance, claims management. Allowed: energy switching via FCA-authorised comparison platforms, cashback platforms, lifestyle / utility savings. Debt content links charities only (no commission).
+
+### Reasoning:
+UK FCA finalised guidance (FG24-1) plus 2026 enforcement updates require an FCA-authorised approver for financial promotions by unauthorised persons. We are unauthorised. Energy-switching affiliates run via FCA-authorised platforms are permissible; recommending regulated credit / investment products is not.
+
+### Alternatives considered:
+Apply for FCA approver status. Rejected: high cost and time vs. year-1 ambitions.
+Pivot Brand C off finance entirely. Held in reserve: if no FCA-compatible affiliate path is found by day 60, the brand is killed rather than relaunched in a riskier shape.
+
+### Risks:
+Reduced monetisation surface for Brand C. Accepted as a compliance non-negotiable.
+
+### Revisit date:
+2026-08-16.
