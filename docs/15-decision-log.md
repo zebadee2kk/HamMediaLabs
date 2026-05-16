@@ -462,3 +462,21 @@ Drift accumulates across another quarter. Accepted; staged 4 → 5, 5 → 6 path
 
 ### Revisit date:
 2026-08-16 (or sooner if a new applicable CVE lands on Astro 4.x).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `docs/launch-readiness-closeout-2026-05-16.md` as the canonical final closeout report for the pre-launch run. Brand A is operator-ready (manual / private MVP only). Brand B + Brand C remain gated per `docs/portfolio-expansion-gate.md`. Tier 4 remains frozen. No paid line authorised outside the §5 gate. Dependabot PRs #84–#89 deferred to Q3 2026 quarterly platform refresh; PR #70 closed as superseded by per-directory #87/#88/#89.
+
+### Reasoning:
+The repo passed every governance / engineering / safety axis. The final closeout consolidates state across PRs, issues, branches, Dependabot, and strategy so the operator can authorise launch on its own terms without re-walking the corpus.
+
+### Alternatives considered:
+Close coordinator issues #38 / #57 / #56 on operator's behalf (rejected — Claude does not close issues on operator's behalf per the standing posture). Auto-merge low-risk Dependabot PRs #84 / #85 / #86 (rejected — auto-merge stays OFF; staged audit posture stands). Defer the closeout report (rejected — operator needs a single review surface).
+
+### Risks:
+Operator interprets the closeout as a launch authorisation (mitigated — §10 names the single recommended action explicitly; §9 enumerates everything that is NOT safe). Dependabot PRs accumulate further before Q3 (accepted — staged plan governs; revisit at quarterly refresh).
+
+### Revisit date:
+2026-08-16 (next quarterly platform refresh).

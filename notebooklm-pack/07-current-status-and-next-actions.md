@@ -108,16 +108,22 @@ subagent roles + the 10-section pre-flight checklist.
 | #38 | Phase 6 coordinator | Forward queue complete | Operator may close |
 | #56 | Repo hygiene (branch delete) | Operator-runnable; MCP connector returns 403 | Operator runs documented command locally |
 | #57 | Master forward queue | Forward queue complete | Operator may close |
-| #75 | NotebookLM Distilled Pack | **In progress in this PR** | Closes via this PR |
-| #76 | NotebookLM freshness workflow | Open | Next PR — workflow + decision-log entry |
-| #81 | Final launch-readiness closeout | Open | Operator submission report; closes after #75 / #76 |
+| #75 | NotebookLM Distilled Pack | **Closed** (PR #92 merged) | — |
+| #76 | NotebookLM freshness workflow | **Closed** (PR #93 merged) | — |
+| #81 | Final launch-readiness closeout | **In progress in this PR** | Closes via this PR; closeout report lives at `docs/launch-readiness-closeout-2026-05-16.md` |
 
 ### Open PRs
 
 | PR | Title | Action |
 |---|---|---|
-| #12 | Dependabot Astro 4 → 6 (2 dirs, original) | Recommend closure per `docs/astro-security-upgrade-plan.md` |
-| #70 | Dependabot Astro 4 → 6 (3 dirs incl. Brand A site) | Recommend closure per same plan; comment posted |
+| #12 | Dependabot Astro 4 → 6 (2 dirs, original) | **Closed** — superseded |
+| #70 | Dependabot Astro 4 → 6 (3 dirs incl. Brand A site) | **Closed in this run** — superseded by per-directory PRs #87 / #88 / #89 |
+| #84 | actions/checkout 4 → 6 (major) | Deferred to Q3 2026 quarterly platform refresh |
+| #85 | `@types/node` 20 → 25 (major) | Deferred to Q3 2026 quarterly platform refresh |
+| #86 | TypeScript 5 → 6 (major) | Deferred to Q3 2026 quarterly platform refresh |
+| #87 | Astro 4 → 6 (`brand-a-aiescape/site`) | Deferred per staged 4 → 5 → 6 plan |
+| #88 | Astro 4 → 6 (`templates/site`) | Deferred per staged 4 → 5 → 6 plan |
+| #89 | Astro 4 → 6 (`dashboards/app`) | Deferred per staged 4 → 5 → 6 plan |
 
 ### Open operator-side prerequisites (for Brand A launch)
 
@@ -278,6 +284,9 @@ launch, not more planning.
 
 ## Cross-references
 
+- `docs/launch-readiness-closeout-2026-05-16.md` — final
+  closeout report (this is the operator's single-surface
+  review).
 - `docs/final-qa-review-2026-05-16.md` — repo coherence audit.
 - `docs/strategy-checkpoint-2026-05-16.md` — controlled-
   expansion verdict.
