@@ -1,5 +1,11 @@
 # ProjectHydra — Master Strategic Plan (HamMediaLabs)
 
+> **Companion business docs (Phase 6.9):**
+> [`business-plan.md`](./business-plan.md) — operating model + phases;
+> [`unit-economics.md`](./unit-economics.md) — per-unit cost/revenue;
+> [`profit-model.md`](./profit-model.md) — scenario P&L.
+> Cost discipline: [`cost-control-and-free-tier-plan.md`](./cost-control-and-free-tier-plan.md).
+>
 > **Document status:** v1.0 master plan, execution-ready.
 > **Author:** Autonomous planning pass, May 2026.
 > **Scope:** Strategy, research, architecture, roadmap, team, marketing, risk, finance, legal, KPIs.
