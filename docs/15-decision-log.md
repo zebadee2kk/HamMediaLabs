@@ -227,3 +227,40 @@ Voice drift across pieces in the same brand. Mitigation: quality checklist; edit
 
 ### Revisit date:
 2026-06-15 (gate); 2026-08-16 (quarterly).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Defer Hugging Face from the HQ LLM router. It is not in the `ProviderId` union and is not in the default policy.
+
+### Reasoning:
+Hugging Face hosted inference shows inconsistent latency and quota behaviour across model families (see `docs/14-provider-research-backlog.md` and the May 2026 provider matrix entry). Its strongest fit is experimental / one-off model evaluation, which is better done in Spaces or notebooks than through the automation-critical router. Adding it as a router fallback would pollute telemetry with high variance and risk hidden quota burn.
+
+### Alternatives considered:
+- Add `huggingface` to `ProviderId` and place it last in the policy chain. Rejected: would still get traffic on cascading 429s and produce unreliable telemetry.
+- Keep it for `edge` slot only. Rejected: Cloudflare Workers AI is the canonical edge fallback and avoids the variance issue.
+
+### Risks:
+We give up a wider OSS-model surface. Mitigation: OpenRouter `:free` already exposes DeepSeek, Qwen, Llama variants for experimentation; Hugging Face remains available for off-router work.
+
+### Revisit date:
+2026-11-16 (after one full quarter of router telemetry on the three locked providers).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+All future agent contributions go via feature branch + pull request. Direct commits to `main` (by humans or by Claude Code) are no longer permitted; branch protection on `main` enforces this.
+
+### Reasoning:
+Earlier commits to `main` were authorised for bootstrap. Post-bootstrap, the same workflow as human contributors must apply: branchable, reviewable, CI-gated changes.
+
+### Alternatives considered:
+Allow agent-only fast-path commits to `main` for trivial fixes. Rejected: erodes the audit trail and bypasses CI.
+
+### Risks:
+Slightly slower throughput for trivial changes. Accepted.
+
+### Revisit date:
+N/A (standing rule).
