@@ -26,6 +26,16 @@ Each platform should have:
 - Human review for sensitive topics
 - Account recovery plan
 
+### Per-platform policy
+- **X (Twitter)** — `docs/x-platform-risk.md` is the canonical governance doc.
+  Treats X as a hostile platform: rate-limit assumptions, shadowban
+  controls, link-placement rules, human review gates, brand-safe cadence
+  ceilings, scheduling governance, escalation triggers. Mandatory reading
+  for any X-facing PR.
+- **TikTok / Instagram / Reddit / YouTube** — governed by the lab-wide
+  posture above and the per-brand profile docs; X-tier governance docs
+  to be added if needed.
+
 ## SEO safety
 Prioritize:
 - Originality

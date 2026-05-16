@@ -21,6 +21,7 @@ conflict with the master plan, the master plan wins.
 - [09-security-and-secrets.md](./09-security-and-secrets.md) — secrets framework
 - [10-legal-and-platform-risk.md](./10-legal-and-platform-risk.md) — platform / legal risk
 - [11-monetization.md](./11-monetization.md) — monetisation maturity
+- [x-platform-risk.md](./x-platform-risk.md) — **X-specific** governance (rate limits, shadowban, link policy, cadence, scheduling, escalation)
 
 ## Performance & operations
 - [08-dashboard-kpis.md](./08-dashboard-kpis.md) — dashboard + KPI spec

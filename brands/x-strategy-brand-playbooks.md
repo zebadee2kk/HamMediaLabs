@@ -46,3 +46,6 @@
 - Brand B pain points → feed Brand A solutions and Brand C levers.
 
 This file is the single source of truth for all brand voice and strategy.
+
+## Governance
+Operational risk, cadence ceilings, link placement, disclosure mechanics, shadowban controls, scheduling rules, and escalation triggers are governed by **`docs/x-platform-risk.md`**. When this strategy file and the governance doc conflict, **governance wins**. Re-read the governance doc before any X-facing PR.
