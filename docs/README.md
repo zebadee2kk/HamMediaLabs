@@ -30,6 +30,7 @@ conflict with the master plan, the master plan wins.
 ## Performance & operations
 - [measurement-framework.md](./measurement-framework.md) — north-stars, leading/lagging, attribution, channel maps, scorecard, kill criteria
 - [seo-moat-plan.md](./seo-moat-plan.md) — topical authority, silos, internal linking, cornerstone model, programmatic-SEO boundaries, EEAT, SERP volatility, AI-search / answer-engine discoverability, parasite-SEO risk review
+- [cost-control-and-free-tier-plan.md](./cost-control-and-free-tier-plan.md) — £0 MVP stack, £50/month ceiling, per-category paid triggers, universal approval process, monthly cost review, kill rules
 - [`/playbooks/weekly-experiment.md`](../playbooks/weekly-experiment.md) — bounded experiment template
 - [08-dashboard-kpis.md](./08-dashboard-kpis.md) — dashboard + KPI spec
 - [14-provider-research-backlog.md](./14-provider-research-backlog.md) — provider backlog
