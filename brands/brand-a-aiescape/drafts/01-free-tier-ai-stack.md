@@ -1,17 +1,52 @@
 ---
+# Identity
 slug: free-tier-ai-stack
+brand: aiescape
 title: My free-tier AI stack — what I actually run, on a Tuesday
 description: A working operator's real AI stack, exact monthly cost, what each tool replaced, and what I dropped.
 date: 2026-05-16
+
+# Lifecycle
 status: draft
+
+# AI labelling
 ai_augmentation: assist
+
+# Monetisation
 affiliate_in_play: true
-primary_intent: "free AI tools for productivity"
+
+# Editorial intent
+primary_intent: free AI tools for productivity
 queries:
   - free AI tools 2026
   - free tier LLM stack
   - Gemini Groq OpenRouter free
 length_target_words: 2400
+
+# Production
+author: TBD — real human name before staged
+editor: TBD — real human name before staged
+reviewed_at:
+notes: >
+  Unused headline candidates land here once prompts/03-headlines.md runs.
+
+# Sources cited inline (must be primary / authoritative where contestable)
+sources:
+  - title: Gemini API rate limits
+    url: https://ai.google.dev/gemini-api/docs/rate-limits
+    retrieved: 2026-05-16
+  - title: Groq rate limits
+    url: https://console.groq.com/docs/rate-limits
+    retrieved: 2026-05-16
+  - title: OpenRouter API limits
+    url: https://openrouter.ai/docs/api/reference/limits
+    retrieved: 2026-05-16
+  - title: Cloudflare Pages limits
+    url: https://developers.cloudflare.com/pages/platform/limits/
+    retrieved: 2026-05-16
+  - title: Supabase pricing
+    url: https://supabase.com/pricing
+    retrieved: 2026-05-16
 ---
 
 > ⓘ This piece was researched and drafted with AI assistance and edited by a human.
@@ -124,9 +159,22 @@ Stacking yet another AI tool just because someone wrote a blog post about it. Th
 no AI hype — the [newsletter](#) is one click. Your inbox is precious; I treat it that way.*
 
 <!--
-EDITORIAL NOTE (do not publish):
-- This is a draft. Replace [#] with the real newsletter URL.
-- Sources to verify before publish: Gemini Dec 2025 cuts; OpenRouter 50→1000 RPD threshold; CF Pages 500 builds/month; Supabase 7-day pause.
-- Run through the quality checklist in playbooks/content-quality-checklist.md.
-- Make sure affiliate disclosure is rendered above the first affiliate link if any are added in revision.
+EDITORIAL NOTES (do not publish; strip before staged):
+
+Pre-staged checklist (lifted from brands/brand-a-aiescape/qa/checklist.md):
+- [ ] Replace [#] with the real newsletter URL.
+- [ ] Replace `author:` / `editor:` in frontmatter with real human names.
+- [ ] Set `reviewed_at` to the ISO timestamp of editor approval.
+- [ ] Affiliate disclosure block already renders above the first affiliate link — re-verify if links are added/moved.
+- [ ] Walk `brands/brand-a-aiescape/qa/checklist.md` end to end.
+- [ ] Run prompts/04-qa-pass.md against this draft and address any "needs_changes" verdict before approval.
+
+Sources to spot-check at publish time (already cited in frontmatter `sources:`):
+- Gemini API rate-limit changes (Dec 2025 cuts).
+- OpenRouter 50 → 1,000 RPD threshold after $10 deposit.
+- Cloudflare Pages 500 builds/month free-tier cap.
+- Supabase 7-day inactivity pause.
+
+Headline candidates (held for future iteration; pipe prompts/03-headlines.md output here):
+- (none yet — generate before staged)
 -->

@@ -25,3 +25,23 @@ Claude Code should use this repository as the operational blueprint for building
 - dashboard
 - analytics
 - reporting
+
+## Editorial pipelines
+
+A working editorial pipeline exists for Brand A. Treat it as the reference
+implementation when standing up Brand B and C pipelines later.
+
+- `brands/brand-a-aiescape/README.md` — lifecycle (idea → brief → outline →
+  draft → qa → staged → live → archived) and folder map.
+- `brands/brand-a-aiescape/templates/_draft-template.md` — frontmatter
+  shape + section order. Maps to the `content_asset` schema in
+  `core/db/schema.sql`.
+- `brands/brand-a-aiescape/prompts/` — Claude-ready prompts for outline,
+  draft, headlines, and structured QA pass. Run via the router (`plan` slot
+  for the long-context prompts, `fast` for headlines).
+- `brands/brand-a-aiescape/qa/checklist.md` — the binding gate before any
+  piece moves from `qa` to `staged`. Companion docs cover factuality and
+  anti-hype.
+
+Tier-4 autonomous publishing remains frozen for year 1. The pipeline ends
+at `staged`; publishing is always operator-approved.
