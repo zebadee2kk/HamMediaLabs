@@ -28,20 +28,33 @@ Claude Code should use this repository as the operational blueprint for building
 
 ## Editorial pipelines
 
-A working editorial pipeline exists for Brand A. Treat it as the reference
-implementation when standing up Brand B and C pipelines later.
+Working pipelines exist for Brand A (longform / blog) and Brand B
+(short-form / video satire). Brand A is the structural baseline; Brand B
+layers satire-specific safety on top.
 
-- `brands/brand-a-aiescape/README.md` — lifecycle (idea → brief → outline →
-  draft → qa → staged → live → archived) and folder map.
-- `brands/brand-a-aiescape/templates/_draft-template.md` — frontmatter
-  shape + section order. Maps to the `content_asset` schema in
-  `core/db/schema.sql`.
-- `brands/brand-a-aiescape/prompts/` — Claude-ready prompts for outline,
-  draft, headlines, and structured QA pass. Run via the router (`plan` slot
-  for the long-context prompts, `fast` for headlines).
-- `brands/brand-a-aiescape/qa/checklist.md` — the binding gate before any
-  piece moves from `qa` to `staged`. Companion docs cover factuality and
-  anti-hype.
+### Brand A (`brands/brand-a-aiescape/`)
+- `README.md` — lifecycle (idea → brief → outline → draft → qa → staged → live → archived) + folder map.
+- `templates/_draft-template.md` — frontmatter ↔ `content_asset` schema.
+- `prompts/` — outline / draft / headlines / structured QA (router-slot aware).
+- `qa/` — checklist + factuality + anti-hype + affiliate-disclosure.
 
-Tier-4 autonomous publishing remains frozen for year 1. The pipeline ends
-at `staged`; publishing is always operator-approved.
+### Brand B (`brands/brand-b-corpsatire/`)
+- `README.md` — short-form lifecycle, meme-vs-article split,
+  X/TikTok/Shorts suitability, satire boundaries, HR/workplace
+  sensitivity controls.
+- `templates/_draft-template.md` — beat-by-beat + script + caption +
+  post body frontmatter.
+- `prompts/` — outline / draft / caption candidates / **satire-safety**
+  QA pass.
+- `qa/checklist.md` — binding human gate with the **watch-aloud** step.
+- `qa/satire-rules.md` — punch-up, anti-cringe, anti-edgelord rules.
+- `qa/defamation.md` — legal-safety gate (no real people, no real
+  companies beyond generic parody, no leaked-comms mimicry).
+- `qa/affiliate-disclosure.md` — sponsorship-inbound-only posture.
+
+### Brand C
+Pipeline to be authored alongside the FCA-aware editorial workflow.
+Brand A and Brand B are the templates to mirror.
+
+Tier-4 autonomous publishing remains frozen for year 1. Every pipeline
+ends at `staged`; publishing is always operator-approved.

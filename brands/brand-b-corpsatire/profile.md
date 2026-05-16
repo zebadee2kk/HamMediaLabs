@@ -7,6 +7,15 @@
 - **Tone:** Dry, observational, never punching down. Recognisable specificity ("the Tuesday 10:30 sync").
 - **Core promise:** "If you've sat through it, you'll laugh at it."
 
+## Voice authenticity (mandatory)
+- Voice doc: `brands/brand-b-corpsatire/voice.md` (conforms to `brands/templates/voice-template.md`).
+- House examples: `brands/brand-b-corpsatire/house-examples.md`.
+- Persona owner (named human, for watch-aloud QA): TBD — set before first clip ships.
+- Voice freshness date (next refresh): every 3–6 months per `docs/voice-authenticity-system.md`.
+
+## Pipeline
+See `brands/brand-b-corpsatire/README.md`. Brand A is the structural baseline; satire-specific safety gates live in `qa/satire-rules.md`, `qa/defamation.md`, and `qa/checklist.md`.
+
 ## Business hypothesis
 - **Why this niche?** High engagement potential, easy production cadence, durable format space (corporate culture isn't going anywhere). Validation-only first.
 - **Monetisation path:** Validation → audience → optional merch (POD) → inbound sponsorships. No outbound sponsorship pitches in year 1.
@@ -35,8 +44,14 @@
 - **Providers:** TikTok, Instagram; CapCut / DaVinci for editing; Eleven Labs (or similar) for occasional voiceover (disclosed).
 
 ## Tier path
-- T2 manual posting only. T3 considered after 90 days of clean operation.
-- T4: blocked.
+- Phase 5: T2 manual posting only. Hard ceiling.
+- T3 promotion gate (operator one-click approve): ≥90 days of zero policy incidents, ≥1 series consistently performing, Cloudflare-Access-protected approval surface in place.
+- T4: **frozen for year 1** (lab-wide); Brand B is the last brand we would ever promote to T4 — highest ban risk in the portfolio.
+
+## Compliance posture
+- AI disclosure profile: satire variant (EU AI Act Article 50 carve-out applies; disclosure still required in bio, pinned post, and first 3 seconds of any video). See `docs/18-disclosure-templates.md` §3.
+- Jurisdictional notes: UK/EU primary; assume EU AI Act Article 50 applies after 2 Aug 2026.
+- Sensitive verticals to avoid: real-person impersonation (any), regulated financial promotion (defer to Brand C), political / culture-war engagement.
 
 ## Risk-specific notes
 - Highest ban risk in the portfolio. Posting cadence cap: 5/week per platform. No automation. Account-recovery plan documented before first post.
