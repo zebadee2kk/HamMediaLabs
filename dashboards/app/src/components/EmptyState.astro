@@ -1,0 +1,24 @@
+---
+interface Props {
+  message: string;
+  hint?: string;
+}
+const { message, hint } = Astro.props;
+---
+<p class="empty-state">
+  <span class="msg">{message}</span>
+  {hint ? <span class="hint"> — {hint}</span> : null}
+</p>
+
+<style>
+  .empty-state {
+    border: 1px dashed #cfcfcf;
+    background: #fafafa;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    color: #6a6a6a;
+    margin: 0.5rem 0 1rem;
+    font-size: 0.95rem;
+  }
+  .empty-state .msg { color: #333; }
+</style>

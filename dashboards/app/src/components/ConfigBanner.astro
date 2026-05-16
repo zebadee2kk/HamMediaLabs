@@ -1,0 +1,37 @@
+---
+interface Props {
+  missing: string[];
+}
+const { missing } = Astro.props;
+---
+<aside class="config-banner" role="status">
+  <h2>Supabase isn't configured for this dashboard yet</h2>
+  <p>
+    The following environment variables are missing on the server rendering this
+    page:
+  </p>
+  <ul>
+    {missing.map(name => <li><code>{name}</code></li>)}
+  </ul>
+  <p>
+    Set them in your dev shell <em>or</em> in the Cloudflare Pages project's
+    server-side environment variables (never as <code>PUBLIC_*</code> — these
+    are Tier&nbsp;1 secrets and must not reach the browser). See
+    <a href="https://github.com/zebadee2kk/HamMediaLabs/blob/main/dashboards/app/README.md">
+      dashboards/app/README.md
+    </a> for the full setup.
+  </p>
+</aside>
+
+<style>
+  .config-banner {
+    border: 1px solid #f1c40f;
+    background: #fff7d6;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  .config-banner h2 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+  .config-banner ul { margin: 0.3rem 0 0.7rem 1.25rem; }
+  .config-banner code { background: #fdebbf; padding: 0 0.25rem; border-radius: 3px; }
+</style>

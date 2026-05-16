@@ -1,0 +1,80 @@
+---
+import { num, shortDate } from '../lib/format.ts';
+import type { ProviderDailyRow } from '../lib/supabase.ts';
+
+interface Props {
+  rows: ProviderDailyRow[];
+}
+const { rows } = Astro.props;
+
+// Per-provider 14-day rollup for the summary row.
+const byProvider = new Map<string, { calls: number; rate_limits: number; errors: number; cost_est: number }>();
+for (const r of rows) {
+  const cur = byProvider.get(r.provider) ?? { calls: 0, rate_limits: 0, errors: 0, cost_est: 0 };
+  cur.calls += Number(r.calls || 0);
+  cur.rate_limits += Number(r.rate_limits || 0);
+  cur.errors += Number(r.errors || 0);
+  cur.cost_est += Number(r.cost_est || 0);
+  byProvider.set(r.provider, cur);
+}
+const summary = Array.from(byProvider.entries())
+  .sort((a, b) => a[0].localeCompare(b[0]));
+---
+<h3>14-day per-provider totals</h3>
+<table aria-label="Provider 14-day totals">
+  <thead>
+    <tr>
+      <th>Provider</th><th class="num">Calls</th><th class="num">429s</th>
+      <th class="num">Errors</th><th class="num">429 rate</th><th class="num">Cost est ($)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {summary.map(([p, s]) => {
+      const rate = s.calls > 0 ? (s.rate_limits / s.calls) : 0;
+      const flag = rate > 0.05;
+      return (
+        <tr class={flag ? 'flag' : ''}>
+          <td><code>{p}</code></td>
+          <td class="num">{num(s.calls)}</td>
+          <td class="num">{num(s.rate_limits)}</td>
+          <td class="num">{num(s.errors)}</td>
+          <td class="num">{(rate * 100).toFixed(1)}%</td>
+          <td class="num">{s.cost_est.toFixed(4)}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
+<h3>Daily rows</h3>
+<table aria-label="Provider daily rows">
+  <thead>
+    <tr>
+      <th>Day</th><th>Provider</th>
+      <th class="num">Calls</th><th class="num">429s</th><th class="num">Errors</th>
+      <th class="num">Tokens in/out</th><th class="num">Cost est ($)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map(p => (
+      <tr>
+        <td>{shortDate(p.day)}</td>
+        <td><code>{p.provider}</code></td>
+        <td class="num">{num(p.calls)}</td>
+        <td class="num">{num(p.rate_limits)}</td>
+        <td class="num">{num(p.errors)}</td>
+        <td class="num">{num(p.tokens_in)} / {num(p.tokens_out)}</td>
+        <td class="num">{Number(p.cost_est).toFixed(4)}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  table { width: 100%; border-collapse: collapse; margin: 0 0 1.5rem; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
+  th { background: #f6f6f6; font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.flag { background: #fff5f0; }
+  h3 { margin: 1.25rem 0 0.5rem; font-size: 1.0rem; }
+</style>
