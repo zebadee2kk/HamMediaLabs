@@ -190,6 +190,20 @@ tier is unlimited; build minutes are not (500/month).
 
 Run via `npm run hml -- <command>`.
 
+## 8a. Source intelligence (planned — see `docs/source-intelligence-governance.md`)
+
+A governed read-only feed of platform signals (trends, questions, hooks,
+competitor moves, citations) that feeds brand pipelines. **Manual-first**
+for all risky platforms (X, TikTok, Instagram, Reddit); API integration
+gated on a cost / quota / ToS / risk review per source. No back-posting
+from this subsystem to any platform.
+
+- Schema: `source_signal` in `core/db/schema.sql` (HQ Supabase project,
+  RLS on, service-role-only writes).
+- Weekly operator SOP: `playbooks/source-intelligence-weekly.md`.
+- Implementation backlog (M1–M8) in the governance doc §8 — each item
+  is its own scoped PR.
+
 ## 9. CI / safety nets (`.github/workflows/`, `.gitleaks.toml`)
 
 - `ci.yml` — `typecheck` + `test` + `gitleaks` on every push / PR.
