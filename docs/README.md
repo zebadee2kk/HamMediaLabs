@@ -40,6 +40,9 @@ conflict with the master plan, the master plan wins.
 - [source-intelligence-governance.md](./source-intelligence-governance.md) — operational governance (how, controls, MVP backlog)
 - [`/playbooks/source-intelligence-weekly.md`](../playbooks/source-intelligence-weekly.md) — weekly operator SOP
 
+## Local LLMs
+- [local-llm-plan.md](./local-llm-plan.md) — capability matrix, cost-saving workflow map, router-integration proposal (LM Studio + Ollama), telemetry naming, evaluation rubric. Governance only — implementation deferred to a follow-up PR.
+
 ## Voice & content authenticity
 - [voice-authenticity-system.md](./voice-authenticity-system.md) — operational spec for the voice moat
 - [`/brands/templates/voice-template.md`](../brands/templates/voice-template.md) — canonical `voice.md` shape
