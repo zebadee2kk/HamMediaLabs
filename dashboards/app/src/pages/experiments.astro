@@ -1,0 +1,80 @@
+---
+import { envStatus } from '../lib/supabase.ts';
+import ConfigBanner from '../components/ConfigBanner.astro';
+import EmptyState from '../components/EmptyState.astro';
+import ExperimentRow from '../components/ExperimentRow.astro';
+
+const env = envStatus();
+const rendered = new Date().toISOString();
+
+// At MVP, experiments live in operator notes (per
+// playbooks/weekly-experiment.md). When an `experiment` table is
+// added, this page hydrates from it. For now we render placeholder
+// guidance — never fake live experiments.
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>HamMediaLabs — Experiments</title>
+    <style>
+      :root { font: 15px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; }
+      body { margin: 0; color: #1c1c1c; background: #fff; }
+      main { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+      header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+      h1 { margin: 0; font-size: 1.4rem; }
+      h2 { margin: 1.5rem 0 0.5rem; font-size: 1.1rem; }
+      .stamp { color: #6a6a6a; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+      nav.dash { margin: 0.5rem 0 1rem; font-size: 0.9rem; }
+      nav.dash a { color: #114488; text-decoration: none; margin-right: 0.8rem; }
+      .ops-note { margin-top: 1.5rem; padding-top: 0.75rem; border-top: 1px solid #eee; color: #6a6a6a; font-size: 0.85rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Experiments</h1>
+        <span class="stamp">rendered {rendered}</span>
+      </header>
+      <nav class="dash" aria-label="Dashboard sections">
+        <a href="/">Overview</a>
+        <a href="/cost">Cost</a>
+        <a href="/decisions">Decisions</a>
+        <a href="/experiments">Experiments</a>
+      </nav>
+
+      {!env.ok && <ConfigBanner missing={env.missing} />}
+
+      <EmptyState
+        message="No experiments tracked in HQ yet."
+        hint="see playbooks/weekly-experiment.md; the example below shows the expected shape"
+      />
+
+      <h2>Expected shape (placeholder — not a real experiment)</h2>
+      <ExperimentRow
+        brand="aiescape"
+        surface="x"
+        hypothesis="A thread (3 posts) outperforms a single tweet for cornerstone announcements."
+        variable="Tweet structure (single vs 3-post thread)"
+        successThreshold="Mean impressions ≥1.4× single-tweet baseline over 14 days"
+        failureThreshold="Mean impressions <baseline OR rate_limit events trigger"
+        rollbackTrigger="Mean impressions drop >30% over 2 weeks"
+        opened="2026-06-01"
+        capped="2026-06-15"
+        daysRemaining={14}
+        verdict="open"
+      />
+
+      <p class="ops-note">
+        Open experiments are tracked in <code>playbooks/weekly-experiment.md</code>
+        until an <code>experiment</code> table is added to HQ.
+        Cadence ceilings, disclosure copy, and link-placement
+        policy are <strong>not</strong> levers for experiments
+        (per <code>docs/measurement-framework.md</code> §5 and
+        <code>docs/x-platform-risk.md</code> §8.4).
+      </p>
+    </main>
+  </body>
+</html>

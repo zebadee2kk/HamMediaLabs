@@ -1,0 +1,63 @@
+---
+import { shortDate } from '../lib/format.ts';
+
+interface Props {
+  brand: string;
+  surface: string;
+  hypothesis: string;
+  variable: string;
+  successThreshold: string;
+  failureThreshold: string;
+  rollbackTrigger: string;
+  opened: string;
+  capped: string;
+  daysRemaining: number;
+  verdict?: 'open' | 'promoted' | 'rolled_back' | 'held';
+}
+
+const {
+  brand, surface, hypothesis, variable,
+  successThreshold, failureThreshold, rollbackTrigger,
+  opened, capped, daysRemaining, verdict = 'open',
+} = Astro.props;
+---
+<article class={`experiment ${verdict}`} aria-label={`Experiment: ${hypothesis}`}>
+  <header>
+    <div class="who"><code>{brand}</code> · {surface}</div>
+    <div class="dates">
+      opened <time datetime={opened}>{shortDate(opened)}</time>
+      · cap <time datetime={capped}>{shortDate(capped)}</time>
+      · <strong>{daysRemaining}d</strong> left
+    </div>
+    <div class={`verdict ${verdict}`}>{verdict.replace('_', ' ')}</div>
+  </header>
+  <p class="hypothesis"><strong>Hypothesis:</strong> {hypothesis}</p>
+  <p><strong>Variable:</strong> {variable}</p>
+  <p><strong>Success:</strong> {successThreshold}</p>
+  <p><strong>Failure:</strong> {failureThreshold}</p>
+  <p class="rollback"><strong>Rollback:</strong> {rollbackTrigger}</p>
+</article>
+
+<style>
+  .experiment {
+    border: 1px solid #ddd; border-radius: 6px; padding: 0.8rem 1rem;
+    margin-bottom: 0.75rem; background: #fafafa;
+  }
+  .experiment.promoted    { border-color: #c7e7c6; background: #f1faf2; }
+  .experiment.rolled_back { border-color: #f4b6b6; background: #fdeded; }
+  .experiment.held        { border-color: #f1c40f; background: #fff7d6; }
+  header { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: baseline; margin-bottom: 0.4rem; }
+  .who { font-weight: 600; }
+  .dates { color: #6a6a6a; font-size: 0.85rem; }
+  .verdict {
+    margin-left: auto; padding: 0.08rem 0.5rem; border-radius: 999px;
+    font-size: 0.78rem;
+    background: #e6e6e6; color: #555;
+  }
+  .verdict.promoted    { background: #c7e7c6; color: #1d5f24; }
+  .verdict.rolled_back { background: #f4b6b6; color: #5f1d1d; }
+  .verdict.held        { background: #fff1c2; color: #5f4a1d; }
+  .experiment p { margin: 0.2rem 0; font-size: 0.92rem; }
+  .hypothesis { font-size: 1.0rem; }
+  .rollback { color: #5f1d1d; }
+</style>

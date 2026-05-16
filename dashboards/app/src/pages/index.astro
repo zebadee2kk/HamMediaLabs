@@ -2,8 +2,10 @@
 import {
   envStatus,
   listBrands,
+  listDecisions,
   providerDaily,
   type BrandRow,
+  type DecisionRow,
   type ProviderDailyRow,
 } from '../lib/supabase.ts';
 import ConfigBanner from '../components/ConfigBanner.astro';
@@ -12,21 +14,32 @@ import EmptyState from '../components/EmptyState.astro';
 import PortfolioCards from '../components/PortfolioCards.astro';
 import BrandTable from '../components/BrandTable.astro';
 import ProviderHealthTable from '../components/ProviderHealthTable.astro';
+import QuotaBurnIndicator from '../components/QuotaBurnIndicator.astro';
+import DecisionsTable from '../components/DecisionsTable.astro';
 
 const env = envStatus();
 
 let brands: BrandRow[] = [];
 let providers: ProviderDailyRow[] = [];
+let decisions: DecisionRow[] = [];
 let brandError: { status?: number; detail: string } | null = null;
 let providerError: { status?: number; detail: string } | null = null;
+let decisionError: { status?: number; detail: string } | null = null;
 
 if (env.ok) {
-  const [b, p] = await Promise.all([listBrands(), providerDaily(14)]);
-  if (b.ok) { brands = b.data; }
-  else if (b.kind === 'fetch_error') { brandError = { status: b.status, detail: b.detail }; }
+  const [b, p, d] = await Promise.all([
+    listBrands(),
+    providerDaily(14),
+    listDecisions(14),
+  ]);
+  if (b.ok) brands = b.data;
+  else if (b.kind === 'fetch_error') brandError = { status: b.status, detail: b.detail };
 
-  if (p.ok) { providers = p.data; }
-  else if (p.kind === 'fetch_error') { providerError = { status: p.status, detail: p.detail }; }
+  if (p.ok) providers = p.data;
+  else if (p.kind === 'fetch_error') providerError = { status: p.status, detail: p.detail };
+
+  if (d.ok) decisions = d.data;
+  else if (d.kind === 'fetch_error') decisionError = { status: d.status, detail: d.detail };
 }
 
 const rendered = new Date().toISOString();
@@ -46,6 +59,9 @@ const rendered = new Date().toISOString();
       h1 { margin: 0; font-size: 1.4rem; }
       h2 { margin: 1.5rem 0 0.5rem; font-size: 1.1rem; }
       .stamp { color: #6a6a6a; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+      nav.dash { margin: 0.5rem 0 1rem; font-size: 0.9rem; }
+      nav.dash a { color: #114488; text-decoration: none; margin-right: 0.8rem; }
+      nav.dash a:hover { text-decoration: underline; }
       .ops-note {
         margin: 1.5rem 0 0; padding-top: 0.75rem; border-top: 1px solid #eee;
         color: #6a6a6a; font-size: 0.85rem;
@@ -58,6 +74,12 @@ const rendered = new Date().toISOString();
         <h1>HamMediaLabs — HQ dashboard</h1>
         <span class="stamp">rendered {rendered}</span>
       </header>
+      <nav class="dash" aria-label="Dashboard sections">
+        <a href="/">Overview</a>
+        <a href="/cost">Cost</a>
+        <a href="/decisions">Decisions</a>
+        <a href="/experiments">Experiments</a>
+      </nav>
 
       {!env.ok && <ConfigBanner missing={env.missing} />}
 
@@ -78,6 +100,9 @@ const rendered = new Date().toISOString();
         ? <BrandTable brands={brands} />
         : env.ok && !brandError && <EmptyState message="Empty brand table." />}
 
+      <h2>Free-tier quota headroom</h2>
+      <QuotaBurnIndicator usage={[]} />
+
       <h2>Provider health (last 14 days)</h2>
       {providerError && (
         <ErrorPanel title="Couldn't load provider events" status={providerError.status} detail={providerError.detail} />
@@ -89,6 +114,18 @@ const rendered = new Date().toISOString();
         />
       )}
       {providers.length > 0 && <ProviderHealthTable rows={providers} />}
+
+      <h2>Recent decisions (last 14 days)</h2>
+      {decisionError && (
+        <ErrorPanel title="Couldn't load decisions" status={decisionError.status} detail={decisionError.detail} />
+      )}
+      {!decisionError && decisions.length === 0 && env.ok && (
+        <EmptyState
+          message="No decisions in the last 14 days."
+          hint="see full log at /decisions; entries land here automatically once wired"
+        />
+      )}
+      {decisions.length > 0 && <DecisionsTable rows={decisions} />}
 
       <p class="ops-note">
         Read-only view. Service-role key is server-side only and never reaches
