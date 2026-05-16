@@ -72,6 +72,31 @@ Hugging Face is **deferred** — see decision log.
 
 **Tests:** `core/router/router.test.ts` (4 tests) — primary-success short-circuit, rate-limit failover, strict-mode rejection, exhaustion error path.
 
+### 1a. Router telemetry → Supabase (`core/telemetry/`)
+
+The router's `recordEvent` hook is type-compatible with — but does not directly know about — the HQ database. The bridge lives here:
+
+- `createSupabaseTelemetryWriter({ url, serviceRoleKey, agent?, fetchImpl?, onError? }) → (event) => Promise<void>`
+- `createSupabaseTelemetryWriterFromEnv({ SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY }, opts?) → writer | undefined` — convenience wrapper that returns `undefined` if env is incomplete (the router's `recordEvent` is optional, so the no-op fallback is safe).
+
+Behaviour:
+- Every event → one `provider_event` row (kind mapped: `aborted` → `server_error`, others 1:1).
+- `kind === 'final'` → one additional `agent_task` row (started_at = now − latency, status mapped, `trace_id` = event tag).
+- Write failures are forwarded to `onError` (default `console.warn`) and **never thrown** — telemetry is not on the critical path.
+- The service-role key is sent only in the `apikey` / `Authorization` headers; the default `onError` never includes it in error text. Module is server-side only; never import into client code.
+
+Wired example:
+```ts
+import { createHQRouter } from './core/router/index.ts';
+import { createSupabaseTelemetryWriterFromEnv } from './core/telemetry/index.ts';
+
+const router = createHQRouter(env, {
+  recordEvent: createSupabaseTelemetryWriterFromEnv(env),
+});
+```
+
+**Tests:** `core/telemetry/supabase.test.ts` (9 tests) — attempt-only path, final dual-write, write-failure isolation, `aborted` mapping, secret never leaks into error text, multi-event ordering, env-missing fallback, env-complete construction, error truncation.
+
 ## 2. Scoring engine (`core/scoring/`)
 
 Pure functions, no I/O. Drive the kill/hold/scale verdict and feed dashboard widgets.
