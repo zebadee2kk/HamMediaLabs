@@ -93,6 +93,22 @@ draft's frontmatter `notes` so future iteration has lineage.
 - It does not handle SEO automation, social syndication, or CMS publishing.
   Those are separate, future pipelines.
 
+## Launch readiness (first publishing loop)
+
+When Brand A is ready for its first public posts, three companion
+docs in this folder govern the launch window:
+
+- `launch-checklist.md` — binding go / no-go before the first piece
+  goes `live` (covers identity, site, content, disclosure,
+  measurement, distribution, risk).
+- `first-three.md` — names the first three publishable pieces and
+  their gating to-do lists.
+- `publish-workflow.md` — Tier-2 manual publish workflow + the
+  72-hour and week-1 measurement loops.
+
+Run alongside `playbooks/weekly-review-brand-a-launch.md` for the
+first 30 days; then return to the standing weekly review.
+
 ## Cross-references
 
 - Canonical compliance copy: `docs/18-disclosure-templates.md`.
