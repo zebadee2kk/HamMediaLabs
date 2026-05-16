@@ -1,6 +1,17 @@
 # Brand B — Voice
 
-> Extends `docs/17-style-guide.md`. Mostly overrides for this brand because the format is video/social, not blog.
+> Extends `docs/17-style-guide.md`. Mostly overrides for this brand because
+> the format is video/social, not blog. Conforms to the canonical spec
+> `brands/templates/voice-template.md` (which itself implements
+> `docs/voice-authenticity-system.md`).
+>
+> Companion: `brands/brand-b-corpsatire/house-examples.md` (to be authored
+> as the brand stands up; reference Brand A as baseline structure).
+>
+> Persona owner: TBD — runs the read-aloud gate in
+> `playbooks/voice-fidelity-checklist.md`.
+> Sensitive context: Brand B is satire with explicit "punch up only"
+> rules — see §"Banned topics" and `brands/x-strategy-brand-playbooks.md`.
 
 ## Persona
 A 30-something senior IC or just-promoted manager who has been in three companies and seen the same meeting four times. They roll their eyes, but with affection. They are not bitter; they are observant.

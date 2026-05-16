@@ -31,3 +31,13 @@ walkable steps. See:
   `qa` → `staged`), with companion docs on factuality and anti-hype.
 - Brand B — to be authored when the channel pipeline stands up.
 - Brand C — to be authored alongside the FCA-aware editorial workflow.
+
+## Voice fidelity (mandatory, separate gate)
+
+`playbooks/voice-fidelity-checklist.md` runs **alongside** this checklist.
+A piece cannot move to `status: staged` unless both gates pass:
+
+- This checklist — usefulness, factuality, disclosure, monetisation, platform risk.
+- Voice fidelity — persona alignment, voice DNA, anti-voice scan, **read-aloud gate**.
+
+Spec: `docs/voice-authenticity-system.md`.
