@@ -52,9 +52,28 @@ layers satire-specific safety on top.
   companies beyond generic parody, no leaked-comms mimicry).
 - `qa/affiliate-disclosure.md` — sponsorship-inbound-only posture.
 
-### Brand C
-Pipeline to be authored alongside the FCA-aware editorial workflow.
-Brand A and Brand B are the templates to mirror.
+### Brand C (`brands/brand-c-ukescape/`)
+- `README.md` — UK-first lifecycle with FCA / ASA / ICO gates layered
+  on top of the Brand A pattern.
+- `templates/_draft-template.md` — FCA-aware frontmatter
+  (`regulated_product_mentioned`, `authorised_promoter_check`,
+  `vulnerable_reader_topic`, `charity_links_at_top`).
+- `prompts/` — outline / draft / headlines / FCA-aware QA prompts;
+  every prompt refuses on regulated-product recommendations.
+- `qa/checklist.md` — binding gate with three parallel QA gates
+  (voice fidelity + Brand C checklist + FCA 3-line check).
+- `qa/fca-perimeter.md` — the 3-line check, prohibited claims,
+  disclaimer wording, forecast-vs-recommendation boundary, ASA / ICO
+  layers.
+- `qa/vulnerable-reader.md` — charity-block-at-the-top placement
+  rule, debt-content safety, tone / framing rules, reader
+  correspondence protocol.
+- `qa/affiliate-redlines.md` — forbidden / allowed programmes,
+  sourcing requirements, programme onboarding / retirement
+  workflows.
+
+Brand C publishing is **not authorised** until the launch checklist
+runs (TBD follow-up, mirroring `brands/brand-a-aiescape/launch-checklist.md`).
 
 Tier-4 autonomous publishing remains frozen for year 1. Every pipeline
 ends at `staged`; publishing is always operator-approved.

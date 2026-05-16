@@ -7,6 +7,24 @@
 - **Tone:** Calm, specific, sceptical of easy answers, generous with sources.
 - **Core promise:** "Real numbers, real tactics, and what we'd actually do."
 
+## Voice authenticity (mandatory)
+- Voice doc: `brands/brand-c-ukescape/voice.md` (conforms to `brands/templates/voice-template.md`).
+- House examples: `brands/brand-c-ukescape/house-examples.md`.
+- Persona owner (named human, for read-aloud QA): TBD — set before first piece ships.
+- Voice freshness date (next refresh): every 3–6 months per `docs/voice-authenticity-system.md`.
+
+## Compliance posture (binding — see `qa/fca-perimeter.md`)
+- AI disclosure profile: informational variant (per `docs/18-disclosure-templates.md` §3).
+- FCA disclaimer block on every money-touching page (canonical wording in `qa/fca-perimeter.md` §3).
+- Information-only — no personalised financial advice.
+- Allowed monetisation: energy switching via FCA-authorised comparison platforms; cashback / lifestyle programmes; lead-gen partnerships in non-regulated verticals.
+- **Forbidden:** investment, consumer credit, mortgages, BNPL, crypto, insurance, claims-management affiliate links and ad placements.
+- Vulnerable-reader topics (debt / eviction / benefits / mental health / addiction) require charity-link block **at the top of the page**, not the footer. See `qa/vulnerable-reader.md`.
+- Sensitive verticals to avoid entirely at MVP: pensions, mortgages, claims-management.
+
+## Pipeline
+See `brands/brand-c-ukescape/README.md`. Three human QA gates run in sequence: voice-fidelity, Brand C QA checklist, FCA 3-line check.
+
 ## Business hypothesis
 - **Why this niche?** Strong emotional relevance, evergreen + quarterly news pegs (Ofgem cap, Budget, Spring Statement), and a defensible position on *trust* if the brand is transparent about FCA scope limits.
 - **Monetisation path:**
@@ -39,9 +57,9 @@
 - **Providers:** Cloudflare Pages, Supabase HQ, Plausible.
 
 ## Tier path
-- T2 (draft + manual publish) for weeks 1–6.
-- T3 (publish-with-approval) candidate from week 6 if zero compliance incidents.
-- T4: blocked all year (and longer for Brand C than the others).
+- Phase 6: **T2 manual posting only**, with **90 days** minimum at clean T2 before T3 is even considered (stricter than Brand A's 30 because of the compliance surface).
+- T3 (operator one-click approve) requires: 90 days zero compliance incidents, ≥3 cornerstones published clean, FCA-compatible monetisation path documented and live for ≥30 days, Cloudflare Access on the approval surface.
+- T4: **frozen for year 1** AND longer for Brand C than for any other brand. The autonomous-publishing path is incompatible with FCA compliance posture; revisit only with paid legal advice.
 
 ## Compliance specifics (FCA + ICO)
 - Every monetised piece passes the 3-line check: regulated product? authorised promoter? generic info vs. recommendation?
