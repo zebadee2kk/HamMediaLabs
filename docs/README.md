@@ -22,6 +22,7 @@ conflict with the master plan, the master plan wins.
 - [10-legal-and-platform-risk.md](./10-legal-and-platform-risk.md) — platform / legal risk
 - [11-monetization.md](./11-monetization.md) — monetisation maturity
 - [x-platform-risk.md](./x-platform-risk.md) — **X-specific** governance (rate limits, shadowban, link policy, cadence, scheduling, escalation)
+- [astro-security-upgrade-plan.md](./astro-security-upgrade-plan.md) — Astro 4 → 5 → 6 migration analysis + recommendation (response to Dependabot PR #12)
 
 ## Performance & operations
 - [08-dashboard-kpis.md](./08-dashboard-kpis.md) — dashboard + KPI spec
