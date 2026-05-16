@@ -10,13 +10,15 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test --experimental-strip-types core/**/*.test.ts",
-    "test:scoring": "node --test --experimental-strip-types core/scoring/scoring.test.ts",
-    "test:router": "node --test --experimental-strip-types core/router/router.test.ts",
-    "heartbeat": "node --experimental-strip-types core/jobs/heartbeat.ts"
+    "test": "tsx --test core/**/*.test.ts",
+    "test:scoring": "tsx --test core/scoring/scoring.test.ts",
+    "test:router": "tsx --test core/router/router.test.ts",
+    "heartbeat": "tsx core/jobs/heartbeat.ts",
+    "hml": "tsx core/cli/hml.ts"
   },
   "devDependencies": {
-    "typescript": "^5.5.0",
-    "@types/node": "^20.14.0"
+    "@types/node": "^20.14.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
   }
 }

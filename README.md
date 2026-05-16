@@ -49,10 +49,17 @@ vault-template/  Markdown templates for account & API-key registries (no secrets
 
 ## Quick start (engineering)
 ```bash
-npm install          # installs typescript + @types/node
+npm install          # installs typescript + @types/node + tsx
 npm run typecheck    # validates core/* compiles
-npm test             # runs router + scoring unit tests
+npm test             # runs router + scoring unit tests (via tsx)
+npm run hml -- help  # explore the HQ CLI
 ```
+
+## Contributing
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md). All changes — including those from Claude Code — go via feature branch + PR. Direct commits to `main` are not permitted.
+
+## Architecture
+See [`ARCHITECTURE.md`](./ARCHITECTURE.md) for a one-page summary of router, scoring, jobs, and data flow. Canonical strategy remains [`docs/PROJECTHYDRA-MASTER-PLAN.md`](./docs/PROJECTHYDRA-MASTER-PLAN.md).
 
 ## Current status
 Planning and architecture phase only.
