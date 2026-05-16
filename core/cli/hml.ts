@@ -10,7 +10,8 @@
 // All commands exit 0 on success, non-zero on failure.
 
 import { heartbeat } from '../jobs/heartbeat.ts';
-import { createHQRouter, type HQRouterEnv } from '../router/index.ts';
+import { createHQRouter, defaultPolicy, type HQRouterEnv } from '../router/index.ts';
+import { REGISTRY, validateRegistry } from '../providers/index.ts';
 import { verdict, type VerdictInput } from '../scoring/index.ts';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -133,24 +134,22 @@ async function cmdMigrate() {
 }
 
 function cmdProviderQuota() {
-  const policy = {
-    plan: ['gemini', 'openrouter', 'groq'],
-    fast: ['groq', 'gemini', 'openrouter'],
-    code: ['openrouter', 'gemini', 'groq'],
-    edge: ['cloudflare_ai', 'groq'],
-  };
+  // Single source of truth: core/providers/quota-registry.ts.
+  // Re-validate the registry shape on every CLI invocation so a malformed
+  // edit surfaces immediately instead of leaking into downstream consumers.
+  const v = validateRegistry(REGISTRY);
+  if (!v.ok) {
+    console.error('provider registry failed validation:');
+    for (const issue of v.issues) console.error(`  - ${issue.path}: ${issue.message}`);
+    process.exit(1);
+  }
   console.log(JSON.stringify({
-    note: 'Free-tier ceilings (May 2026). Re-validate quarterly.',
-    policy,
-    quotas: {
-      gemini: { rpm: '5–15', rpd: '100–1000', tpm: 250000 },
-      groq:   { rpm: 30, tpm: 6000, rpd: 1000, note: 'gemma2-9b 15K TPM; llama-3.1-8b 500K tokens/day' },
-      openrouter: { rpm: 20, rpd_unpaid: 50, rpd_with_10usd: 1000 },
-      cloudflare_pages: { builds_per_month: 500, bandwidth: 'unlimited', files_per_site: 20000 },
-      supabase_free: { active_projects: 2, db_mb: 500, pauses_after_days: 7 },
-    },
+    note: `Free-tier ceilings as of ${REGISTRY.last_full_review}. Next review due ${REGISTRY.next_full_review}.`,
+    policy: defaultPolicy,
+    registry: REGISTRY,
   }, null, 2));
 }
+
 
 function requireEnv(name: string): string {
   const v = process.env[name];

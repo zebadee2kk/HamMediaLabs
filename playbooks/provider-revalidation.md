@@ -71,6 +71,23 @@ For every provider with a quota tracker:
 - Warning + critical thresholds re-set if free tier moved
 - Provider matrix backfilled
 
+## 6a. Machine-readable registry refresh (mandatory)
+
+The canonical quota source of truth is
+[`core/providers/quota-registry.ts`](../core/providers/quota-registry.ts).
+After the per-provider audit (§2):
+
+1. Edit numerical limits in the registry.
+2. Bump `last_validated` on each provider you touched.
+3. Bump `last_full_review` to today's date and `next_full_review` to today + 3 months.
+4. Run `npm run typecheck && npm test` — the validator enforces shape, https
+   sources, free-tier coverage, snake_case ids, and uniqueness.
+5. Run `npm run hml -- provider-quota` and sanity-check the rendered output.
+6. Open a PR titled `provider-quota: Q<N> <YYYY> review` and link the decision-log entry.
+
+If any provider is being demoted or removed, also update `defaultPolicy` in
+`core/router/router.ts` and add unit tests as needed.
+
 ## 7. Deliverables (every run)
 
 - One decision-log entry, dated, summarising the re-validation outcome and any policy changes.

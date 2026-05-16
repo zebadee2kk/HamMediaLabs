@@ -70,6 +70,13 @@ calls *the router*, not a provider SDK.
 
 Hugging Face is **deferred** — see decision log.
 
+**Quota source of truth.** Free-tier limits per provider live in the
+machine-readable registry [`core/providers/quota-registry.ts`](./core/providers/quota-registry.ts) (types + validation in
+`core/providers/types.ts` and `core/providers/validate.ts`). The CLI reads
+from this registry (`npm run hml -- provider-quota`); the long-form notes
+remain in `providers/provider-comparison-matrix.md`. Quarterly re-validation
+is mandatory — see `playbooks/provider-revalidation.md` §6a.
+
 **Tests:** `core/router/router.test.ts` (4 tests) — primary-success short-circuit, rate-limit failover, strict-mode rejection, exhaustion error path.
 
 ### 1a. Router telemetry → Supabase (`core/telemetry/`)
