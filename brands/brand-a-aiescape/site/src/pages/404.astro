@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="Page not found" description="The page you're looking for isn't here.">
+  <h1>404 — Page not found</h1>
+  <p>
+    The page you tried to load isn't here. Common causes: an old link, a
+    typo, or a piece we've retired from rotation. The piece may still be
+    discoverable from the <a href="/">home page</a> or the
+    <a href="/sitemap.xml">sitemap</a>.
+  </p>
+  <p>
+    If you arrived here from another site that linked to us, the broken
+    link is on their end. Letting <a href={`mailto:${siteConfig.operatorEmail}`}>{siteConfig.operatorEmail}</a>
+    know is appreciated but not required.
+  </p>
+  <p>
+    Otherwise: this is a static site, so refreshing won't make the page
+    appear. Try the <a href="/">home page</a>.
+  </p>
+
+  <style>
+    h1 { margin-bottom: 1rem; }
+    p { max-width: 60ch; }
+  </style>
+</Base>
