@@ -3,6 +3,13 @@
 // duplicated to keep the dashboard module self-contained. Update
 // here when the registry is refreshed (per
 // `playbooks/quarterly-platform-refresh.md`).
+//
+// SYNC POINT — ceiling values (1000 / 1000 / 1000 / 500 / 500)
+// correspond to (Gemini RPD / Groq RPD / OpenRouter RPD with credits /
+// CF Pages builds-per-month / Supabase DB MB) in
+// core/providers/quota-registry.ts. The test
+// `core/scoring/sync-with-dashboard.test.ts` reads THIS file as
+// text and asserts those literals; CI fails on drift.
 
 export interface QuotaCeiling {
   provider: string;

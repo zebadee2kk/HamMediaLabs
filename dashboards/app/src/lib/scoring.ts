@@ -2,8 +2,13 @@
 // thresholds; intentionally duplicated so the dashboard module stays
 // self-contained for Cloudflare Pages builds.
 //
-// If the canonical thresholds in core/scoring/scoring.ts change, update
-// here too (the master plan §13.2 is the single source of truth).
+// SYNC POINT — these thresholds (0.30 / 2 / 0.55 / 0.6 / 0.4) are the
+// canonical kill/hold/scale gates per
+// docs/PROJECTHYDRA-MASTER-PLAN.md §13.2. The source of truth lives in
+// `core/scoring/scoring.ts`. The test
+// `core/scoring/sync-with-dashboard.test.ts` reads THIS file as text
+// and asserts the canonical literals are present; CI fails on drift.
+// If you change a threshold, change both files in the same PR.
 
 export type Verdict = 'kill' | 'hold' | 'scale_candidate' | 'unknown';
 

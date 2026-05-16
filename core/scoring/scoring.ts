@@ -1,5 +1,11 @@
 // Brand and Content scoring. Formulas mirror docs/PROJECTHYDRA-MASTER-PLAN.md §13.2.
 // Inputs are pre-normalised to [0,1]. Helpers below provide a default normaliser.
+//
+// SYNC POINT — verdict() thresholds (0.30 / 2 / 0.55 / 0.6 / 0.4) are
+// intentionally duplicated in `dashboards/app/src/lib/scoring.ts` to
+// keep the dashboard module self-contained for Cloudflare Pages builds.
+// `core/scoring/sync-with-dashboard.test.ts` asserts the duplication
+// stays in sync; CI fails on drift.
 
 export interface ContentScoreInput {
   reach: number;        // [0,1]
