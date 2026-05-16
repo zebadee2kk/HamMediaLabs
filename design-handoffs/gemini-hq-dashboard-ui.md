@@ -1,5 +1,9 @@
 # Gemini Brief — HQ Dashboard UI
 
+> **Claude pre-review required.** Before sending this brief to Gemini,
+> walk `claude-design-subagents.md` (six subagents) and complete
+> `claude-before-gemini-checklist.md` (10 pre-flight sections).
+>
 > Copy this entire brief into Gemini Free. Operator-only surface
 > behind Cloudflare Access. Run through
 > `gemini-output-review-checklist.md` before committing any output.

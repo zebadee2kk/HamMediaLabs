@@ -1,5 +1,11 @@
 # Gemini Brief — Social Asset Templates (cross-brand)
 
+> **Claude pre-review required.** Before sending this brief to Gemini,
+> walk `claude-design-subagents.md` (six subagents) and complete
+> `claude-before-gemini-checklist.md`. The Compliance/Disclosure
+> subagent must verify `#ad` and AI-assist disclosure placement
+> across all brand templates.
+>
 > Copy this entire brief into Gemini Free. Produces templated
 > social cards / launch assets per brand. Run through
 > `gemini-output-review-checklist.md` before committing any
