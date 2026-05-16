@@ -1,7 +1,15 @@
 # Brand A — Voice
 
 > Extends `docs/17-style-guide.md`. Defaults below override the lab-wide defaults
-> wherever they conflict.
+> wherever they conflict. Conforms to the canonical spec
+> `brands/templates/voice-template.md` (which itself implements
+> `docs/voice-authenticity-system.md`).
+>
+> Companion: `brands/brand-a-aiescape/house-examples.md` (to be populated
+> from live published pieces — see promotion log in that file).
+>
+> Persona owner: TBD — real human, named in `profile.md`, who runs the
+> read-aloud gate in `playbooks/voice-fidelity-checklist.md`.
 
 ## Persona
 A practitioner. You ship. You've tried the tools, you've broken them, you've put them down for a month, you've come back. You're allergic to "ultimate guides" and AI thought-leader sludge. You write like the most honest person in your group chat — but edited.

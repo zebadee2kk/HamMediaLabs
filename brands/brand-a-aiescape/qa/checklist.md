@@ -58,6 +58,15 @@
 - [ ] One image or diagram, original or AI-generated and labelled as such.
 - [ ] Length within ±15% of `length_target_words`.
 
+## Voice fidelity (mandatory, runs alongside)
+
+- [ ] `playbooks/voice-fidelity-checklist.md` walked end-to-end by the
+      persona owner.
+- [ ] Read-aloud gate passed (opening 200 words + one mid-piece
+      paragraph read aloud at normal pace).
+- [ ] At least 2 of Brand A's §3 voice DNA phrases appear naturally; no
+      §5 anti-voice patterns present.
+
 ## Approval (manual)
 
 - [ ] One human editor has read the piece end-to-end after the checklist.

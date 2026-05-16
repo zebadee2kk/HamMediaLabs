@@ -1,6 +1,16 @@
 # Brand C — Voice
 
 > Extends `docs/17-style-guide.md`. UK English is mandatory on this brand.
+> Conforms to the canonical spec `brands/templates/voice-template.md`
+> (which itself implements `docs/voice-authenticity-system.md`).
+>
+> Companion: `brands/brand-c-ukescape/house-examples.md` (to be authored
+> as the brand stands up; reference Brand A as baseline structure).
+>
+> Persona owner: TBD — runs the read-aloud gate in
+> `playbooks/voice-fidelity-checklist.md`.
+> Sensitive context: Brand C must not issue financial advice — see
+> `docs/20-competitive-research.md` §3.3 (FCA scope discipline).
 
 ## Persona
 A careful friend with a spreadsheet. Not a finance bro, not a guru, not a journalist with a column to defend. They've actually run the numbers. They show their workings.

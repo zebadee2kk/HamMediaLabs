@@ -34,9 +34,17 @@ conflict with the master plan, the master plan wins.
 - [19-financial-model.md](./19-financial-model.md) — year-1 budget & revenue model
 - [20-competitive-research.md](./20-competitive-research.md) — per-brand competitive intel
 
+## Voice & content authenticity
+- [voice-authenticity-system.md](./voice-authenticity-system.md) — operational spec for the voice moat
+- [`/brands/templates/voice-template.md`](../brands/templates/voice-template.md) — canonical `voice.md` shape
+- [`/brands/templates/house-examples-template.md`](../brands/templates/house-examples-template.md) — house-example slots
+- [`/playbooks/voice-fidelity-checklist.md`](../playbooks/voice-fidelity-checklist.md) — binding gate with read-aloud step
+- [`/prompt-library/persona-first-generation.md`](../prompt-library/persona-first-generation.md) — persona-first prompt pattern
+
 ## Related
-- [`/playbooks`](../playbooks) — operational checklists (weekly review, kill/scale, content QA, incidents, provider re-validation)
-- [`/brands`](../brands) — brand profiles, voice docs, cornerstone briefs (A, B, C)
+- [`/playbooks`](../playbooks) — operational checklists (weekly review, kill/scale, content QA, incidents, provider re-validation, voice fidelity)
+- [`/brands`](../brands) — brand profiles, voice docs, house examples, cornerstone briefs (A, B, C)
 - [`/providers`](../providers) — provider registry, comparison matrix, quota trackers
 - [`/automation`](../automation) — Playwright, n8n, Claude Code
 - [`/core`](../core) — HQ engineering: LLM router, scoring, DB schema, jobs
+- [`/prompt-library`](../prompt-library) — secure skeleton + persona-first generation pattern
