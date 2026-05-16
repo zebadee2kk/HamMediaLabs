@@ -264,3 +264,201 @@ Slightly slower throughput for trivial changes. Accepted.
 
 ### Revisit date:
 N/A (standing rule).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt the quarterly platform-mechanics refresh cadence per `docs/platform-refresh-cadence.md` and the operator SOP `playbooks/quarterly-platform-refresh.md`. Three-tier cadence (daily 5-min / monthly 30-min / quarterly 4-hour); high change threshold; trusted-source hierarchy; one PR per affected document family.
+
+### Reasoning:
+Platforms move fast; static assumptions decay. The cadence prevents trend-chasing rewrites every six weeks while ensuring meaningful strategic shifts get reflected. Quarterly Q1 / Q2 / Q3 / Q4 cadence aligns with `playbooks/provider-revalidation.md`.
+
+### Alternatives considered:
+Daily trend monitoring as a job (rejected — operator-time burden, noise). Annual review only (rejected — too slow for meaningful drift). Bundled platform-policy edits (rejected — blast-radius discipline).
+
+### Risks:
+A material platform shift between quarterly reviews. Mitigation: §0 daily 5-min scan + §10 escalation triggers from `docs/x-platform-risk.md`.
+
+### Revisit date:
+2026-08-16 (first quarterly cadence pass).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `docs/monetization-architecture.md` as the operating system between editorial and revenue. Trust first; one channel at a time per brand; every commercial surface has a named kill switch; editorial holds veto over commercial.
+
+### Reasoning:
+Monetisation pressure can corrupt editorial. The architecture pre-commits the lab to a posture (no scammy funnels, no dark patterns, no editorial-corruption) before any pressure to monetise exists.
+
+### Alternatives considered:
+Decide monetisation case-by-case (rejected — risks slippage). Adopt a complex CRM (rejected — premature). Parallel-launch multiple monetisation surfaces per brand (rejected — concentration risk).
+
+### Risks:
+Constraints leave some revenue on the table. Accepted; trust > short-term cash.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `docs/cost-control-and-free-tier-plan.md` — explicit £0-first MVP stack and a hard £50/mo ceiling until aggregate brand revenue ≥£150/mo run-rate. Every paid line walks the 5-step approval gate (named owner, written use case, hard ceiling, named cancellation trigger, decision-log entry).
+
+### Reasoning:
+Silent dependencies kill small businesses. The gate plus per-brand attribution makes cost decisions deliberate.
+
+### Alternatives considered:
+Single £75/mo cap without per-category triggers (rejected — too coarse). No cap (rejected — silent-deps risk). Adopt a FinOps dashboard (rejected — premature; monthly review suffices).
+
+### Risks:
+A real need surfaces between monthly reviews. Mitigation: ad-hoc approval via the 5-step gate; cap is policy, not infrastructure.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `docs/business-plan.md` + `docs/unit-economics.md` + `docs/profit-model.md` as the canonical financial framing for HamMediaLabs. Portfolio / venture-studio operating model; four-phase plan (£0 hobby → £50 controlled → £250 growth → £1k serious); self-funded with ≥50% reinvestment.
+
+### Reasoning:
+Cost and revenue decisions become deliberate rather than accidental once monetisation enters the plan. Conservative-by-construction assumptions; every figure tagged `actual / estimate / target`.
+
+### Alternatives considered:
+Defer business modelling until first revenue (rejected — too late to constrain monetisation pressure). External funding (rejected — out of scope; changes risk appetite). Display-ad strategy (rejected — off by default).
+
+### Risks:
+Targets miss; revenue is back-loaded. Accepted; the lab is option-value buying in year 1.
+
+### Revisit date:
+2026-08-16 quarterly + annual rebaseline at year-end.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Instantiate Brand A's site (`brands/brand-a-aiescape/site/`) from `brands/templates/site/`. `affiliateInPlay: false` at launch; Astro 4.x pinned; no client islands; Cloudflare Pages free tier.
+
+### Reasoning:
+Brand A is the test of the operating system. Launching on the free tier with zero affiliate exposure isolates the operating-system test from monetisation pressure.
+
+### Alternatives considered:
+Wait for Astro 5/6 (rejected — XSS doesn't apply; staged plan governs). Launch with affiliate (rejected — Stage 1 validation only). Launch on a paid host (rejected — cost-control gate).
+
+### Risks:
+Brand-template drift if the operator edits the brand site instead of the template. Mitigation: README guidance + voice-fidelity gate + monthly review.
+
+### Revisit date:
+2026-06-16 (day-30 launch review).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Expand the HQ dashboard to four pages (`/`, `/cost`, `/decisions`, `/experiments`) with placeholder rows explicitly tagged. No fake data; no client-side data fetch; cost / experiment / decision tables render placeholders until backing tables and ingest land.
+
+### Reasoning:
+The operator needs portfolio-health visibility before signal arrives. Placeholder rows with `actual / estimate / placeholder` tags keep numbers honest.
+
+### Alternatives considered:
+Wait for live data (rejected — operator needs the surface). Adopt a paid BI stack (rejected — overengineering). Render zeros silently (rejected — invites false reads).
+
+### Risks:
+Placeholder rows confuse a tired operator. Mitigation: explicit `placeholder` tag visible inline.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `docs/portfolio-expansion-gate.md` as the binding gate before Brand B or Brand C moves from `planning` to `active`. Brand A first; ≥2 active brands is the ceiling in months 0–9; Brand B + Brand C parallel launch forbidden.
+
+### Reasoning:
+Premature multi-brand sprawl kills lab focus. The gate pre-commits the lab to evidence-based expansion.
+
+### Alternatives considered:
+Launch Brand B in parallel with Brand A (rejected — operator bandwidth). Auto-promote on a numeric threshold (rejected — vanity risk). Fast-track Brand C (rejected — FCA exposure).
+
+### Risks:
+Brand B / Brand C signal arrives slowly while waiting. Accepted; the audience surface accumulates from compounding output, not from launch timing.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `docs/dependabot-security-audit.md` + `playbooks/package-hygiene.md` as the operating posture for security debt. No package upgrades in the adoption PR. Auto-merge OFF at repo level. Dependabot PRs go through manual triage against the four prioritisation lanes (P0/P1/P2/P3).
+
+### Reasoning:
+Dependabot's defaults bundle major-bumps and would push us off the staged Astro plan. Manual triage preserves the staged-migration posture.
+
+### Alternatives considered:
+Auto-merge patch / minor (rejected — public-facing build-chain risk). Replatform the stack (rejected — speed > security would lose the audit trail).
+
+### Risks:
+P0/P1 alerts could sit longer than 24h if the operator is unavailable. Mitigation: weekly threshold check; escalation triggers explicit.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `launch-packs/brand-a-mvp/` (11 files) as the canonical bridge from governance to first launch. Manual publish only; no autonomous social posting; rollback paths explicit for every failure mode.
+
+### Reasoning:
+The operator needed a self-contained runbook; scattered governance docs are not enough on launch day. The pack consolidates without duplicating.
+
+### Alternatives considered:
+Rely on existing governance docs (rejected — scattering). Build a launch automation (rejected — Tier-4 freeze).
+
+### Risks:
+Drift between the pack and the underlying governance docs. Mitigation: every pack file carries cross-references to the canonical doc; updates ship together.
+
+### Revisit date:
+2026-06-16 (after Brand A day-30 review).
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Adopt `design-handoffs/` (six Gemini briefs + 14-section output review checklist) as the design-handoff system. Gemini Free is the design/build specialist; Claude / Codex / operator retain strategy, governance, integration review, security, and compliance.
+
+### Reasoning:
+Gemini-as-design-specialist saves operator time without ceding governance. The review checklist prevents Gemini output from drifting on Astro version, client islands, third-party trackers, disclosure copy, or brand voice.
+
+### Alternatives considered:
+Operator-only design (rejected — slow). Gemini-owned governance (rejected — wrong tool). Skip Gemini, hire a designer (rejected — cost gate).
+
+### Risks:
+Gemini output bypasses the review checklist. Mitigation: §12 final commit gate requires all 14 sections green before any output reaches the repo.
+
+### Revisit date:
+2026-08-16.
+
+---
+
+### Date: 2026-05-16
+### Decision:
+Defer Dependabot PR #70 (Astro 4 → 6 across 3 directories now that the Brand A site exists). Same rationale as PR #12 deferral: the CVE (reflected XSS in slot names on hydrated SSR components) does not apply because all three Astro consumers ship static output with no client islands. Staged migration plan in `docs/astro-security-upgrade-plan.md` §6 governs.
+
+### Reasoning:
+A blind 3-major-bundle bump touching three consumers in one PR violates "no blind dependency bump". Re-asserting the staged path.
+
+### Alternatives considered:
+Merge PR #70 (rejected — see PR #12 deferral §5). Partial bump to Astro 5 (rejected — half-measure; same risk profile).
+
+### Risks:
+Drift accumulates across another quarter. Accepted; staged 4 → 5, 5 → 6 path is the right shape; revisit if a CVE that does apply lands.
+
+### Revisit date:
+2026-08-16 (or sooner if a new applicable CVE lands on Astro 4.x).
