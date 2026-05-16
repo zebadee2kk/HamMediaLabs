@@ -1,0 +1,134 @@
+name: NotebookLM pack freshness
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  notebooklm-pack-freshness:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        run: git fetch origin "${{ github.base_ref }}" --depth=200 || true
+
+      - name: Detect strategic-doc changes
+        id: changed
+        run: |
+          set -e
+          BASE_REF="origin/${{ github.base_ref }}"
+          if git rev-parse --verify "$BASE_REF" >/dev/null 2>&1; then
+            CHANGED="$(git diff --name-only "$BASE_REF"...HEAD)"
+          else
+            CHANGED="$(git diff --name-only HEAD~1 2>/dev/null || true)"
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED"
+          echo
+
+          STRATEGIC="$(echo "$CHANGED" | grep -E '^(docs/|ARCHITECTURE\.md$|brands/|launch-packs/|design-handoffs/|dashboards/|core/|\.github/workflows/|package\.json$|package-lock\.json$|.+/package\.json$|.+/package-lock\.json$)' || true)"
+          PACK="$(echo "$CHANGED" | grep -E '^notebooklm-pack/' || true)"
+
+          if [ -n "$STRATEGIC" ]; then
+            echo "has_strategic=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_strategic=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [ -n "$PACK" ]; then
+            echo "has_pack=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_pack=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          {
+            echo "strategic<<__EOF__"
+            echo "$STRATEGIC"
+            echo "__EOF__"
+            echo "pack<<__EOF__"
+            echo "$PACK"
+            echo "__EOF__"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check PR body for NotebookLM marker
+        id: marker
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -e
+          MARKER="none"
+          REASON_OK="false"
+
+          if echo "$PR_BODY" | grep -qE '^[[:space:]]*NotebookLM-Pack:[[:space:]]*updated[[:space:]]*$'; then
+            MARKER="updated"
+            REASON_OK="true"
+          elif echo "$PR_BODY" | grep -qE '^[[:space:]]*NotebookLM-Pack:[[:space:]]*not-needed[[:space:]]*$'; then
+            MARKER="not-needed"
+            if echo "$PR_BODY" | grep -qE '^[[:space:]]*Reason:[[:space:]]*\S.+'; then
+              REASON_OK="true"
+            else
+              REASON_OK="false"
+            fi
+          fi
+
+          echo "marker=$MARKER" >> "$GITHUB_OUTPUT"
+          echo "reason_ok=$REASON_OK" >> "$GITHUB_OUTPUT"
+
+      - name: Verdict
+        env:
+          HAS_STRATEGIC: ${{ steps.changed.outputs.has_strategic }}
+          HAS_PACK: ${{ steps.changed.outputs.has_pack }}
+          MARKER: ${{ steps.marker.outputs.marker }}
+          REASON_OK: ${{ steps.marker.outputs.reason_ok }}
+        run: |
+          set -e
+          echo "Strategic-doc files changed: $HAS_STRATEGIC"
+          echo "notebooklm-pack/ files changed: $HAS_PACK"
+          echo "PR body marker: $MARKER"
+          echo "Reason line present: $REASON_OK"
+          echo
+
+          if [ "$HAS_STRATEGIC" != "true" ]; then
+            echo "PASS: no strategic / operational files changed — NotebookLM pack freshness not required."
+            exit 0
+          fi
+
+          if [ "$HAS_PACK" = "true" ]; then
+            echo "PASS: notebooklm-pack/** updated alongside strategic changes."
+            exit 0
+          fi
+
+          case "$MARKER" in
+            updated)
+              echo "FAIL: PR body declares 'NotebookLM-Pack: updated' but no notebooklm-pack/** files changed."
+              exit 1
+              ;;
+            not-needed)
+              if [ "$REASON_OK" = "true" ]; then
+                echo "PASS: PR body carries 'NotebookLM-Pack: not-needed' with a Reason line."
+                exit 0
+              fi
+              echo "FAIL: PR body carries 'NotebookLM-Pack: not-needed' but no 'Reason:' line is present."
+              exit 1
+              ;;
+            *)
+              echo "FAIL: strategic-doc files changed, the NotebookLM pack was not updated, and no NotebookLM-Pack marker is present in the PR body."
+              echo
+              echo "To unblock this check, either:"
+              echo "  1. Update relevant files under notebooklm-pack/**, OR"
+              echo "  2. Add to the PR body:"
+              echo "       NotebookLM-Pack: not-needed"
+              echo "       Reason: <short justification>"
+              exit 1
+              ;;
+          esac
