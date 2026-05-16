@@ -23,6 +23,9 @@ conflict with the master plan, the master plan wins.
 - [11-monetization.md](./11-monetization.md) — monetisation maturity
 - [x-platform-risk.md](./x-platform-risk.md) — **X-specific** governance (rate limits, shadowban, link policy, cadence, scheduling, escalation)
 - [astro-security-upgrade-plan.md](./astro-security-upgrade-plan.md) — Astro 4 → 5 → 6 migration analysis + recommendation (response to Dependabot PR #12)
+- [legal-and-resilience.md](./legal-and-resilience.md) — integration framework: entity options, MFA/recovery, disclosure standards, defamation/satire boundaries, backups, paid-legal-advice triggers, tax baseline
+- [`/playbooks/account-recovery.md`](../playbooks/account-recovery.md) — recovery matrix per account class (annual test)
+- [`/playbooks/platform-strike-response.md`](../playbooks/platform-strike-response.md) — strike / ban SOP for all platforms
 
 ## Performance & operations
 - [measurement-framework.md](./measurement-framework.md) — north-stars, leading/lagging, attribution, channel maps, scorecard, kill criteria
