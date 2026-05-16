@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="Contact" description="How to reach us.">
+  <h1>Contact</h1>
+  <p>
+    Email <a href={`mailto:${siteConfig.operatorEmail}`}>{siteConfig.operatorEmail}</a>.
+    We read everything. We respond to most things.
+  </p>
+  <p>
+    For corrections, include the URL and the bit you think is wrong; we appreciate it.
+  </p>
+</Base>

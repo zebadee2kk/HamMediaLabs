@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="Home" description={siteConfig.tagline}>
+  <h1>{siteConfig.brandName}</h1>
+  <p class="tagline">{siteConfig.tagline}</p>
+
+  <section class="latest" aria-label="Latest piece">
+    <h2>Latest</h2>
+    <p>
+      The first cornerstone goes live on launch day. Until then, this
+      page renders the brand identity and the canonical compliance
+      pages. See <a href="/ai-use">how AI is used here</a>.
+    </p>
+  </section>
+
+  <section class="newsletter" aria-label="Newsletter">
+    <h2>Get one of these per week</h2>
+    <p>
+      Real workflows, real numbers, no AI hype. One email per week.
+      Replaced by the operator with the Buttondown opt-in form at
+      launch (see <code>launch-packs/brand-a-mvp/04-technical-launch-pack.md</code>).
+    </p>
+  </section>
+
+  <style>
+    .tagline { font-size: 1.1rem; color: #444; max-width: 60ch; }
+    section { margin: 2rem 0; }
+    section h2 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+    section p { max-width: 60ch; }
+  </style>
+</Base>

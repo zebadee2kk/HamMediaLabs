@@ -1,0 +1,41 @@
+---
+// Canonical AI + affiliate disclosure block. Mirrors docs/18-disclosure-templates.md.
+// Render at the top of any post via <Disclosure variant="informational" affiliate={true} />.
+interface Props {
+  variant?: 'informational' | 'satire';
+  affiliate?: boolean;
+}
+const { variant = 'informational', affiliate = false } = Astro.props;
+---
+<aside class="disclosure" role="note" aria-label="Editorial disclosure">
+  {variant === 'satire' ? (
+    <p>
+      ⓘ This is satire. Some imagery and dialogue are AI-generated. Don't mistake any
+      of this for real corporate communications, real people, or real advice.
+    </p>
+  ) : (
+    <p>
+      ⓘ This piece was researched and drafted with AI assistance and edited by a human.
+      We disclose AI use because the EU AI Act (Article 50) and our own policy require it.
+    </p>
+  )}
+  {affiliate && (
+    <p>
+      <strong>Disclosure.</strong> This article contains affiliate links. If you buy through
+      them we may earn a commission at no extra cost to you. We only recommend products
+      we believe are useful for the audience this piece is written for.
+      Our <a href="/affiliate-disclosure">affiliate policy</a> explains how we choose them.
+    </p>
+  )}
+</aside>
+
+<style>
+  .disclosure {
+    border-left: 3px solid #888;
+    background: #f6f6f6;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.95rem;
+  }
+  .disclosure p { margin: 0.25rem 0; }
+</style>

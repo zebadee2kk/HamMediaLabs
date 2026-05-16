@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+---
+<Base title="About" description={`About ${siteConfig.brandName}.`}>
+  <h1>About {siteConfig.brandName}</h1>
+  <p>{siteConfig.tagline}</p>
+  <p>
+    {siteConfig.brandName} is operated by {siteConfig.operatorName}.
+    We use AI to assist with research and drafting; a human edits and approves
+    everything published. See our <a href="/ai-use">AI use policy</a>.
+  </p>
+</Base>

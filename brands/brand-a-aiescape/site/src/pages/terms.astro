@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteConfig } from '../site.config.ts';
+const law = siteConfig.jurisdiction === 'UK' ? 'England & Wales'
+          : siteConfig.jurisdiction === 'EU' ? 'the relevant EU member state of the operator'
+          : 'the State of the operator';
+---
+<Base title="Terms" description="Terms of use for this site.">
+  <h1>Terms</h1>
+
+  <p>By using this site you agree to these terms.</p>
+
+  <p>
+    Content here is for general information. It is not financial, legal, medical,
+    or professional advice. We try to be accurate; we don't guarantee it. Do your
+    own research before acting on anything you read.
+  </p>
+
+  <p>
+    You may link to us. You may quote up to ~100 words with attribution. You may
+    not republish whole articles without permission.
+  </p>
+
+  <p>
+    We may change or remove content at any time. We may change these terms at any
+    time; the date below shows when.
+  </p>
+
+  <p>Governing law: {law}.</p>
+
+  <p>
+    Last updated <time datetime={siteConfig.lastReviewedISO}>{siteConfig.lastReviewedISO}</time>.
+    Operator: {siteConfig.operatorName}.
+  </p>
+</Base>
