@@ -32,6 +32,8 @@ Create a system that can:
 ## Documentation structure
 See `/docs` for the full planning and operational framework.
 
+The canonical, integrated strategy is `docs/PROJECTHYDRA-MASTER-PLAN.md`. The numbered `docs/00–16` files remain as concise topic stubs; where they conflict with the master plan, the master plan wins.
+
 ## Current status
 Planning and architecture phase only.
 
