@@ -55,7 +55,64 @@
 - It does **not** override governance docs.
 - It does **not** capture per-file engineering detail — that's the
   repo's job.
-- It does **not** stay automatically up to date — that's #76's job.
+- It does **not** auto-generate. Pack updates are human-authored,
+  reviewed in PRs, never written by an automated job.
+
+## Freshness gate (binding)
+
+`.github/workflows/notebooklm-pack-freshness.yml` runs on every
+PR into `main`. It detects whether the PR touches **strategic /
+operational** paths:
+
+- `docs/**`
+- `ARCHITECTURE.md`
+- `brands/**`
+- `launch-packs/**`
+- `design-handoffs/**`
+- `dashboards/**`
+- `core/**`
+- `.github/workflows/**`
+- `package.json` / `package-lock.json` (root or any sub-package)
+
+If a PR touches any of those, it must do **one** of:
+
+1. **Also update relevant files under `notebooklm-pack/**`**, OR
+2. **Add a `NotebookLM-Pack` marker to the PR body** with a
+   one-line reason.
+
+### Marker formats
+
+When the pack is updated alongside the PR:
+
+```md
+## NotebookLM Pack
+NotebookLM-Pack: updated
+Files updated:
+- notebooklm-pack/01-system-architecture.md
+```
+
+When the change is small enough that the pack does not need to
+move (typo fix, internal refactor, formatting):
+
+```md
+## NotebookLM Pack
+NotebookLM-Pack: not-needed
+Reason: <short reason, e.g. "typo-only change; no strategic
+meaning changed">
+```
+
+The `Reason:` line is required when the marker is `not-needed`;
+the workflow fails the check without it.
+
+### What the workflow does NOT do
+
+- **Does not auto-commit.** Pack updates are always PR-authored.
+- **Does not call paid APIs.** No Gemini / Claude / OpenAI / any
+  LLM is invoked.
+- **Does not rewrite founder-grade docs.** Drafting belongs to
+  the operator + Claude in a normal PR.
+- **Does not block PRs that touch only non-strategic paths**
+  (e.g. README typos, gitignore tweaks).
 
 ## Quality bar
 
