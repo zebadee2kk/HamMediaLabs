@@ -1,0 +1,76 @@
+# Dependabot config — per `playbooks/package-hygiene.md` §1.
+#
+# Three npm ecosystems (root + dashboard + brand-template + brand-A site).
+# Patch / minor grouped per ecosystem. Major bumps are unbundled so they
+# pass through the staged plan in `docs/astro-security-upgrade-plan.md`.
+#
+# Auto-merge is intentionally OFF at repo level. Every Dependabot PR
+# goes through manual triage against the §1.4 prioritisation lanes in
+# `docs/dependabot-security-audit.md` (P0 / P1 / P2 / P3).
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "security"
+    groups:
+      patch:
+        update-types: ["patch"]
+      minor:
+        update-types: ["minor"]
+
+  - package-ecosystem: "npm"
+    directory: "/dashboards/app"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "dashboard"
+    groups:
+      patch:
+        update-types: ["patch"]
+      minor:
+        update-types: ["minor"]
+
+  - package-ecosystem: "npm"
+    directory: "/brands/templates/site"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "brand-template"
+    groups:
+      patch:
+        update-types: ["patch"]
+      minor:
+        update-types: ["minor"]
+
+  - package-ecosystem: "npm"
+    directory: "/brands/brand-a-aiescape/site"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "brand-a"
+    groups:
+      patch:
+        update-types: ["patch"]
+      minor:
+        update-types: ["minor"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "ci"
