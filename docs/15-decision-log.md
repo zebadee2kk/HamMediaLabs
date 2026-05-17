@@ -498,3 +498,21 @@ A future Astro 4.x CVE that DOES apply (e.g. a static-rendering or build-time pa
 
 ### Revisit date:
 2026-08-16 (Q3 quarterly platform refresh) or same-day if a §6b.4 trigger condition fires.
+
+---
+
+### Date: 2026-05-17
+### Decision:
+Adopt `ops-vm/` as the canonical documentation for the dedicated HamMediaLabs Ops VM (`hydra-ops-vm`): operator workstation that centralises repo work, Claude Code / Codex sessions, deployment commands, and launch-evidence capture. The VM is bounded as an operator workstation — never an autonomous production brain. Closes #97.
+
+### Reasoning:
+The operator currently works across multiple machines; secrets sprawl, environment drift, and audit gap are real costs. A dedicated VM consolidates the operating surface, mirrors CI's Node 20 toolchain, holds scoped tokens with rotation discipline, and gives launch evidence a single canonical capture location. Documenting the VM *before* it is built prevents post-hoc rationalisation.
+
+### Alternatives considered:
+Keep working from the operator's personal machine (rejected — secrets sprawl + environment drift + no audit trail). Stand up a Cloud-hosted ephemeral dev container per session (rejected — secrets rotation and Tailscale identity become per-session friction; cost-line creep). Defer the VM to post-launch (rejected — the launch itself benefits from the consolidated workstation; documentation-first preserves no-rush posture).
+
+### Risks:
+The VM becomes a temptation to attach automation that violates Tier-4 / cost-gate / no-DNS rules (mitigated — `ops-vm/future-automation.md` enumerates candidates A–H with each one's gating; `ops-vm/claude-code-operating-rules.md` §1 lists the five hard rules). Snapshots become a false sense of backup (mitigated — `ops-vm/recovery-and-backup.md` §1 explicitly identifies the canonical source for every asset; nothing irreplaceable lives only on the VM).
+
+### Revisit date:
+2026-08-16 (Q3 quarterly platform refresh — confirm tooling-manifest drift, snapshot drill, secrets rotation).

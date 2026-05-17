@@ -271,11 +271,41 @@ Gemini output passes this before any repo merge:
 - Touch the `main` branch directly.
 - Bypass gitleaks or PR review.
 
+## Where the workforce actually runs (the Ops VM)
+
+The lab's operational workstation is a dedicated Linux VM —
+`hydra-ops-vm` — documented in `ops-vm/`. Claude Code, Codex
+(via `/ultrareview`), Gemini (via browser), and the operator
+all converge on this VM:
+
+- **Claude Code** runs locally on the VM, scoped to
+  `~/HamMediaLabs/`, under the boundaries in
+  `ops-vm/claude-code-operating-rules.md`.
+- **Codex** is user-triggered via `/ultrareview` from a PR;
+  runs in cloud; billed per call.
+- **Gemini Free** runs in a browser on the operator's personal
+  device; outputs land in `design-handoffs/output/` on the VM
+  (gitignored) for review before any PR.
+- **NotebookLM** runs in a browser; uploads come from the
+  VM's local `notebooklm-pack/` clone.
+- **Local LLMs** are not installed on the VM by default
+  (`docs/local-llm-plan.md` gates activation).
+
+The VM is an **operator workstation, not an autonomous
+production brain**. Every five-hard-rule constraint
+(`ops-vm/claude-code-operating-rules.md` §1) binds every agent
+that runs there.
+
 ## Cross-references
 
 - `docs/voice-authenticity-system.md` — persona ownership,
   read-aloud / watch-aloud gate.
 - `docs/local-llm-plan.md` — local-LLM posture.
+- `ops-vm/` — operator workstation (build guide, security
+  baseline, secrets policy, deployment runbook, Claude Code
+  operating rules, launch evidence template, checklist,
+  tooling manifest, future-automation deferrals, recovery +
+  backup).
 - `design-handoffs/README.md` — Gemini workflow.
 - `design-handoffs/claude-design-subagents.md` — six subagent
   roles.
