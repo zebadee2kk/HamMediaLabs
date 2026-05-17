@@ -95,6 +95,17 @@ subagent roles + the 10-section pre-flight checklist.
 - `.gitleaks.toml` — provider-specific secret patterns.
 - No tracked secrets.
 
+### Operator workstation
+
+- `ops-vm/` — full documentation pack for the dedicated
+  HamMediaLabs Ops VM (`hydra-ops-vm`): README, build guide,
+  security baseline, secrets policy, deployment runbook,
+  Claude Code operating rules, launch-evidence template,
+  acceptance checklist, tooling manifest, future-automation
+  deferrals, recovery + backup. The VM is an operator
+  workstation, not an autonomous production brain; every five-
+  hard-rule constraint binds every agent that runs there.
+
 ### Distilled intelligence
 
 - `notebooklm-pack/` — this pack.

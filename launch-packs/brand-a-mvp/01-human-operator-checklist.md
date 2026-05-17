@@ -1,6 +1,15 @@
 # 01 — Human Operator Checklist
 
 > Every step here is **human-only**. No agent assist.
+>
+> **Workstation note.** The recommended workstation for walking
+> this checklist is the dedicated Ops VM documented in
+> `ops-vm/` (`hydra-ops-vm`). Using it consolidates secrets,
+> evidence capture, and environment-parity with CI. The
+> launch can also be run from the operator's personal machine
+> — the steps below are identical either way. If you are on
+> the Ops VM, walk `ops-vm/ops-vm-checklist.md` to acceptance
+> before starting this checklist.
 
 ---
 

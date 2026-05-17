@@ -489,6 +489,10 @@ The launch is "private / manual MVP":
 - `notebooklm-pack/` — distilled intelligence layer (10
   files).
 - `launch-packs/brand-a-mvp/` — operator runbook.
+- `ops-vm/` — recommended operator workstation
+  (`hydra-ops-vm`); see `ops-vm/README.md` for governance
+  fit and `ops-vm/ops-vm-checklist.md` for the build +
+  acceptance walk.
 - `docs/15-decision-log.md` — every strategic decision logged.
 
 ## 12. Repo state at submission
