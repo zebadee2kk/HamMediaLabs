@@ -55,6 +55,16 @@ date, decision, reasoning, alternatives, risks, revisit date.
 - See `docs/09-security-and-secrets.md` for credential tiers and the
   Supabase service-role classification.
 
+## Branch Hygiene
+
+- Delete your branch as soon as its PR is merged (or closed without merge).
+- Follow the naming conventions in `docs/branch-hygiene-policy.md`
+  (`claude/*`, `feature/*`, `pm/*`, `dependabot/*`, `fix/*`, `chore/*`).
+- Agent branches must include a session token suffix (e.g. `-vXlkp`).
+- Do not push directly to `main` — always use a branch + PR.
+- Quarterly cleanups prune merged and stale branches; see
+  `docs/branch-hygiene-policy.md` for the procedure.
+
 ## Style
 
 - TypeScript: see `tsconfig.json`. `noImplicitAny`, `noUnusedLocals`,
