@@ -1,0 +1,64 @@
+---
+import { shortDate } from '../lib/format.ts';
+import type { QaWeeklyRow } from '../lib/supabase.ts';
+
+interface Props {
+  rows: QaWeeklyRow[];
+}
+const { rows } = Astro.props;
+
+// Risk-register trigger: human QA pass-rate <80% (docs/RISK-REGISTER.md /
+// master plan §10.1 "AI-content quality collapse").
+const PASS_RATE_FLOOR = 0.8;
+
+function passRate(r: QaWeeklyRow): number | null {
+  return r.human_gates > 0 ? r.human_passes / r.human_gates : null;
+}
+---
+<table aria-label="Voice QA pass-rate by brand and week">
+  <thead>
+    <tr>
+      <th>Week</th>
+      <th>Brand</th>
+      <th>Human gates</th>
+      <th>Pass rate</th>
+      <th>Model critiques</th>
+      <th>Revisions asked</th>
+      <th>AI tells flagged</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map(r => {
+      const rate = passRate(r);
+      return (
+        <tr>
+          <td>{shortDate(r.week)}</td>
+          <td>{r.slug}</td>
+          <td>{r.human_gates}</td>
+          <td>
+            {rate === null
+              ? <span class="na">no gates run</span>
+              : <span class={rate < PASS_RATE_FLOOR ? 'rate breach' : 'rate'}>
+                  {(rate * 100).toFixed(0)}%
+                </span>}
+          </td>
+          <td>{r.model_critiques}</td>
+          <td>{r.model_revisions}</td>
+          <td>{r.ai_tells_flagged}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
+<style>
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  th, td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #f6f6f6; font-weight: 600; }
+  .rate { font-variant-numeric: tabular-nums; }
+  .rate.breach {
+    background: #f7c5c0; color: #5f1d1d;
+    padding: 0.05rem 0.5rem; border-radius: 999px; font-weight: 600;
+  }
+  .na { color: #6a6a6a; font-size: 0.85rem; }
+</style>

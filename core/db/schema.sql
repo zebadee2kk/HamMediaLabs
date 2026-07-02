@@ -42,6 +42,39 @@ create table if not exists content_asset (
 create index if not exists ix_content_asset_brand on content_asset(brand_id);
 create index if not exists ix_content_asset_status on content_asset(status);
 
+-- Persona-owner approval timestamp (mirrors the draft frontmatter
+-- `reviewed_at` set at voice-fidelity sign-off).
+alter table content_asset add column if not exists reviewed_at timestamptz;
+
+-- =========================================================
+--  QA events (creative-quality instrumentation)
+--  One row per QA gate outcome per asset — both the model's Stage-2
+--  persona critique (prompt-library/persona-first-generation.md /
+--  short-form-patterns.md) and the human checklist gates. Feeds the
+--  risk-register "QA pass-rate <80%" trigger and the dashboard
+--  voice-QA widget. The model NEVER writes a 'pass' — its verdict
+--  vocabulary caps at 'persona_approves' by design.
+-- =========================================================
+create table if not exists qa_event (
+  id          bigserial primary key,
+  asset_id    bigint not null references content_asset(id) on delete cascade,
+  ts          timestamptz not null default now(),
+  gate        text not null check (gate in
+                ('persona_critique',    -- model Stage-2 JSON
+                 'voice_fidelity',      -- playbooks/voice-fidelity-checklist.md (incl. short-form addendum)
+                 'content_quality',     -- playbooks/content-quality-checklist.md
+                 'brand_specific')),    -- brands/<slug>/qa/checklist.md
+  source      text not null check (source in ('model','human')),
+  verdict     text not null check (verdict in
+                ('pass','fail','needs_revision','persona_approves')),
+  ai_tells    integer,                 -- from Stage-2 ai_tells_to_remove count
+  fixes       integer,                 -- fixes applied at revision
+  reviewer    text,                    -- human name, or model tag for source='model'
+  meta        jsonb                    -- full Stage-2 JSON payload lands here
+);
+create index if not exists ix_qa_event_asset_ts on qa_event(asset_id, ts);
+create index if not exists ix_qa_event_gate on qa_event(gate);
+
 -- =========================================================
 --  Content events (impression / click / engagement / conversion / revenue)
 -- =========================================================
@@ -146,6 +179,24 @@ create or replace view v_brand_weekly_stats as
   left join content_event ce on ce.asset_id = ca.id
   group by b.id, b.slug, week;
 
+-- Voice/creative QA roll-up. human_pass_rate is the number the risk
+-- register watches (trigger: <0.80). ai_tells_flagged trending up on a
+-- brand = voice drift; feed the quarterly voice refresh.
+create or replace view v_qa_weekly as
+  select b.id as brand_id,
+         b.slug,
+         date_trunc('week', q.ts) as week,
+         count(*) filter (where q.source = 'human')                          as human_gates,
+         count(*) filter (where q.source = 'human' and q.verdict = 'pass')   as human_passes,
+         count(*) filter (where q.source = 'model')                          as model_critiques,
+         count(*) filter (where q.source = 'model'
+                          and q.verdict = 'needs_revision')                  as model_revisions,
+         coalesce(sum(q.ai_tells), 0)                                        as ai_tells_flagged
+  from   qa_event q
+  join   content_asset ca on ca.id = q.asset_id
+  join   brand b on b.id = ca.brand_id
+  group by b.id, b.slug, week;
+
 create or replace view v_provider_daily as
   select provider,
          date_trunc('day', ts) as day,
@@ -203,6 +254,7 @@ alter table agent_task     enable row level security;
 alter table decision       enable row level security;
 alter table heartbeat      enable row level security;
 alter table source_signal  enable row level security;
+alter table qa_event       enable row level security;
 
 -- (No anon policies created intentionally — HQ writes use the service-role key.
 --  When the dashboard becomes user-facing, add scoped read policies here.)

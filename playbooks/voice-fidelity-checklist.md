@@ -98,6 +98,11 @@ For each major claim or stance in the piece:
 - [ ] The persona owner has set `reviewed_at` in the draft frontmatter.
 - [ ] The persona owner has named one specific edit they made (recorded
       in the editorial-notes block) — if "none", they probably skimmed.
+- [ ] The gate outcome is recorded as a `qa_event` row
+      (`gate: 'voice_fidelity'`, `source: 'human'`, `verdict:
+      'pass' | 'fail'`, `reviewer` = persona owner) — see
+      `core/db/schema.sql`. Pass-rate below 80% is a risk-register
+      trigger; unrecorded gates make that number a lie.
 
 ## 10. Promotion check
 

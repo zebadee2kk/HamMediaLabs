@@ -3,10 +3,14 @@ import {
   envStatus,
   listBrands,
   listDecisions,
+  listPipelineAssets,
   providerDaily,
+  qaWeekly,
   type BrandRow,
   type DecisionRow,
+  type PipelineAssetRow,
   type ProviderDailyRow,
+  type QaWeeklyRow,
 } from '../lib/supabase.ts';
 import ConfigBanner from '../components/ConfigBanner.astro';
 import ErrorPanel from '../components/ErrorPanel.astro';
@@ -16,21 +20,29 @@ import BrandTable from '../components/BrandTable.astro';
 import ProviderHealthTable from '../components/ProviderHealthTable.astro';
 import QuotaBurnIndicator from '../components/QuotaBurnIndicator.astro';
 import DecisionsTable from '../components/DecisionsTable.astro';
+import ContentPipelineTable from '../components/ContentPipelineTable.astro';
+import VoiceQaTable from '../components/VoiceQaTable.astro';
 
 const env = envStatus();
 
 let brands: BrandRow[] = [];
 let providers: ProviderDailyRow[] = [];
 let decisions: DecisionRow[] = [];
+let pipeline: PipelineAssetRow[] = [];
+let qa: QaWeeklyRow[] = [];
 let brandError: { status?: number; detail: string } | null = null;
 let providerError: { status?: number; detail: string } | null = null;
 let decisionError: { status?: number; detail: string } | null = null;
+let pipelineError: { status?: number; detail: string } | null = null;
+let qaError: { status?: number; detail: string } | null = null;
 
 if (env.ok) {
-  const [b, p, d] = await Promise.all([
+  const [b, p, d, pl, q] = await Promise.all([
     listBrands(),
     providerDaily(14),
     listDecisions(14),
+    listPipelineAssets(),
+    qaWeekly(8),
   ]);
   if (b.ok) brands = b.data;
   else if (b.kind === 'fetch_error') brandError = { status: b.status, detail: b.detail };
@@ -40,6 +52,12 @@ if (env.ok) {
 
   if (d.ok) decisions = d.data;
   else if (d.kind === 'fetch_error') decisionError = { status: d.status, detail: d.detail };
+
+  if (pl.ok) pipeline = pl.data;
+  else if (pl.kind === 'fetch_error') pipelineError = { status: pl.status, detail: pl.detail };
+
+  if (q.ok) qa = q.data;
+  else if (q.kind === 'fetch_error') qaError = { status: q.status, detail: q.detail };
 }
 
 const rendered = new Date().toISOString();
@@ -99,6 +117,30 @@ const rendered = new Date().toISOString();
       {brands.length > 0
         ? <BrandTable brands={brands} />
         : env.ok && !brandError && <EmptyState message="Empty brand table." />}
+
+      <h2>Content pipeline (draft → QA → staged)</h2>
+      {pipelineError && (
+        <ErrorPanel title="Couldn't load the content pipeline" status={pipelineError.status} detail={pipelineError.detail} />
+      )}
+      {!pipelineError && pipeline.length === 0 && env.ok && (
+        <EmptyState
+          message="Nothing in draft, QA, or staged."
+          hint="briefs land here via trend-to-brief; drafts via the persona-first pattern"
+        />
+      )}
+      {pipeline.length > 0 && <ContentPipelineTable rows={pipeline} />}
+
+      <h2>Voice QA (last 8 weeks)</h2>
+      {qaError && (
+        <ErrorPanel title="Couldn't load voice QA stats" status={qaError.status} detail={qaError.detail} />
+      )}
+      {!qaError && qa.length === 0 && env.ok && (
+        <EmptyState
+          message="No QA gate outcomes recorded yet."
+          hint="gates log qa_event rows per playbooks/voice-fidelity-checklist.md §9; pass-rate <80% is the risk-register trigger"
+        />
+      )}
+      {qa.length > 0 && <VoiceQaTable rows={qa} />}
 
       <h2>Free-tier quota headroom</h2>
       <QuotaBurnIndicator usage={[]} />
