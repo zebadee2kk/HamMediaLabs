@@ -6,9 +6,19 @@ interface Props {
 }
 const { title, description } = Astro.props;
 const pageTitle = `${title} — ${siteConfig.brandName}`;
+const t = siteConfig.theme;
+const themeVars = [
+  `--ink:${t.ink}`,
+  `--muted:${t.muted}`,
+  `--primary:${t.primary}`,
+  `--accent:${t.accent}`,
+  `--bg:${t.background}`,
+  `--font-body:${t.fontBody}`,
+  `--font-heading:${t.fontHeading}`,
+].join(';');
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" style={themeVars}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,13 +27,18 @@ const pageTitle = `${title} — ${siteConfig.brandName}`;
     <meta property="og:title" content={pageTitle} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content="website" />
+    {t.ogImagePath && <meta property="og:image" content={t.ogImagePath} />}
     <meta name="twitter:card" content="summary" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
   </head>
   <body>
     <header>
-      <a href="/" class="brand">{siteConfig.brandName}</a>
+      <a href="/" class="brand">
+        {t.logoPath
+          ? <img src={t.logoPath} alt={siteConfig.brandName} height="28" />
+          : siteConfig.brandName}
+      </a>
       <nav aria-label="Primary">
         <a href="/">Home</a>
         <a href="/about">About</a>
@@ -64,18 +79,20 @@ const pageTitle = `${title} — ${siteConfig.brandName}`;
     </footer>
 
     <style is:global>
-      :root { --max: 720px; --ink: #1c1c1c; --muted: #6a6a6a; }
-      body { color: var(--ink); font: 17px/1.55 system-ui, -apple-system, Segoe UI, sans-serif; margin: 0; }
+      :root { --max: 720px; }
+      body { color: var(--ink); background: var(--bg); font: 17px/1.55 var(--font-body); margin: 0; }
       header, main, footer { max-width: var(--max); margin: 0 auto; padding: 1rem; }
       header { display: flex; justify-content: space-between; align-items: center; }
       nav a { margin-left: 1rem; color: var(--muted); text-decoration: none; }
       nav a:hover { color: var(--ink); }
       .brand { font-weight: 600; text-decoration: none; color: var(--ink); }
-      footer { border-top: 1px solid #eee; margin-top: 4rem; padding-top: 1rem; color: var(--muted); font-size: 0.92rem; }
+      .brand img { display: block; }
+      footer { border-top: 1px solid var(--accent); margin-top: 4rem; padding-top: 1rem; color: var(--muted); font-size: 0.92rem; }
       footer a { color: var(--muted); }
       .footer-disclosure { line-height: 1.5; }
-      h1, h2, h3 { line-height: 1.25; }
-      a { color: #114488; }
+      h1, h2, h3 { line-height: 1.25; font-family: var(--font-heading); }
+      a { color: var(--primary); }
+      mark { background: var(--accent); color: var(--ink); padding: 0 0.15em; }
     </style>
   </body>
 </html>
