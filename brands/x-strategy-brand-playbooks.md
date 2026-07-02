@@ -19,7 +19,7 @@
 
 **Content Pillars:** Claude Code commands, Grok patterns, multi-model chains, cost optimization, niche role workflows.
 
-**Voice:** Battle-tested, power-user, measurable ROI, no-fluff, leverage loops.
+**Voice:** Canonical in `brands/brand-a-aiescape/voice.md` — battle-tested practitioner, measurable time savings, no fluff. (Note: "leverage" as a verb is on that brand's banned list; positioning may use it as a noun only.)
 
 ## Brand B: Corporate Satire
 **Positioning:** Corporate Theatre 2026 — when the satire became the actual job description.
@@ -45,7 +45,10 @@
 - Brand A workflows → power Brand C trackers + Brand B satire.
 - Brand B pain points → feed Brand A solutions and Brand C levers.
 
-This file is the single source of truth for all brand voice and strategy.
+Canonical brand voice lives in each brand's `brands/<slug>/voice.md` (extending
+`docs/17-style-guide.md`); this file is the **X-channel playbook** layered on top —
+positioning summaries, pillars, and channel mechanics. Where a voice summary here
+conflicts with a brand's `voice.md`, the `voice.md` wins.
 
 ## Governance
 Operational risk, cadence ceilings, link placement, disclosure mechanics, shadowban controls, scheduling rules, and escalation triggers are governed by **`docs/x-platform-risk.md`**. When this strategy file and the governance doc conflict, **governance wins**. Re-read the governance doc before any X-facing PR.

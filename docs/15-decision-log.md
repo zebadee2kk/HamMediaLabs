@@ -516,3 +516,21 @@ The VM becomes a temptation to attach automation that violates Tier-4 / cost-gat
 
 ### Revisit date:
 2026-08-16 (Q3 quarterly platform refresh — confirm tooling-manifest drift, snapshot drill, secrets rotation).
+
+---
+
+### Date: 2026-07-02
+### Decision:
+Adopt `docs/creative-director-review-2026-07-02.md` as the incoming creative-director assessment and execute its P0 items: (1) populate `brands/brand-a-aiescape/house-examples.md` as a pre-launch seed set (slots 1–4 and 7 mined from the approved cornerstone draft `01-free-tier-ai-stack.md` and the voice doc's inline examples; slots 5–6 written to spec pending live replacements); (2) migrate Brand A's `voice.md` to the canonical numbered structure of `brands/templates/voice-template.md`, preserving every existing rule and adding the previously missing sections (character bio, voice contrasts, voice DNA, specificity rule, refresh cadence, persona ownership); (3) demote `brands/x-strategy-brand-playbooks.md` from its self-declared "single source of truth for all brand voice and strategy" to an X-channel playbook — per-brand `voice.md` + `docs/17-style-guide.md` are canonical for voice — and correct its Brand A voice summary ("leverage loops") which used vocabulary Brand A's own voice doc bans as a verb.
+
+### Reasoning:
+Brand A could not pass its own quality gate: `playbooks/voice-fidelity-checklist.md` §1 hard-requires `house-examples.md` with ≥5 filled slots, and the file did not exist for the flagship brand, while `prompt-library/persona-first-generation.md` Stage 1 conditions on it. Seeding from the already-approved cornerstone draft keeps the examples genuinely on-voice rather than invented. The voice-doc migration makes the "Brand A is the baseline reference implementation" claim in the voice template true again (Brand A predated the numbered template that B and C already follow). The SSOT demotion resolves a live canon conflict a contributor would otherwise hit on their first voice-conditioned generation.
+
+### Alternatives considered:
+Wait for live published pieces before populating house examples (rejected — circular: the gate blocks publishing, and B/C already use the "illustrative starter slots + promotion log" pattern for the same bootstrap problem). Leave Brand A's voice.md structure as-is since its content was sound (rejected — the checklist and prompts reference numbered template sections; structural drift on the reference implementation propagates). Rewrite x-strategy voice summaries entirely (rejected — scope creep; the precedence note plus the one incorrect line is the minimal fix).
+
+### Risks:
+Seeded examples ossify — treated as gold-standard even after live pieces should replace them (mitigated — the file's header and §10 promotion log mark them as pre-launch seeds; refresh cadence in voice.md §8 forces quarterly review). Persona owner remains "TBD" — this decision does NOT clear voice-fidelity checklist §1's third input (persona owner named); that is an operator action and stays a launch blocker, now explicitly flagged in voice.md §9.
+
+### Revisit date:
+2026-10-02 (first quarterly voice refresh) or the date Brand A's first piece goes live, whichever is sooner.
