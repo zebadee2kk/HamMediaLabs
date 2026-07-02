@@ -534,3 +534,21 @@ Seeded examples ossify — treated as gold-standard even after live pieces shoul
 
 ### Revisit date:
 2026-10-02 (first quarterly voice refresh) or the date Brand A's first piece goes live, whichever is sooner.
+
+---
+
+### Date: 2026-07-02
+### Decision:
+Execute creative-director plan P1 (see `docs/creative-director-review-2026-07-02.md` §4): (1) add a per-brand visual identity layer — a `theme` token block (ink / muted / primary / accent / background, system font stacks, optional logo and OG-image paths) in `BrandSiteConfig`, wired into `Base.astro` as CSS variables; v1 starter palettes for all three brands documented in `design-handoffs/starter-design-tokens.md` and applied to Brand A's site ("confident peer"). Tokens are input for the Gemini design pipeline to refine, not final art. Token-based plain CSS, explicitly NOT Tailwind — the Gemini briefs' Tailwind assumption is flagged in the tokens doc for correction at their next revision. (2) Add a short-form addendum to `playbooks/voice-fidelity-checklist.md` (replaces §2–§8 for posts / threads / clips; defers to Brand B's existing watch-aloud gate rather than duplicating it) and `prompt-library/short-form-patterns.md` (X post/thread pattern for Brands A/C; video-script pattern for Brand B targeting its existing `_draft-template.md`). (3) Fill the empty house-example slots for Brands B and C with clearly-labelled illustrative starters; Brand C's reuse only figures already established in its `voice.md` and carry a re-verify-before-use warning.
+
+### Reasoning:
+The portfolio had zero committed visual identity — three brands (including a satire brand and a financial-trust brand) shared three grey CSS variables and one blue link, and `site.config.ts` had no identity surface for the Gemini pipeline's output to land in. On short-form: Brand B's QA checklist §11 required walking the lab-wide voice-fidelity checklist "end-to-end", but that checklist's gates are calibrated to long-form and unsatisfiable for a 22-second clip — a binding gate that cannot pass invites skipping, which is the exact drift the voice system exists to prevent. Brands A and C plan X cadences (A: 5 posts/week) with no short-form generation pattern conditioned on their voice docs.
+
+### Alternatives considered:
+Install Tailwind to match the Gemini briefs (rejected — the template's zero-JS / system-font discipline predates the briefs; CSS variables deliver per-brand theming in ~30 lines with no dependency). Wait for the Gemini design pass before committing any palette (rejected — the pipeline has produced nothing yet and has no code surface to land in; tokens create that surface and end the shared-grey state immediately). Give Brand B a separate lab-wide checklist for video (rejected — its `qa/checklist.md` §2 watch-aloud gate already exists and is good; the addendum defers to it instead of duplicating it). Leave B/C house-example slots empty until clips/pieces ship (rejected — same bootstrap circularity as Brand A's P0 fix; starter-slot + promotion-log is the established pattern).
+
+### Risks:
+Starter palettes read as final art and skip the Gemini refinement pass (mitigated — tokens doc states its v1-input status in the header; logo/OG slots left empty so the visual identity is visibly unfinished). Brand C illustrative figures go stale and leak into live copy (mitigated — header warning requires re-verification; figures are the same ones already in `voice.md`, so no new claim surface). Inline style attribute on `<html>` for theme vars adds a few hundred bytes per page (accepted — zero-JS preserved; both sites verified with clean `astro build`).
+
+### Revisit date:
+2026-10-02 (quarterly voice/design refresh) or when the first Gemini design output lands, whichever is sooner.
