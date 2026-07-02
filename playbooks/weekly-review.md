@@ -16,6 +16,15 @@ Per brand:
 - Social growth
 - Risk
 
+## Creative quality (per `v_qa_weekly` / dashboard "Voice QA" table)
+- Human QA pass-rate per brand (trigger: <80% for any brand — risk register #6)
+- AI-tells-flagged trend per brand (rising = voice drift; feed the next
+  `playbooks/voice-refresh.md` cycle early)
+- Any asset sitting in `qa` status for >7 days (dashboard content-pipeline
+  table — stale QA is a silent kill of cadence)
+- Any gate walked but not logged as a `qa_event` row (unrecorded gates
+  make the pass-rate a lie — see voice-fidelity checklist §9)
+
 ## Agent review
 - Output quality
 - Failure rate

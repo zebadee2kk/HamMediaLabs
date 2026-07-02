@@ -92,6 +92,14 @@ FORMAT (JSON):
 human-edit pass". It never means "publish".
 ```
 
+**Log it.** The Stage-2 JSON is not throwaway: it lands as one
+`qa_event` row (`gate: 'persona_critique'`, `source: 'model'`,
+`verdict`, `ai_tells` = length of `ai_tells_to_remove`, full JSON in
+`meta`) against the asset in HQ Supabase — see `core/db/schema.sql`.
+This is what makes voice drift visible on the dashboard before it
+becomes an engagement problem. Until the n8n wiring exists, the
+operator pastes the row via the SQL editor at QA time.
+
 ## Stage 3 — Revision
 
 ```text

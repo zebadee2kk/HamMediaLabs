@@ -1,0 +1,47 @@
+---
+import { shortDate } from '../lib/format.ts';
+import type { PipelineAssetRow } from '../lib/supabase.ts';
+
+interface Props {
+  rows: PipelineAssetRow[];
+}
+const { rows } = Astro.props;
+---
+<table aria-label="Content pipeline (draft → QA → staged)">
+  <thead>
+    <tr>
+      <th>Brand</th>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Last touched</th>
+      <th>Voice sign-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map(a => (
+      <tr>
+        <td>{a.brand?.slug ?? '—'}</td>
+        <td class="title">{a.title}</td>
+        <td>{a.type}</td>
+        <td><span class={`status ${a.status}`}>{a.status}</span></td>
+        <td>{shortDate(a.updated_at)}</td>
+        <td>{a.reviewed_at ? shortDate(a.reviewed_at) : <span class="pending">pending</span>}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  th, td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #f6f6f6; font-weight: 600; }
+  .title { font-size: 0.92rem; }
+  .status {
+    display: inline-block; padding: 0.05rem 0.5rem; border-radius: 999px; font-size: 0.75rem;
+  }
+  .status.draft  { background: #e6e6e6; color: #555; }
+  .status.qa     { background: #fff1c2; color: #5f4a1d; }
+  .status.staged { background: #c5d9f7; color: #1d2d5f; }
+  .pending { color: #8a6d1d; font-size: 0.85rem; }
+</style>

@@ -552,3 +552,21 @@ Starter palettes read as final art and skip the Gemini refinement pass (mitigate
 
 ### Revisit date:
 2026-10-02 (quarterly voice/design refresh) or when the first Gemini design output lands, whichever is sooner.
+
+---
+
+### Date: 2026-07-02
+### Decision:
+Execute creative-director plan P2 (see `docs/creative-director-review-2026-07-02.md` §4) — instrument creative quality so the decision engine can see it: (1) add `qa_event` table + `v_qa_weekly` view + `content_asset.reviewed_at` to `core/db/schema.sql` (RLS on, service-role-only, idempotent) recording every QA gate outcome — the model's Stage-2 persona critique (`verdict` capped at `persona_approves` by check constraint; it can never write `pass`) and the human checklist gates; logging duties written into `prompt-library/persona-first-generation.md` Stage 2 and `playbooks/voice-fidelity-checklist.md` §9. (2) Dashboard overview gains a content-pipeline queue (draft/qa/staged with voice sign-off state, stalest first) and a Voice QA table (human pass-rate per brand/week with the <80% risk-register breach highlighted; model critique + AI-tell counts). (3) Weekly review gains a "Creative quality" section. (4) New playbooks: `brand-naming-sprint.md` (one-session name close: shortlist → collision checks → decide → execute), `voice-refresh.md` (the quarterly refresh every voice.md §8 promises, anchored to the quarterly platform refresh), `editorial-calendar.md` (weekly grid, pillar rotation, slip-silently rule). Deliberately NOT done: no change to scoring weights or the kill/hold/scale formula — creative-quality signals inform the weekly review as context, not the score, until real data exists (changing weights is its own decision-log event per master plan §13.2).
+
+### Reasoning:
+Creative quality was architecturally invisible: the voice-fidelity system generates quantified evidence (Stage-2 critique JSON, checklist outcomes) and then discards it, the risk register's "QA pass-rate <80%" trigger (risk #6) had no collectable number behind it, and the dashboard showed distribution outcomes only — a brand could drift fully off-voice and surface weeks later as an engagement lag. The naming sprint closes the F6 blocker (all three brand names are working titles, blocking domains/handles/logos). The voice-refresh SOP and editorial calendar convert two documented-but-unoperationalised commitments (quarterly refresh; content pillars) into runnable procedures.
+
+### Alternatives considered:
+Add a creative-quality input to the scoring formula now (rejected — no data yet; premature weight changes are exactly what §13.2 guards against). Store QA outcomes as a jsonb column on `content_asset` (rejected — multiple gates × multiple rounds per asset need rows, and pass-rate-over-time needs a queryable grain). Let the model write `pass` verdicts to reduce operator effort (rejected outright — human-gate primacy is a governance invariant; enforced in the check constraint, not just in prose). Build the dashboard QA widgets as a separate page (rejected — creative ops belongs on the overview where the operator already looks; the page count stays flat).
+
+### Risks:
+Manual `qa_event` logging is skipped under time pressure, making the pass-rate optimistic (mitigated — weekly review now explicitly checks for walked-but-unlogged gates; n8n wiring is the designated follow-up that removes the manual step). The editorial-calendar grid over-commits a single operator (mitigated — ceilings framed as governance-not-targets and the slip-silently rule makes under-publishing the sanctioned failure mode). Schema growth ahead of live wiring (accepted — the schema is the contract the n8n/router wiring builds against; same sequencing used for `source_signal`).
+
+### Revisit date:
+2026-08-16 (Q3 platform refresh — check whether qa_event rows are actually being written) and at the first kill/hold/scale review with ≥4 weeks of QA data (consider whether a creative-quality input has earned a place in the scoring conversation).

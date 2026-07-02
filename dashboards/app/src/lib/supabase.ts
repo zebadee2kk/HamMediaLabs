@@ -138,3 +138,42 @@ export function brandWeeklyStats(weeks = 8): Promise<SbResult<BrandWeeklyStatsRo
     order: 'week.desc,slug.asc',
   });
 }
+
+export interface PipelineAssetRow {
+  id: number;
+  title: string;
+  type: string;
+  status: 'draft' | 'qa' | 'staged';
+  updated_at: string;
+  reviewed_at: string | null;
+  brand: { slug: string } | null;
+}
+
+/** Assets sitting between generation and publish — the creative-ops queue. */
+export function listPipelineAssets(): Promise<SbResult<PipelineAssetRow[]>> {
+  return sbGet<PipelineAssetRow[]>('content_asset', {
+    select: 'id,title,type,status,updated_at,reviewed_at,brand(slug)',
+    status: 'in.(draft,qa,staged)',
+    order: 'updated_at.asc', // oldest first: the stalest draft is the headline
+  });
+}
+
+export interface QaWeeklyRow {
+  brand_id: number;
+  slug: string;
+  week: string;
+  human_gates: number;
+  human_passes: number;
+  model_critiques: number;
+  model_revisions: number;
+  ai_tells_flagged: number;
+}
+
+export function qaWeekly(weeks = 8): Promise<SbResult<QaWeeklyRow[]>> {
+  const since = new Date(Date.now() - weeks * 7 * 86_400_000).toISOString();
+  return sbGet<QaWeeklyRow[]>('v_qa_weekly', {
+    select: '*',
+    week: `gte.${since}`,
+    order: 'week.desc,slug.asc',
+  });
+}
