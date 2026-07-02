@@ -3,6 +3,13 @@
 > Companion to `voice.md`. Follows `brands/templates/house-examples-template.md`.
 > Update at least quarterly; promote winning passages from live pieces.
 
+> ⚠️ Slots marked *illustrative starter* were seeded 2026-07-02 so the
+> voice-fidelity input gate can pass pre-launch. Figures reuse only the
+> examples already established in `voice.md` (April 2026 cap £1,641,
+> ~£90/yr fix delta, 14 May 2026 snapshot) — re-verify every figure
+> before any passage is lifted into a live piece. Replace with real
+> shipped passages via §10.
+
 ---
 
 ## 1. Strong opening (≤120 words)
@@ -17,26 +24,53 @@
 
 ## 2. Mid-piece rant (≤200 words)
 
-> _Replace with a passage where the persona patiently dismantles a
-> common piece of bad advice. No exclamation marks. Cites Ofgem /
-> FCA / GOV.UK. Ends with what we'd actually do._
+> You'll have seen the claim that switching supplier "saves the average
+> household £400". We can't find a current listing that gets there. At
+> the April 2026 cap level, the strongest mainstream fix we can see
+> undercuts a typical bill by roughly £90 a year (comparison-site
+> listing, snapshot retrieved 2026-05-14; your number depends on
+> usage). The £400 line keeps circulating because it's a better
+> headline than the maths. Here's what we'd do instead: take the unit
+> rate and standing charge off your own bill, run them through the
+> calculator we link below, and treat any round number in an advert as
+> marketing until you've seen where it comes from.
 
-**Why it works:** _one sentence._
+**Why it works:** Dismantles the bad claim with a dated, sourced counter-number, names the bad idea and not a person, no exclamation marks, and ends on what we'd actually do.
+
+*Illustrative starter — see header note; replace via §10.*
 
 ## 3. Measured recommendation (≤150 words)
 
-> _Replace with the strongest "if-you, then-X, watch-for-Y" passage
-> we have written. Always conditional. Always with a trade-off
-> visible. Always with the source listing the operator used._
+> If you're on a standard variable tariff, a fix priced under the cap
+> is worth a look this quarter — the strongest mainstream fix we can
+> see undercuts a typical bill by roughly £90 a year (snapshot
+> retrieved 2026-05-14; your number depends on usage). The trade-off:
+> you're locking in. If the cap falls again at the next quarterly
+> review, a fix priced against today's cap can end up dearer than
+> doing nothing. We'd run the calculator with our own usage numbers
+> before deciding, and we'd check the exit fee first — some fixes
+> charge one per fuel to leave.
 
-**Why it works:** _one sentence._
+**Why it works:** Conditional throughout ("if you're", "can end up"), the trade-off is in the middle where it can't be skimmed past, dated snapshot, and it never tips from information into advice.
+
+*Illustrative starter — see header note; replace via §10.*
 
 ## 4. Takedown of bad advice (≤200 words)
 
-> _Replace with the strongest "this advice is widespread and wrong"
-> passage. Names the **bad idea**, never the **person** who said it._
+> "Cancel your subscriptions" is the most-given money tip in Britain,
+> and it's mostly a rounding error. A streaming service is a few
+> pounds a month. The standing charge on a dual-fuel bill runs to
+> several hundred pounds a year before you use a single unit — check
+> your own bill: the daily charge in pence, times 365. Housing,
+> energy, transport and food are where a UK budget actually moves.
+> Subscriptions are the lever people reach for because it's the only
+> one that doesn't involve ringing anyone. We'd rather you made one
+> phone call about one bill than cancelled three things you actually
+> enjoy.
 
-**Why it works:** _one sentence._
+**Why it works:** Attacks the advice, not the people following it; replaces the small lever with a bigger one the reader can verify from their own bill; ends warm rather than superior.
+
+*Illustrative starter — see header note; replace via §10.*
 
 ## 5. Comment / reply (≤80 words)
 
@@ -61,12 +95,26 @@ no affiliate, no hashtag spam.
 
 ## 7. Long-form intro (≤180 words)
 
-> _Replace with the first ~180 words of a published cornerstone.
-> Should include: TL;DR + methodology note + "your number will
-> differ" caveat + the FCA disclaimer block (per
-> `qa/fca-perimeter.md` §3)._
+> **TL;DR.** The April 2026 price cap is £1,641 a year for a typical
+> dual-fuel, direct-debit household — down 7% on the previous quarter.
+> The standing charge barely moved, so low-usage households see less
+> of the fall than the headline suggests. Below: what changed, what
+> didn't, and the three checks we'd run on our own bill this month.
+>
+> **How we worked this out.** Ofgem's cap tables, one comparison-site
+> snapshot (dated inline wherever it's used), and our own dual-fuel
+> bill as the worked example. Every number is either sourced or ours.
+>
+> **Your number will differ.** The cap limits rates, not bills. Your
+> usage decides your bill.
+>
+> *This is information, not financial advice. If energy debt is the
+> reason you're reading this, free help exists — the charity links at
+> the top of this page come before anything else we have to say.*
 
-**Why it works:** _one sentence._
+**Why it works:** Promise, method, and caveat inside 180 words, and the vulnerable-reader routing appears before the content asks anything of the reader — trust-first in the literal layout sense.
+
+*Illustrative starter — see header note; replace via §10.*
 
 ## 8. Bad example to avoid (REQUIRED — see §"Why it fails")
 

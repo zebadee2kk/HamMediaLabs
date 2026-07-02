@@ -74,6 +74,17 @@ blocker is creative, not technical.
   Brand B's five named recurring series (`brands/brand-b-corpsatire/voice.md`) have no
   script template to run in.
 
+> **Correction (2026-07-02, during P1 execution).** Brand B's own machinery
+> is stronger than stated above: `brands/brand-b-corpsatire/templates/_draft-template.md`
+> is a full beat-by-beat video-script template, and `qa/checklist.md` §2 is a
+> real watch-aloud gate. The *actual* F3 gap is lab-wide: the voice-fidelity
+> checklist's gates (200-word read-aloud, phrase counts) don't map to short
+> form — and Brand B's QA §11 requires walking that checklist "end-to-end",
+> which was unsatisfiable for a 22-second clip — plus there were no short-form
+> generation prompts for any brand. Both fixed in the P1 PR (short-form
+> addendum in `playbooks/voice-fidelity-checklist.md`;
+> `prompt-library/short-form-patterns.md`).
+
 ### F4 — Creative quality is invisible to the decision engine
 - The scoring engine (`core/scoring/scoring.ts`) drives kill/hold/scale from reach,
   engagement, conversion, cost, and risk — **no creative-quality input exists**.

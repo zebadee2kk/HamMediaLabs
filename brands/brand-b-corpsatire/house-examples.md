@@ -20,20 +20,30 @@
 
 ## 2. Mid-piece rant (≤200 words — used in longer series instalments)
 
-> _Replace with the strongest 30–45s persona-rant we have shipped.
-> Conditions: a single named corporate artefact, present-tense
-> escalation, lands on the same beat as the opening line._
+> **Voiceover, deadpan, at desk:** "The deck has forty slides. The
+> meeting is thirty minutes. Slide one is the agenda. Slide two is the
+> agenda again, but as a journey. We are four minutes in. Nobody has
+> opened the pre-read. The pre-read was the deck. The deck is now being
+> read to us, out loud, in the meeting that was scheduled to discuss
+> the deck. Next step, per slide forty: a follow-up. To align. On the
+> deck."
 
-**Why it works:** _one sentence._
+**Why it works:** One artefact (the deck), present-tense escalation, sentences shrinking toward the punch, and it lands on the same word it opened with.
+
+*Illustrative starter — replace with the strongest shipped 30–45s rant via §10.*
 
 ## 3. Measured recommendation (≤150 words)
 
-> _Replace with a real "I would actually recommend X" passage. Brand B
-> rarely recommends — when it does, the recommendation is concrete,
-> grounded in the persona's documented experience, and ends with one
-> trade-off._
+> Genuine recommendation, no bit: put the meeting notes in the calendar
+> invite itself. Not a doc. Not a channel. The invite. It's the only
+> artefact everyone in the meeting already has open, and it dies when
+> the recurring series dies, which is the correct lifespan for meeting
+> notes. Trade-off: your notes now live in a calendar — which is where
+> information goes to be safe from ever being read again.
 
-**Why it works:** _one sentence._
+**Why it works:** Concrete and actually useful, grounded in the persona's lived meeting-culture experience, flags "no bit" so the register shift is deliberate — and still ends deadpan on the trade-off.
+
+*Illustrative starter — replace with a shipped example via §10.*
 
 ## 4. Takedown of bad advice (≤200 words)
 
@@ -86,16 +96,19 @@ abstract "corporate culture". Strip hashtags to two.
 
 ## 9. Optional slots
 
+Illustrative starters below — replace each with the strongest example
+from a shipped episode via §10.
+
 - **Translations** (recurring series): _line in consultant-speak / line in English._
-  - Replace with the strongest example from a shipped episode.
+  - "We're being intentional about the timeline." → *Nothing has happened for six weeks.*
 - **Calendar reads** (recurring series): _invite title / persona reaction (one line)._
-  - Replace with the strongest example from a shipped episode.
+  - Invite: **"Quick sync (30 min)"** — "'Quick' and 'thirty minutes' in the same title. Bold."
 - **Slack history** (recurring series): _4-message faux thread that escalates._
-  - Replace with the strongest example from a shipped episode.
+  - "quick q" → "actually easier to hop on a call" → "adding Dana for visibility" → calendar invite: **"Q3 Alignment — recurring"**.
 - **1:1 bingo** (recurring series): _bingo square that lands._
-  - Replace with the strongest example from a shipped episode.
+  - "How are you… *really*?" (asked while typing).
 - **The Framework** (recurring series): _2×2 axes that should never have been axes._
-  - Replace with the strongest example from a shipped episode.
+  - Effort vs. Optics — every project migrates to the top-right by review week.
 
 ---
 

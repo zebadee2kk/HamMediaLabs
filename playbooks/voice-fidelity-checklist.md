@@ -1,6 +1,8 @@
 # Voice Fidelity Checklist
 
 > Binding gate on every long-form piece before it moves to `status: staged`.
+> Short-form surfaces (X posts/threads, video clips, captions) use the
+> **Short-form addendum** at the bottom of this file instead of §2–§8.
 > Sits **alongside** the lab-wide content quality checklist
 > (`playbooks/content-quality-checklist.md`) and the brand-specific QA
 > gates (e.g. `brands/brand-a-aiescape/qa/checklist.md`).
@@ -123,3 +125,61 @@ us".
   X-bound posts.
 
 Voice fidelity is one of three gates. All three must pass.
+
+---
+
+## Short-form addendum (X posts, threads, video scripts, captions)
+
+The gates above are calibrated to long-form (200-word read-aloud,
+≥2 favourite phrases, ≥3 contrasts). A 22-second clip or a 280-character
+post can't carry that count — but it can still be off-voice, and one
+off-voice post is more visible than one off-voice paragraph. For
+short-form, §1 (inputs) and §9–§10 (sign-off, promotion) apply
+unchanged; §2–§8 are replaced by the following. Generation pattern:
+`prompt-library/short-form-patterns.md`.
+
+### A. Read-aloud / watch-aloud (mandatory)
+
+- [ ] **Posts / threads / captions:** the persona owner reads every post
+      aloud, at normal pace. Would the persona say this out loud to a
+      colleague? Any wince = fix or kill.
+- [ ] **Video (Brand B):** the watch-aloud gate in
+      `brands/brand-b-corpsatire/qa/checklist.md` §2 runs instead — on
+      the script pre-cut and again on the rough cut. That gate
+      satisfies this addendum; do not walk both.
+
+### B. Voice check (scaled)
+
+- [ ] At least **one** voice-contrast tension is visible (a post that is
+      all-confidence or all-snark has collapsed a contrast).
+- [ ] Zero pet peeves / anti-voice patterns (the full §5 list applies at
+      any length — there is no length below which "game-changer" is fine).
+- [ ] Favourite phrases only where natural. In 280 characters a forced
+      cameo is worse than none.
+
+### C. Specificity (the one-noun rule)
+
+- [ ] Every post / clip is anchored by **one specific noun or number**.
+      A short-form piece with no concrete detail is engagement filler —
+      kill it, don't polish it.
+
+### D. House-example comparison
+
+- [ ] At or above the quality of the brand's `house-examples.md` slot 6
+      (short-form) — for Brand B clips, slots 1/4/8 and the matching
+      series slot.
+- [ ] Not below the §8 bad example in tone or shape.
+
+### E. Platform mechanics (verify, don't assume)
+
+- [ ] Disclosure present per surface (`docs/x-platform-risk.md` §5 for X;
+      first-3-seconds satire variant for Brand B video).
+- [ ] Link placement: first reply / final thread post, never the launch
+      post (X).
+- [ ] This week's cadence ceiling for the brand is not exceeded.
+
+### Verdict
+
+Same bar as long-form: not "good enough" — "sounds like us". The
+persona owner ticks every box, names one edit, and posting stays manual
+(Tier 2).
