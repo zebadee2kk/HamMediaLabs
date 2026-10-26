@@ -204,6 +204,18 @@ from this subsystem to any platform.
 - Implementation backlog (M1–M8) in the governance doc §8 — each item
   is its own scoped PR.
 
+### 8b. Grok Bot X research surface (2026-10)
+
+Grok Bot's X connector is the approved **read-only** research interface
+for X signals, cleared through the source-intel §6 gate (decision log
+2026-10-26). Operator-run, interactive only — no code integration.
+
+- Playbook: `playbooks/grokbot-x-research.md`.
+- Provider entry: `xai_grok` in `core/providers/quota-registry.ts`
+  (`default_router_slot: null` — not part of the LLM router).
+- Signals land in `source_signal` as `source = 'x'`, `risk_class = 'medium'`.
+- Posting stays governed by `docs/x-platform-risk.md`; Tier 4 stays frozen.
+
 ## 9. CI / safety nets (`.github/workflows/`, `.gitleaks.toml`)
 
 - `ci.yml` — `typecheck` + `test` + `gitleaks` on every push / PR.
