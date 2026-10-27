@@ -12,6 +12,7 @@ Initial provider matrix for HamMediaLabs. This should be reviewed regularly beca
 | Hugging Face | OSS model testing and niche models | Medium | Wide model ecosystem | Inconsistent limits/performance | Experimental |
 | Cloudflare Workers AI | Edge inference and simple tasks | Medium | Fits Cloudflare hosting stack | Smaller model set and quotas | Edge fallback |
 | GitHub Models | Developer experimentation | Medium | Good for repo-linked workflows | Access/limits can vary | Dev/testing |
+| xAI Grok / Grok Bot | Read-only X research (search, timelines, mentions, trends) | Medium (starter X API credits on paid plans) | Native X connector, real-time signal | Credit spend; X ToS; must stay read-only on a non-brand account | Research only — not a router slot (`playbooks/grokbot-x-research.md`) |
 
 ## Hosting providers
 | Provider | Role | Strength | Risk | Default status |
@@ -30,7 +31,7 @@ Initial provider matrix for HamMediaLabs. This should be reviewed regularly beca
 | TikTok | Viral short-form reach | High discovery potential | Automation and trust risk | Manual/high-control |
 | Instagram | Visual/social distribution | Large audience | Meta trust gates | Manual/high-control |
 | YouTube Shorts | Durable short-form discovery | Search + recommendation | Quality demands | Recommended |
-| X | Fast trend testing | Real-time discovery | Automation risk | Controlled |
+| X | Fast trend testing | Real-time discovery; research via Grok Bot connector | Automation and shadowban risk | Controlled — research via Grok Bot (read-only), posting stays Tier 2/3 manual |
 | Pinterest | Evergreen traffic | Strong for visual/how-to niches | Niche dependent | Test |
 
 ## Current recommendation

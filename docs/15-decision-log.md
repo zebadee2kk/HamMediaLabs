@@ -570,3 +570,21 @@ Manual `qa_event` logging is skipped under time pressure, making the pass-rate o
 
 ### Revisit date:
 2026-08-16 (Q3 platform refresh — check whether qa_event rows are actually being written) and at the first kill/hold/scale review with ≥4 weeks of QA data (consider whether a creative-quality input has earned a place in the scoring conversation).
+
+---
+
+### Date: 2026-10-26
+### Decision:
+`[provider]` Adopt Grok Bot's X connector as the read-only research surface for X signals. Register `xai_grok` in `core/providers/quota-registry.ts` as a research-only AI provider (`default_router_slot: null`, enforced by a test so it can't drift into the router), add `playbooks/grokbot-x-research.md`, and update the provider matrix, ARCHITECTURE §8b and the X row of `docs/source-intelligence-governance.md` §3. This entry is the source-intel §6 gate record for moving X research from manual to API-backed reads: (1) cost ceiling = paid-plan starter X API credits only, £0 out of pocket — on exhaustion revert to manual until a new entry sets a paid ceiling; (2) ToS: official xAI connector + official X API, no scraping, re-checked quarterly; (3) risk class `medium`; (4) interactive operator queries only, stop for the day on any rate-limit error; (5) credit balance added to `playbooks/provider-revalidation.md`; (6) output flows into briefs only, never into drafts; (7) this entry.
+
+### Reasoning:
+The connector (announced 2026-08-29) is read-oriented — post search, timelines, mentions, trend reports — and runs on X's official API, so it gives real-time X signal without scraping and without touching brand accounts. It replaces slow manual browsing for the weekly source-intel report while leaving every posting control in `docs/x-platform-risk.md` unchanged.
+
+### Alternatives considered:
+Stay manual-only (rejected — slow, low coverage, and the connector is the lower-risk API route). Wire the X API directly into n8n (rejected — needs paid-tier spend and code; deferred until research value is proven). Give Grok Bot a router slot (rejected — it is a research surface, not a generation provider; router changes go through the quarterly review). Connect a brand account to save setup (rejected — ties reads to a posting identity, which §5.4 forbids).
+
+### Risks:
+Facts are from secondary coverage; the primary xAI page was not checked and the credit amount is unpublished (mitigated — flagged in the registry notes; validate at next quarterly review). Research account picks up an X restriction (mitigated — separate account and browser profile, stop condition in the playbook). Grok output contains fabricated or misattributed posts (mitigated — output is a lead only; claims verified at the primary source before use). Some Grok Bot features are unavailable in UK/EU regions (mitigated — fall back to manual and log it).
+
+### Revisit date:
+At the next quarterly provider review, or when the starter credits run out, whichever is sooner. Follow-up: first weekly brief for Brand A within 14 days.
