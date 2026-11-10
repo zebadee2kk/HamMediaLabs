@@ -11,6 +11,7 @@ at the publish step.
 | **Claude Code** | Engineering, governance authoring, repo orchestration | Operator (interactive); CI gates | Tokens via Anthropic API; primary working agent |
 | **Codex (ultrareview)** | Cloud multi-agent code/PR review | User-triggered, billed per call | Pay per review run |
 | **Gemini Free** | Visual / UX design, Astro+Tailwind starter code | Operator (via design-handoff pipeline) | Free tier |
+| **Grok Bot (xAI) X connector** | Read-only X research for briefs + weekly source-intel (no posting) | Operator (interactive queries only) | Paid-plan starter X API credits; £0 out of pocket |
 | **Local LLMs** (planned) | Voice-cloning, on-device generation experiments | Operator | Local compute only |
 | **NotebookLM** | Distilled-intelligence pack consumer (this pack lives here) | Operator | Free tier |
 | **The Operator (human)** | Final approver, persona owner, kill-switch | n/a | Time |
@@ -172,6 +173,27 @@ Gemini output passes this before any repo merge:
   for any GPU + a separate decision-log entry covering data
   posture.
 
+## Grok Bot X connector — read-only X research (pilot, 2026-10)
+
+- **What:** xAI's Grok Bot X connector, used as the read-only
+  research surface for X signals (post search, timelines,
+  mentions, trend reports). Cleared through the source-intel §6
+  gate — decision log 2026-10-26.
+- **Registry:** `xai_grok` in `core/providers/quota-registry.ts`,
+  research-only, `default_router_slot: null`. A unit test stops
+  research-only providers from getting a router slot.
+- **Spend:** starter credits only, £0 out of pocket. When they run
+  out, go back to manual X research until a new decision-log entry
+  sets a paid ceiling.
+- **Hard rules:** a dedicated non-brand research account and a
+  separate browser profile. No posting, replying, liking, following
+  or DMing. Output goes into briefs only, never straight into
+  drafts. Claims are verified at the primary source before use.
+- **Data:** signals go into `source_signal` with `source = 'x'`
+  and `risk_class = 'medium'`.
+- **Playbook:** `playbooks/grokbot-x-research.md`. Posting stays
+  governed by `docs/x-platform-risk.md`, and Tier 4 stays frozen.
+
 ## NotebookLM — distilled intelligence layer
 
 - **Inputs:** this pack (`notebooklm-pack/`).
@@ -301,6 +323,7 @@ that runs there.
 - `docs/voice-authenticity-system.md` — persona ownership,
   read-aloud / watch-aloud gate.
 - `docs/local-llm-plan.md` — local-LLM posture.
+- `playbooks/grokbot-x-research.md` — Grok Bot X research SOP.
 - `ops-vm/` — operator workstation (build guide, security
   baseline, secrets policy, deployment runbook, Claude Code
   operating rules, launch evidence template, checklist,

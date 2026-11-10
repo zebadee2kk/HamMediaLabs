@@ -10,11 +10,11 @@ test('canonical registry passes validation', () => {
   assert.equal(result.issues.length, 0);
 });
 
-test('canonical registry covers the five providers Phase 4 requires', () => {
+test('canonical registry covers the Phase 4 providers plus the X research surface', () => {
   const ids = REGISTRY.providers.map(p => p.id).sort();
   assert.deepEqual(
     ids.sort(),
-    ['cloudflare_pages', 'gemini', 'groq', 'openrouter', 'supabase'].sort(),
+    ['cloudflare_pages', 'gemini', 'groq', 'openrouter', 'supabase', 'xai_grok'].sort(),
   );
 });
 
@@ -32,12 +32,25 @@ test('every provider has an https source URL and an ISO last_validated date', ()
   }
 });
 
+// Research-only AI surfaces are deliberately kept out of the router.
+// Adding to this set is a decision-log event, not a test tweak.
+const RESEARCH_ONLY_AI = new Set(['xai_grok']);
+
 test('AI providers map to a router slot', () => {
-  const ai = providersByCategory('ai');
+  const ai = providersByCategory('ai').filter(p => !RESEARCH_ONLY_AI.has(p.id));
   assert.ok(ai.length >= 3);
   for (const p of ai) {
     assert.ok(['plan', 'fast', 'code', 'edge'].includes(p.default_router_slot as string),
       `${p.id} ai provider must declare a default router slot`);
+  }
+});
+
+test('research-only AI providers never claim a router slot', () => {
+  for (const id of RESEARCH_ONLY_AI) {
+    const p = getProvider(id);
+    assert.ok(p, `${id} missing from registry`);
+    assert.equal(p.category, 'ai');
+    assert.equal(p.default_router_slot, null, `${id} must stay out of the router`);
   }
 });
 

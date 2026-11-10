@@ -116,5 +116,35 @@ export const REGISTRY: QuotaRegistry = {
         },
       ],
     },
+    {
+      id: 'xai_grok',
+      name: 'xAI Grok / Grok Bot (X research connector)',
+      category: 'ai',
+      source_url: 'https://x.ai/',
+      last_validated: '2026-10-26',
+      // Research surface only — deliberately not a router slot. See
+      // playbooks/grokbot-x-research.md and the 2026-10-26 decision-log entry.
+      default_router_slot: null,
+      notes:
+        'Grok Bot X connector (announced 2026-08-29): read-only post search, timelines, mentions, trend reports. ' +
+        'Validated from secondary coverage only — confirm against xAI / X primary pages at the next quarterly review. ' +
+        'Research-only: never connect a brand X account. Spend ceiling = the free starter credits (£0 out of pocket).',
+      tiers: [
+        {
+          tier: 'free',
+          rates: {
+            notes: 'Grok chat access; no bundled X API credits on the free plan.',
+          },
+        },
+        {
+          tier: 'free-with-credits',
+          rates: {
+            notes:
+              'Paid Grok Bot plans get starter X API credits on first X connection (amount unpublished; ' +
+              '$100 reported but unverified). After credits: X pay-per-use (~$0.005 per post read, third-party figure).',
+          },
+        },
+      ],
+    },
   ],
 };

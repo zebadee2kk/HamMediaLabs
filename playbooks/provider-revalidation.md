@@ -31,6 +31,8 @@ For each provider currently in the matrix, run this 8-question audit:
 7. What was our actual cost? Does it match the budget envelope (§19 financial model)?
 8. Is the provider still the right primary / fallback for its slot?
 
+For `xai_grok` (research-only, no router slot) also record the remaining X API credit balance and confirm the connector is still attached only to the research account — see `playbooks/grokbot-x-research.md`.
+
 Capture answers in a snapshot table inside the decision log, and update the matrix only after the snapshot is filed.
 
 ## 3. Router policy review
