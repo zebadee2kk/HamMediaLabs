@@ -6,6 +6,8 @@
 > repo.
 >
 > **Snapshot date:** 2026-05-16.
+> **Targeted updates since snapshot:** 2026-10-26 — Grok Bot
+> read-only X research route (files 03, 06).
 > **Source of truth:** the repo itself. This pack distils it; it
 > does not replace it. When this pack and the repo disagree, the
 > repo wins. The freshness workflow in `.github/workflows/notebooklm-pack-freshness.yml`

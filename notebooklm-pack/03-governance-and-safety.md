@@ -337,6 +337,15 @@ A brief with any unchecked pre-flight box is a no-send.
   Brand C are explicit; Brand B inherits via deadpan voice).
 - No fake social proof.
 
+### X research route (2026-10)
+
+X research is no longer manual-only. Operators can also use
+read-only queries through the Grok Bot X connector, within its
+starter credits (£0 out of pocket). Posting rules have not
+changed: `docs/x-platform-risk.md` still governs every write
+action, no brand account is connected for reads, and Tier 4
+autonomous publishing stays frozen.
+
 ## Cross-references
 
 - `docs/03-governance.md` — tiers.
@@ -346,6 +355,8 @@ A brief with any unchecked pre-flight box is a no-send.
 - `docs/18-disclosure-templates.md` — canonical disclosure copy.
 - `docs/cost-control-and-free-tier-plan.md` — spend gates.
 - `docs/x-platform-risk.md` — X-specific posture.
+- `playbooks/grokbot-x-research.md` — read-only X research via
+  Grok Bot (source-intel §6 gate, decision log 2026-10-26).
 - `docs/portfolio-expansion-gate.md` — Brand B / C unfreeze.
 - `docs/monetization-architecture.md` — trust-first commercial
   gates.
